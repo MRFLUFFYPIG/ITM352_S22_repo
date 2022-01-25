@@ -20,7 +20,7 @@ div {
 }
 
 main {
-    background-image: image("phone_globe.jpg");
+    background-image: url("phone_globe.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
