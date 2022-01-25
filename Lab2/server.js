@@ -4,5 +4,5 @@ app.all('*', function (request, response, next) {
     console.log(request.method + ' to path ' + request.path);
     next();
 });
-app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + ''));
 app.listen(8080, () => console.log(`listening on port 8080`));
