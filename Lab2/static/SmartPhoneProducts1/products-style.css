@@ -3,8 +3,8 @@ body {
     margin: 0 auto; 
 }
 
-img 
-{width: 200px; 
+img {
+    width: 200px; 
     height: 200px;
 }
 
@@ -31,5 +31,9 @@ main {
     justify-content: space-around;
 }
 
+div {
+    border: 5px solid black;
+    display: flex;
+}
 
 
