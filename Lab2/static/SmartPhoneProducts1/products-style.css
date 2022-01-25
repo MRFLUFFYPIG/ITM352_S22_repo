@@ -14,8 +14,9 @@ img {
 }
 
 /* Typography*/
-h1, h2 {
+h1, h2, p {
     text-align: center;
+    color: black;
 }
 
 /* Form Styling */
@@ -26,6 +27,7 @@ main {
 
     background-image: url("./images/phone_globe.jpg");
     background-repeat: no-repeat; 
+   background-size: 850px;
     color: white;
 }
 
@@ -34,6 +36,7 @@ body>div {
     border: 5px solid black;
     display: flex;
     text-align: center;
+    color: black;
    
 }
 
