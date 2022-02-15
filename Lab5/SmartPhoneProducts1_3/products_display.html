@@ -7,6 +7,10 @@
                 store_name= "Nick";
                 var hits = 1;
                 var spins = 2;
+
+                var first_name = "Nick";
+                var last_name = "Sebastian";
+                
             </script>
 
             <link rel="stylesheet" type="text/css" href="products-style.css">
@@ -18,13 +22,14 @@
 
         </head>
            
-        <body onload="">
+        <body onload="<script>hits_span.innerHTML - hits;</script>">
            
                 <header>
-                <h1><script>document.write(store_name);</script>Nicks's Used Smart Phone Store</h1>
+                <script>document.write('<font size="200%"><b>' + first_name + '</b>' + " " + '<em>' + last_name + '</em></font>' + " ");</script>Used Smart Phone Store
                 <p style="text-align: center; font-weight: bold;">
                     Hits:<span id="hits_span">0</span>
                     Spins:<span id="spins_span">0</span>
+                    Hit/Spin:<span id="hit_spin_span">0</span>
                     </p>
                 </header>
 
@@ -32,31 +37,31 @@
 
 
             <div><main>
-                <section class="item" onclick="hits ++; hits_span.innerHTML = hits;" onmouseover="spins ++; spins_span.innerHTML = spins;"> 
+                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins"> 
                     <h2>HTC</h2>
                     <p>&dollar; 40.00 </p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
                 </section>
 
-                <section class="item" onclick="hits ++; hits_span.innerHTML = hits;" onmouseover="spins ++; spins_span.innerHTML = spins;">
+                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">
                     <h2>Apple</h2>
                     <p>&dollar;75.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
                 </section>
 
-                <section class="item" onclick="hits ++; hits_span.innerHTML = hits;" onmouseover="spins ++; spins_span.innerHTML = spins;">
+                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">
                     <h2>Nokia</h2>
                     <p>&dollar;35.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
                 </section>
 
-                <section class="item" onclick="hits ++; hits_span.innerHTML = hits;" onmouseover="spins ++; spins_span.innerHTML = spins;">              
+                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">              
                     <h2>Samsung</h2>
                     <p>&dollar;45.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
                 </section>
 
-                <section class="item" onclick="hits ++; hits_span.innerHTML = hits;" onmouseover="spins ++; spins_span.innerHTML = spins;"> 
+                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins"> 
                     <h2>Blackberry</h2>
                     <p>&dollar;10.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
@@ -64,9 +69,18 @@
         </body>
 
         <footer>
-            <h1>
-                Your One Stop For Used Phones - Nick Sebastian -<script>document.write(store_name)</script>
-            </h1>
+            <script>
+                document.write(`
+            <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+                <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0]}.${last_name[0]}.'s</h1></th></tr>
+                <tr><td>1.</td><td><br />Copyright @ ${first_name} + " " + ${last_name}</td></tr>
+                <tr><td>2.</td><td>2022</td></tr>
+                <tr><td>3.</td><td>11:15 AM</td></tr>
+            </table>
+            `);
+            </script>
+            
+
         </footer>
         
     </head>
