@@ -41,17 +41,29 @@
 
             <div><main>
                 <section class="item" 
-                onclick="hits_span.innerHTML ++; 
-                hits_span.innerHTML = hits/spins;
-                over_half = over_half || ((spins < 2*hits) && (hits < spins));
-                win_span.innerHTML = over_half;"
+                onclick="
+                if (this.className != 'item') {
+                    this.className ='item';
+                    hits_span.innerHTML ++; 
+                    hits_span.innerHTML = hits/spins;
 
-                onmouseover="spins ++;
-                spins_span.innerHTML ++; 
-                spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
-                over_half = over_half || ((spins < 2*hits) && (hits < spins));
-                win_span.innerHTML = over_half;">
-                
+                } else {
+                    this.className = 'item rotate';
+                }
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;"
+
+                onmouseover="
+                if(this.className == 'item') {
+                    this.className = 'item rotate';
+                    spins ++; spins_span.innerHTML ++; 
+                    spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;
+                }
+                "
+                >
+
                     <h2>HTC</h2>
                     <p>&dollar; 40.00 </p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
@@ -100,4 +112,3 @@
     </head>
     
 </html>
-
