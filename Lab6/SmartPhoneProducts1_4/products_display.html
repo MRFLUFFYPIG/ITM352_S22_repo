@@ -40,7 +40,7 @@
 
 
             <div><main>
-                <section class="item" 
+                <section class="item" id="HTC"
                 onclick="
                 if (this.className != 'item') {
                     this.className ='item';
@@ -63,31 +63,122 @@
                 }
                 "
                 >
-
                     <h2>HTC</h2>
                     <p>&dollar; 40.00 </p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
                 </section>
 
-                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">
+                
+                <section class="item" id="Apple"
+                onclick="
+                if (this.className != 'item') {
+                    this.className ='item';
+                    hits_span.innerHTML ++; 
+                    hits_span.innerHTML = hits/spins;
+
+                } else {
+                    this.className = 'item rotate';
+                }
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;"
+
+                onmouseover="
+                if(this.className == 'item') {
+                    this.className = 'item rotate';
+                    spins ++; spins_span.innerHTML ++; 
+                    spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;
+                }
+                "
+                >
                     <h2>Apple</h2>
                     <p>&dollar;75.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
                 </section>
 
-                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">
+                
+                <section class="item" id="Nokia"
+                onclick="
+                if (this.className != 'item') {
+                    this.className ='item';
+                    hits_span.innerHTML ++; 
+                    hits_span.innerHTML = hits/spins;
+
+                } else {
+                    this.className = 'item rotate';
+                }
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;"
+
+                onmouseover="
+                if(this.className == 'item') {
+                    this.className = 'item rotate';
+                    spins ++; spins_span.innerHTML ++; 
+                    spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;
+                }
+                "
+                >
                     <h2>Nokia</h2>
                     <p>&dollar;35.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
                 </section>
 
-                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins">              
+
+                <section class="item" id="Samsung"
+                onclick="
+                if (this.className != 'item') {
+                    this.className ='item';
+                    hits_span.innerHTML ++; 
+                    hits_span.innerHTML = hits/spins;
+
+                } else {
+                    this.className = 'item rotate';
+                }
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;"
+
+                onmouseover="
+                if(this.className == 'item') {
+                    this.className = 'item rotate';
+                    spins ++; spins_span.innerHTML ++; 
+                    spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;
+                }
+                "
+                >            
                     <h2>Samsung</h2>
                     <p>&dollar;45.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
                 </section>
 
-                <section class="item" onclick="hits_span.innerHTML ++; hits_span.innerHTML = hits/spins" onmouseover="spins ++; spins_span.innerHTML ++; spins_span.innerHTML = hits_span.innerHTML = hits/spins"> 
+
+                <section class="item" id="Blackberry"
+                onclick="
+                if (this.className != 'item') {
+                    this.className ='item';
+                    hits_span.innerHTML ++; 
+                    hits_span.innerHTML = hits/spins;
+
+                } else {
+                    this.className = 'item rotate';
+                }
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;"
+
+                onmouseover="
+                if(this.className == 'item') {
+                    this.className = 'item rotate';
+                    spins ++; spins_span.innerHTML ++; 
+                    spins_span.innerHTML = hits_span.innerHTML = hits/spins; 
+                    over_half = over_half || ((spins < 2*hits) && (hits < spins));
+                    win_span.innerHTML = over_half;
+                }
+                "
+                >
                     <h2>Blackberry</h2>
                     <p>&dollar;10.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
