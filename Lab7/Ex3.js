@@ -7,7 +7,7 @@ for(product_index = 1; product_index <= 5; product_index++) {
         //console.log('Don\'t as for anything else!')
         //process.exit();
     }
-    console.log( `${product_index}. ${eval('name' + product_index)}`);
+    console.log( `${product_index}. ${eval('name' + 1)}`);
     
     
 }
