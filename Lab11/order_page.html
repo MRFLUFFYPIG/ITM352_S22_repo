@@ -7,13 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form name="quantity_form" action="display_purchase.html" method="GET" >
-    <label>quantity desired: </label>
-    <input type="text" name="qty_textbox1" onkeyup="checkQuantityTextbox(this);">
-    <span id='qty_textbox1_message'> Enter a quantity</span> 
-    <br>
-    <input type="submit" value="Purchase">
-</form>
+
 <script>
     function checkQuantityTextbox(the_textbox) {
         var errs = isNonNegInt(the_textbox.value, true);
@@ -32,6 +26,8 @@
     return (returnErrors ? errors : (errors.length == 0));
     }
 
+    let params = (new URL(document.location)).searchParams;
+    
     // checks to display only positive integers 
     var displayPurchase = function() {
         if(isNonNegInt(qty_textbox1) == true) {
@@ -39,10 +35,20 @@
         }
     }
 
-    if (params.has('quantity_textbox')) {
+    
+</script>
+    <form name="quantity_form" action="display_purchase.html" method="GET" >
+        <label>quantity desired: </label>
+        <input type="text" name="qty_textbox1" onkeyup="checkQuantityTextbox(this);">
+        <span id='qty_textbox1_message'> Enter a quantity</span> 
+        <br>
+        <script>
+            if (params.has('quantity_textbox')) {
         quantity_form["quantity_textbox"].value = params.get('quantity_textbox');
         checkQuantityTextbox(quantity_form["quantity_textbox"]);
-    }
-</script>
+        }
+        </script>
+        <input type="submit" value="Purchase">
+    </form>
 </body>
 </html>
