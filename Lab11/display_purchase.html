@@ -1,4 +1,6 @@
 <script>
+    let params = (new URL(document.location)).searchParams;
+
      // function checks for errors & non-negative integers 
     function isNonNegInt(q, returnErrors=false) {
         errors = []; 
@@ -11,8 +13,6 @@
     return (returnErrors ? errors : (errors.length == 0));
     }
 
-    let params = (new URL(document.location)).searchParams;
-    
     // loop to check if input is valid
     if(params.has('qty_textbox1') ) { 
         // Ordered Items
