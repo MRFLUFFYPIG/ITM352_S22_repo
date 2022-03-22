@@ -14,7 +14,7 @@
     let params = (new URL(document.location)).searchParams;
     
     // loop to check if input is valid
-    if( params.has('qty_textbox1') ) { 
+    if(params.has('qty_textbox1') ) { 
         // Ordered Items
         if(isNonNegativeInteger(params.get('qty_textbox1'))) {
             document.body.innerHTML = `Thank for you for ordering ${params.get('qty_textbox1')} items`;
