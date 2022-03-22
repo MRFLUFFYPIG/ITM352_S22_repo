@@ -5,24 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    
+</head>
+<body>
     <script>
-        let params = (new URL(document.location)).searchParams;
-
         // function checks for errors & non-negative integers 
         function isNonNegInt(q, returnErrors=false) {
         errors = []; 
         if(Number(q) != q) errors.push('Not a number!'); 
-             else {
+            else {
                 if(q < 0) errors.push('Negative value!'); 
-                     if(parseInt(q) != q) errors.push('Not an integer!'); 
+                    if(parseInt(q) != q) errors.push('Not an integer!'); 
         }   
 
         return (returnErrors ? errors : (errors.length == 0));
         }
-    </script>
-</head>
-<body>
-    <script>
+
+        let params = (new URL(document.location)).searchParams;
+
         // loop to check if input is valid
         if(params.has('qty_textbox1') ) { 
             // Ordered Items
