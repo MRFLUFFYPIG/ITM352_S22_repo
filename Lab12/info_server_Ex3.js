@@ -16,9 +16,12 @@ app.get('/test.html', function (request, response, next) {
 // Change app.get to app.post
 app.post('/process_form', function (request, response, next) {
     // response.send(request.body); Delete
-    var q = request.body['quantity_textbox'];
+    var q = request.body['qty_textbox1'];
         if (typeof q != 'undefined') {
         response.send(`Thank you for purchasing ${q} things!`);
+        }else{
+            response.send('Error: ${q} is not a quantity. Hit the back button to fix..');
+            
     } 
 
 });
