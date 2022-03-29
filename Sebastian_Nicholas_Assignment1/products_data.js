@@ -1,3 +1,5 @@
+// Nicholas Sebastian
+// Assignment 1
 // Array for products 
 // The products being used will be Shoes 
 
@@ -58,4 +60,5 @@ var products = [
 }
 ]
 
+// Number of products in the array
 var items = 6;
