@@ -1,3 +1,5 @@
+<script src="./product_data.js"></script>. 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,11 +36,21 @@
             window.location.href = "display_purchase.html" + document.location.search;
         }
     }
+// Ex4b
+document.write(`<h3>${products[0]["brand"]} at \$${products[0]["price"]}</h3>`);
+
+
 // Change from GET to POST method 
 // Reverting the Change will display will fix the routing for the display of display_purchase.html
 </script>
-
     <form name="quantity_form" action="./process_form" method="POST" >
+
+        <script>
+            for (i in products) {
+                document.write(`<h4>${products[i]["total_sold"]} ${products[i]["brand"]} have been sold!</h4>`);
+            }
+        </script>
+
         <label>quantity desired: </label>
         <input type="text" name="qty_textbox1" onkeyup="checkQuantityTextbox(this);">
         <span id='qty_textbox1_message'> Enter a quantity</span> 

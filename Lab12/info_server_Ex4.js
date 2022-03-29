@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 
+// Ex4
+var products = require(__dirname + '/product_data.json');
+products.forEach( (prod,i) => {prod.total_sold = 0}); 
+
 // app.all means that the route will go to all paths/requests
 // respond to any req for any path
 app.all('*', function (request, response, next) {
@@ -9,14 +13,13 @@ app.all('*', function (request, response, next) {
     console.log(request.method + ' to path ' + request.path + 'with query' + JSON.stringify(request.query));
     next();
 });
-// Ex4a
-var products = require(__dirname + '/product_data.json');
 
+// Ex4c
 app.get("/product_data.js", function (request, response, next) {
-   response.type('.js');
-   var products_str = `var products = ${JSON.stringify(products)};`;
-   response.send(products_str);
-});
+    response.type('.js');
+    var products_str = `var products = ${JSON.stringify(products)};`;
+    response.send(products_str);
+ });
 
 
 app.get('/test.html', function (request, response, next) {

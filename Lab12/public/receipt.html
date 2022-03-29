@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+    function isNonNegInt(q, returnErrors=false) {
+    errors = []; 
+        if(Number(q) != q) errors.push('Not a number!'); 
+            else {
+                if(q < 0) errors.push('Negative value!'); 
+                    if(parseInt(q) != q) errors.push('Not an integer!'); 
+    }   
+
+        return (returnErrors ? errors : (errors.length == 0));
+    }
+    // Ex5
+    let brand = products[0]['brand'];
+    let brand_price = products[0]['price'];
+    let params = (new URL(document.location)).searchParams;
+    var q = params.get('quantity');
+
+
+    </script>
+</body>
+</html>
