@@ -17,11 +17,22 @@ app.get('/test.html', function (request, response, next) {
 app.post('/process_form', function (request, response, next) {
     // response.send(request.body); Delete
     var q = request.body['quantity_textbox'];
-    if (typeof q != 'undefined') {
-    response.send(`Thank you for purchasing ${q} things!`);
+        if (typeof q != 'undefined') {
+        response.send(`Thank you for purchasing ${q} things!`);
     } 
 
 });
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here
 
+//3c.
+function isNonNegInt(q, returnErrors=false) {
+    errors = []; 
+        if(Number(q) != q) errors.push('Not a number!'); 
+            else {
+                if(q < 0) errors.push('Negative value!'); 
+                    if(parseInt(q) != q) errors.push('Not an integer!'); 
+    }   
+
+        return (returnErrors ? errors : (errors.length == 0));
+    }
