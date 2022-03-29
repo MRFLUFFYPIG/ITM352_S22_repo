@@ -15,7 +15,12 @@ app.get('/test.html', function (request, response, next) {
 // Ex2d
 // Change app.get to app.post
 app.post('/process_form', function (request, response, next) {
-    response.send(request.body);
+    // response.send(request.body); Delete
+    var q = request.body['quantity_textbox'];
+    if (typeof q != 'undefined') {
+    response.send(`Thank you for purchasing ${q} things!`);
+    } 
+
 });
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here
