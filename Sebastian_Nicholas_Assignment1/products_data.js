@@ -20,7 +20,8 @@ var products = [
     brand :"Adidas",
     name :"DURAMO 10 Shoes",
     price : 65.00,
-    image :""
+    image :"",
+    quantity : 20
 }
 ,
 // NEW BALANCE
@@ -29,7 +30,8 @@ var products = [
     brand :"NEW BALANCE",
     name :"GRUV SLIP ON SNEAKER - NAVY",
     price : 49.99,
-    image :""
+    image :"",
+    quantity : 30
 }
 ,
 // Vans
@@ -38,7 +40,8 @@ var products = [
     brand :"Vans",
     name :"OMBRE SUNRISE SK8-LOW REISSUE SF",
     price :75.00,
-    image :""
+    image :"",
+    quantity : 40
 }
 ,
 // Puma
@@ -47,7 +50,8 @@ var products = [
     brand :"Puma",
     name :"Clyde Core Foil Men's Sneakers",
     price :70.00,
-    image :""
+    image :"",
+    quantity : 50
 }
 ,
 // YEEZYs
@@ -56,7 +60,8 @@ var products = [
     brand :"YEEZYs",
     name :"adidas Yeezy Knit RNR Boot",
     price :599.00,
-    image :""
+    image :"",
+    quantity : 3
 }
 ]
 
