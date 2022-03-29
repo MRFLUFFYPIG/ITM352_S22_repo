@@ -25,10 +25,15 @@ app.get('/test.html', function (request, response, next) {
 // Ex2d
 // Change app.get to app.post
 app.post('/process_form', function (request, response, next) {
+    // Ex4a
+    let brand = products[0]['brand'];
+    let brand_price = products[0]['price'];
+
     // response.send(request.body); Delete
     var q = request.body['qty_textbox1'];
         if (typeof q != 'undefined') {
-        response.send(`Thank you for purchasing ${q} things!`);
+        // replace response
+        response.send(`<h2>Thank you for purchasing ${q} ${brand}. Your total is \$${q * brand_price}!</h2>`);
         }else{
             response.send('Error: ${q} is not a quantity. Hit the back button to fix..');
             
