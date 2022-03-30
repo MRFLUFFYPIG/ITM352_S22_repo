@@ -11,7 +11,7 @@ var products = [
     brand :"Nike",
     name :"Air Max 270",
     price : 160.00,
-    image :""
+    image :"./Images/AirMax.png"
 }
 ,
 // Adidas
@@ -20,7 +20,7 @@ var products = [
     brand :"Adidas",
     name :"DURAMO 10 Shoes",
     price : 65.00,
-    image :"",
+    image :"./Images/",
     quantity : 20
 }
 ,
