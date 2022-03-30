@@ -1,4 +1,5 @@
-[
+var items = 6;
+var prodcuts_data = [
 {
     "brand" :"Nike",
     "name" :"Air Max 270",

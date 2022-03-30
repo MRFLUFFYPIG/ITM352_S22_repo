@@ -1,96 +1,90 @@
+<script src="./products_data.js"></script>
+
 <!DOCTYPE html>
-<html lang="en">
-
-    <script src="products_data.json" type="text/javascript"></script>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Shoe Shop Products</title>
-
-    <link rel="stylesheet" href="./products.css">
-    
-
+<html>
     <script>
-        // NonNegInt Function from lab 11
-        // function checks for errors & non-negative integers 
-        function isNonNegInt(q, returnErrors=false) {
-        // checks for errors 
-        var error = []; 
-            // checks if input is a number
-            if(Number(q) != q) errors.push('Please put a valid input'); 
-                else {
-                    // checks if input is a postive/negative value
-                    if(q < 0) errors.push('Please put a valid input'); 
-                        // checks if input is an integer 
-                        if(parseInt(q) != q) errors.push('Please put a valid input'); 
-        }   
-        // returns errors
-        return (returnErrors ? errors : (errors.length == 0));
-        }
+		let params = (new URL(document.location)).searchParams;
+	window.onload = () =>  {
+		if(params.has('purchase')) {
+			var quantities = JSON.parse(params.get('quantity'));
+			for(i in quantities) {
+				order_form[`quantity[${i}]`].value = quantities[i];
+			}
+		}
+		
+		// Alerts the user to any errors during purchase
+		if(params.has('errors')) {
+			var errors = JSON.parse(params.get('errors')); 
+			let err_str = '';
+			for(err in  errors) {
+				err_str += errors[err] + '\n';
+			}
+			alert(err_str);
+		}
+	}
 
-        // function to check for valid/invalid quantity input
-        // From Lab 12
-        function checkQuantityTextbox(qtyTextbox) {
-        qtyerr = isNonNegInt(qtyTextbox.value, true);
-            if (qtyerr.length == 0) errs = ['You want: '];
-            if (qtyTextbox.value.trim() == '') qtyerr = ['Please type quantity desired: '];
-        document.getElementById(qtyTextbox.name + '_label').innerHTML = qtyerr.join('<font color="red">, </font>');
-        }
+// Borrowed from lab 12
+function isNonNegInt(q, return_errors = false) {
+        errors = []; // assume no errors at first
+        if (q == '') q = 0; // handle blank inputs as if they are 0
+            if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+                else if (q > 10) errors.push('<font color="red">Only 10 in stock</font>');
+                    else if (q == 0) errors.push('<font color="red">Please select!</font>');
+                        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+                            else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
 
-        window.onload = function () {
-        let params = (new URL(document.location)).searchParams;
-        // Makes an alert with error message
-        if (params.has("errorMessage")) {
-            alert(params.get("errorMessage"));
-        }
-        // Code borrowed and modified from Lab 12
-        // Makes textboxes sticky for invalid data
-        for (i = 0; i < product_data.length; i++) {
-            if (params.has(`quantity${i}`)) {
-                quantity_input = params.get(`quantity${i}`);
-                quantity_form[`quantity${i}`].value = quantity_input;
-                // Shows where the error is
-                checkQuantityTextbox(quantity_form[`quantity${i}`]); 
-            }
-        }
+        return return_errors ? errors : (errors.length == 0);
     }
-    </script>
+	</script>
+
+<head>
+    <meta charset="utf-8">
+    <title>Shoe Store Products</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Link to prodcuts.css -->
+    <link href="./products.css" rel="stylesheet">
 </head>
 
 <body>
-    <div>
-        <main>
-            <script>
-                // This section loads the products from product_data.js file
-                // For loop of products
-                for(i = 0; i < product_data.length; i++) {
-                document.write(`
-                    <section class="item_display"><br><img src="${product_data[i].image}" align="left"></br></section>
-                    <section class="item_text">
-                        <p>
-                            <br><h2>${product_data[i].brand}</h2></br>
-                            <br>${product_data[i].desc}</br>
-                            <br>Stock: ${product_data[i].quantity}</br>
-                            <br><b>$${product_data[i].price}</b></br>
-                            <br>
-                                <label id="quantity${i}_label">Please type quantity desired: </label>
-                                <input type="text" placeholder="Quantity Available: ${product_data[i].quantity}" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
-                            </br>
-                        </p>
-                    </section>
-                `)
-            }
-            </script>
-        </main>
+    <header id="header">
+        <div class="inner">
+        <h1>Shoe Locker</h1>
+        <form name="order_form" action="./process_form" method="POST"></form>
     </div>
-   
-   <div>
-       <footer>
-           <h3>Page by: Nicholas Sebatian @ 2022</h3>
-       </footer>
-   </div>
-   
+</header>
+
+    <div id="mainwrapper">
+        <aside>
+            <div style="font-size:3rem;text-align:center;font-weight: bold;font-style: Sans; color: rgb(1, 12, 14)">
+               Available Shoes
+            </div>
+        </aside>
+
+        <main>
+            <form name="quantity_form" action="./process_form" method="post">
+                <div>
+                    <main>
+                        <script>
+                            for (i = 0; i < products.length; i++) {
+                                document.write(`
+                                <section class="item">
+                                    <h3>${products[i].brand}</h3>
+                                    <h2>${products[i].name}</h>
+                                    <p>$${products[i].price}</p>
+									<label id="quantity${i}_label">${products[i].inventory} in stock</label>
+									<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]">
+                                    <img src=${products[i].image}>
+                                </section>
+                                `); }
+                        </script>
+                    </main>
+                </div>
+         <h3 style="font-size: large;">Best place to shop your surf boards!</h3>
+                    <!--Button to submit to the invoice-->
+                    <br><input type="submit" class="button" value="Cart" id="submit" name="purchase_submit">
+                </form>
+    
 </body>
+
 </html>

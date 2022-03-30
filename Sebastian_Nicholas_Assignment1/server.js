@@ -6,92 +6,97 @@
 // Most Code in Server.js is borrowed from lab 12 & lab 11
 
 // Variables & Express
-var product_data = require('./products_data.json');
+
 var express = require('express'); 
 var app = express(); 
+
+var product_data = require('./products_data.js');
+var products = product_data.product;
+
 var querystring = require("querystring");
 
-
-app.use(express.urlencoded({ extended: true }));
-
-// Accepts all paths/requests
+// Monitors all requests
 app.all('*', function (request, response, next) {
-    console.log(request.method + ' to path ' + request.path + 'with query' + JSON.stringify(request.query));
+    console.log(request.method + ' to' + request.path);
     next();
 });
 
-// Get Method to get data from the products_data.js
-app.get('/products_data.json', function (request, response, next) {
-    response.send('in test: ' + request.method + ' to path ' + request.path);
+//Get request for products data
+app.get('/product_data.js', function (request, response) {
+    response.type('.js');
+    var products_str = `var products = ${JSON.stringify(products)};`;
+    response.send(products_str);
 });
 
-// Post method & Validation 
-// Process purchase request
-app.post('/purchase', function (request, response, next) {
-    // Variables used for validation
-    let textbox = false; // Represents amount put into textbox
-    var errors = {}; // Start with empty cart
-    var qString = qs.stringify(request.body);
-    // Checks all entered quantities
-    for (i in products_array) {
-        q = request.body['quantity' + i];
-        // If the quantity is invalid
-        if (isNonNegInt(q) == false) {
-            errors['invalid_quantity' + i] = `${q} is not a valid input`;
-        }
-        // If quantity is greater than 0
-        if (q > 0) {
-            textbox = true;
-        }
-        // If quantity input is greater than quantity available
-        if (q > products_array[i].quantity) {
-            errors['quantity' + i] = `${q} of ${products_array[i].name} is not available. Only ${products_array[i].quantity} are available.`;
-        }
-    }
-    // No quantities were selected
-    if (textbox == false) {
-        errors['no_quantities'] = `Please input your quantity.`;
-    }
- 
-    // Code borrowed and modified from 
-    // If no errors go to invoice, if errors go back to products
-    if (Object.keys(errors).length == 0) {
-       // If purchase is valid, we remove from quantity available, the refreshes page with new quantity available
-       for (i in products_array) {
-           products_array[i].quantity -= Number(request.body['quantity' + i]);
-       }
-       // Goes to invoice upon valid purchase
-       response.redirect("./invoice.html?" + qString); 
-   }
-    else {
-        // Makes an error message from all errors.
-        var err_msg = '';
-        for (err in errors) { err_msg += errors[err] + `\n`}
-        // Goes back to product display if wrong
-        response.redirect(`./products_display.html?errorMessage=${err_msg}&` + qString); 
-    }
- });
-
-// function checks for errors & non-negative integers 
-function isNonNegInt(q, returnErrors=false) {
-    errors = []; 
-        if(Number(q) != q) errors.push('Not a number!'); 
+// Borrowed from Lab 12
+// Validates data
+function isNonNegInt(q, returnErrors = false) {
+    errors = []; // assume no errors at first
+    if (q == '') q = 0;
+        if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value. 
             else {
-                if(q < 0) errors.push('Negative value!'); 
-                    if(parseInt(q) != q) errors.push('Not an integer!'); 
-    }   
+                if(q>10) errors.push('Not enough in stock. '); //checks quanitity
+                    if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+                        if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
 
-    return (returnErrors ? errors : (errors.length == 0));
     }
+    return returnErrors ? errors : (errors.length == 0);
+}
+//From lab 12
+// Gives access to data inside products_data.js
+app.use(express.urlencoded ({extended: true }));
 
-// Gets all request from public
+// Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
+app.post("/process_form", function (request, response) {
+    let POST = request.body;
+
+  
+
+   // Checks if quantities are valid (nonnegint and have inventory)
+   var errors = {};
+
+    // For loop for quantities 
+    for(i in request.body.quantity) {
+        // Checks if there are NonNegInt
+        // Borrowed from lab 12
+        if(isNonNegInt(request.body.quantity[i]) == false) { //
+            console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
+            errors['quantity'+i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
+        
+        }
+        // Checks if we have enough products in stock
+        if(request.body.quantity[i]>products[i].inventory){
+            errors['inventory'+i] = `We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience ` ;
+          
+    }
+    // Checks if quantities has a value
+    if(request.body.quantity[i]>0){
+        var has_quantities = true;
+    }
+}
+    // Checks if quantities are undefined/not made
+    if(typeof has_quantities == 'undefined') {
+        errors['no_quantities'] = `You need to make selection`;
+    }
+    
+    // Query string for quantaties 
+   let qty_obj = {"quantity": JSON.stringify(request.body.quantity)};
+
+    //If data is valid, create invoice
+   if(Object.keys(errors).length === 0) {
+    // Valid purchases remove quanitites 
+      for(i in request.body.quantity){
+        products[i].inventory -= Number(request.body.quantity[i]);
+      }
+        response.redirect('./invoice.html?' + qs.stringify(qty_obj));
+    } else {
+        qty_obj.errors = JSON.stringify(errors);
+            response.redirect('./products_display.html?' + qs.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
+   }
+});
+
+// Allows routing to the public folder
 app.use(express.static('./public'));
 
-app.get("/products_data.json", function (request, response, next) {
-   response.type('.js');
-   var products_str = `var product__data = ${JSON.stringify(products_array)};`;
-   response.send(products_str);
-});
-
-// starts the server
+// Litens to the server
 app.listen(8080, () => console.log(`listening on port 8080`));
