@@ -1,11 +1,17 @@
 /*CSS for Prodcuts_Display*/
+/* Borrowed some CSS reference from Lab 6 */
 
 /* Pictures*/ 
-img {
+/* img {
     width: 50%;
     height: 60%;
     inline-size: auto;
     align-content: center;
+} */
+
+img {
+    width: 500px; 
+    height: 500px;
 }
 
 /* Body*/ 
@@ -19,12 +25,22 @@ body {
 
 /* Pictures*/ 
 main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+/* Styling the products display */
+body>div {
+    border: 10px solid black;
+    display: flex;
+    text-align: center;
+    color: black;
+   
+}
+
+/* */
+aside>div {
     text-align: center;
 }
 
-/* */ 
-h2 {
-    text-align: center;
-}
-
-/* */ 
