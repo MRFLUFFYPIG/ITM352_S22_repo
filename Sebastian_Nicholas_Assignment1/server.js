@@ -6,13 +6,10 @@
 // Most Code in Server.js is borrowed from lab 12 & lab 11
 
 // Variables & Express
-
 var express = require('express'); 
 var app = express(); 
-
 var products_array = require('./products_data.json');
 var products = products_array;
-
 var querystring = require("querystring");
 
 // Monitors all requests
@@ -50,8 +47,9 @@ app.use(express.urlencoded ({extended: true }));
 app.post("/process_form", function (request, response) {
     let POST = request.body;
 
-   // Checks if quantities are valid (nonnegint and have inventory)
-   var errors = {};
+    // Checks if quantities are valid (nonnegint and have inventory)
+    // this object holds errors the server finds
+    var errors = {};
 
     // For loop for quantities 
     for(i in request.body.quantity) {
@@ -76,20 +74,20 @@ app.post("/process_form", function (request, response) {
     }
     
     // Query string for quantaties 
-   let qty_obj = {"quantity": JSON.stringify(request.body.quantity)};
+   let qty = {"quantity": JSON.stringify(request.body.quantity)};
 
     // If data is valid, create invoice
-   if(Object.keys(errors).length === 0) {
+    if(Object.keys(errors).length === 0) {
     // Valid purchases move quanitites to Invoice
-      for(i in request.body.quantity){
-        products[i].inventory -= Number(request.body.quantity[i]);
-      }
+        for(i in request.body.quantity){
+            products[i].inventory -= Number(request.body.quantity[i]);
+        }
         // Redirects to invoice page
-        response.redirect('./invoice.html?' + querystring.stringify(qty_obj));
+        response.redirect('./invoice.html?' + querystring.stringify(qty));
     } else {
         // Redirects back to products display
-        qty_obj.errors = JSON.stringify(errors);
-            response.redirect('./products_display.html?' + querystring.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
+        qty.errors = JSON.stringify(errors);
+            response.redirect('./products_display.html?' + querystring.stringify(qty) + '&err_obj='+qty.errors);
    }
 });
 
