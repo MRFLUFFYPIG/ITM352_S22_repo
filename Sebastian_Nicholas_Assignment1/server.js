@@ -44,7 +44,7 @@ function isNonNegInt(q, returnErrors = false) {
 app.use(express.urlencoded ({extended: true }));
 
 // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
-app.post("/process_form", function (request, response) {
+app.post("/invoice", function (request, response) {
     let POST = request.body;
 
     // Checks if quantities are valid (nonnegint and have inventory)
