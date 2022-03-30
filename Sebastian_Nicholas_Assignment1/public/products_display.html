@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-//
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    // Ttile
+    
     <title>Shoe Shop</title>
 
-    // Style sheet placement
-
-    // Product_data.js data loader
     <script src="./product_data.js"></script>
 
     <script>
-        // NonNegInt Function
-        // Code to check for valid quantity input
+        // NonNegInt Function from lab 11
+        // function checks for errors & non-negative integers 
+        function isNonNegInt(q, returnErrors=false) {
+        // checks for errors 
+        var error = []; 
+            // checks if input is a number
+            if(Number(q) != q) errors.push('Please put a valid input'); 
+                else {
+                    // checks if input is a postive/negative value
+                    if(q < 0) errors.push('Please put a valid input'); 
+                        // checks if input is an integer 
+                        if(parseInt(q) != q) errors.push('Please put a valid input'); 
+        }   
+        // returns errors
+        return (returnErrors ? errors : (errors.length == 0));
+        }
 
-        // Code to check for invalid quantity input 
+        // function to check for valid/invalid quantity input
+
     </script>
 </head>
-<body>
-   <script>
-       // This section loads the products from product_data.js file
-       // For loop of products
 
-   </script>
+<body>
+    <div>
+        <main>
+            <script>
+                // This section loads the products from product_data.js file
+                // For loop of products
+         
+            </script>
+        </main>
+    </div>
+   
 
    <div>
        <footer>
-           
+           <h2>Page by: Nicholas Sebatian @ 2022</h2>
        </footer>
    </div>
 
-   <script>
-       
-   </script>
 </body>
 </html>
