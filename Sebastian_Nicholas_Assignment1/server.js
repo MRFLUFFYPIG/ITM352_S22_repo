@@ -88,8 +88,10 @@ app.post("/process_form", function (request, response) {
       for(i in request.body.quantity){
         products[i].inventory -= Number(request.body.quantity[i]);
       }
+        // Redirects to invoice page
         response.redirect('./invoice.html?' + querystring.stringify(qty_obj));
     } else {
+        // Redirects back to products display page
         qty_obj.errors = JSON.stringify(errors);
             response.redirect('./products_display.html?' + querystring.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
    }
