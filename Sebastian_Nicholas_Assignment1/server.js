@@ -50,8 +50,6 @@ app.use(express.urlencoded ({extended: true }));
 app.post("/process_form", function (request, response) {
     let POST = request.body;
 
-  
-
    // Checks if quantities are valid (nonnegint and have inventory)
    var errors = {};
 
@@ -62,12 +60,10 @@ app.post("/process_form", function (request, response) {
         if(isNonNegInt(request.body.quantity[i]) == false) { //
             console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
             errors['quantity'+i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
-        
         }
         // Checks if we have enough products in stock
         if(request.body.quantity[i]>products[i].inventory){
             errors['inventory'+i] = `We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience ` ;
-          
     }
     // Checks if quantities has a value
     if(request.body.quantity[i]>0){
@@ -91,7 +87,7 @@ app.post("/process_form", function (request, response) {
         // Redirects to invoice page
         response.redirect('./invoice.html?' + querystring.stringify(qty_obj));
     } else {
-        // Redirects back to products display page
+        // Redirects back to products display
         qty_obj.errors = JSON.stringify(errors);
             response.redirect('./products_display.html?' + querystring.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
    }
