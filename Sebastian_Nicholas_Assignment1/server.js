@@ -61,7 +61,7 @@ app.post("/process_form", function (request, response, next) {
         }
         // Checks if we have enough products in stock
         if(request.body.quantity[i]>products[i].inventory){
-            errors['inventory'+i] = `We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience ` ;
+            errors['inventory'+i] = `Stock does not have ${request.body.quantity[i]} pairs for ${products[i].brand}`;
     }
     // Checks if quantities has a value
     if(request.body.quantity[i]>0){
