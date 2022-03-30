@@ -20,7 +20,7 @@ var products = [
     brand :"Adidas",
     name :"DURAMO 10 Shoes",
     price : 65.00,
-    image :"./Images/",
+    image :"./Images/Adidas.png",
     quantity : 20
 }
 ,
@@ -30,7 +30,7 @@ var products = [
     brand :"NEW BALANCE",
     name :"GRUV SLIP ON SNEAKER - NAVY",
     price : 49.99,
-    image :"",
+    image :"./Images/GRUV.png",
     quantity : 30
 }
 ,
@@ -40,7 +40,7 @@ var products = [
     brand :"Vans",
     name :"OMBRE SUNRISE SK8-LOW REISSUE SF",
     price :75.00,
-    image :"",
+    image :"./Images/VANS.png",
     quantity : 40
 }
 ,
@@ -50,7 +50,7 @@ var products = [
     brand :"Puma",
     name :"Clyde Core Foil Men's Sneakers",
     price :70.00,
-    image :"",
+    image :"./Images/PUMA.png",
     quantity : 50
 }
 ,
@@ -60,10 +60,8 @@ var products = [
     brand :"YEEZYs",
     name :"adidas Yeezy Knit RNR Boot",
     price :599.00,
-    image :"",
+    image :"./Images/Yeezy.png",
     quantity : 3
 }
 ]
 
-// Number of products in the array
-var items = 6;
