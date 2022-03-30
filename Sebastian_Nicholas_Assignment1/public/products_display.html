@@ -1,10 +1,11 @@
-<script src="./products_data.js"></script>
+<script src="/products_data.json"></script>
 
 <!DOCTYPE html>
 <html>
     <script>
+        // Loads params to the page
 		let params = (new URL(document.location)).searchParams;
-	window.onload = () =>  {
+	    window.onload = () =>  {
 		if(params.has('purchase')) {
 			var quantities = JSON.parse(params.get('quantity'));
 			for(i in quantities) {
@@ -50,18 +51,20 @@ function isNonNegInt(q, return_errors = false) {
     <header id="header">
         <div class="inner">
         <h1>Shoe Locker</h1>
+        <!-- Form for the order page -->
         <form name="order_form" action="./process_form" method="POST"></form>
     </div>
 </header>
 
     <div id="mainwrapper">
         <aside>
-            <div style="font-size:3rem;text-align:center;font-weight: bold;font-style: Sans; color: rgb(1, 12, 14)">
+            <div style="font: size 1px;text-align:center;font-weight: bold;font-style: Sans; color: rgb(1, 12, 14)">
                Available Shoes
             </div>
         </aside>
 
         <main>
+            <!-- Form to post to the invoice page -->
             <form name="quantity_form" action="./process_form" method="post">
                 <div>
                     <main>
@@ -71,10 +74,11 @@ function isNonNegInt(q, return_errors = false) {
                                 <section class="item">
                                     <h3>${products[i].brand}</h3>
                                     <h2>${products[i].name}</h>
+                                    <img src=${products[i].image}>
                                     <p>$${products[i].price}</p>
 									<label id="quantity${i}_label">${products[i].inventory} in stock</label>
 									<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]">
-                                    <img src=${products[i].image}>
+                                    
                                 </section>
                                 `); }
                         </script>

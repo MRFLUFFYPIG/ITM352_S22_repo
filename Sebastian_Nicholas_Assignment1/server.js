@@ -10,8 +10,8 @@
 var express = require('express'); 
 var app = express(); 
 
-var product_data = require('./products_data.js');
-var products = product_data.product;
+var products_array = require('./products_data.json');
+var products = products_array;
 
 var querystring = require("querystring");
 
@@ -22,7 +22,7 @@ app.all('*', function (request, response, next) {
 });
 
 //Get request for products data
-app.get('/product_data.js', function (request, response) {
+app.get('/products_data.json', function (request, response) {
     response.type('.js');
     var products_str = `var products = ${JSON.stringify(products)};`;
     response.send(products_str);
@@ -88,10 +88,10 @@ app.post("/process_form", function (request, response) {
       for(i in request.body.quantity){
         products[i].inventory -= Number(request.body.quantity[i]);
       }
-        response.redirect('./invoice.html?' + qs.stringify(qty_obj));
+        response.redirect('./invoice.html?' + querystring.stringify(qty_obj));
     } else {
         qty_obj.errors = JSON.stringify(errors);
-            response.redirect('./products_display.html?' + qs.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
+            response.redirect('./products_display.html?' + querystring.stringify(qty_obj) + '&err_obj='+qty_obj.errors);
    }
 });
 
