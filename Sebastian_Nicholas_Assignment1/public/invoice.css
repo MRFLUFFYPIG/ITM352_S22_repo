@@ -1,4 +1,5 @@
 /* CSS for Invoice*/
+/* Borrowed some CSS reference from Lab 6 */
 
 /*Body*/
 body {
@@ -11,5 +12,11 @@ table {
     text-align: center;
     margin: auto;
     
+}
+
+/* Headers*/
+h1, h2, p {
+    text-align: center;
+    color: black;
 }
 

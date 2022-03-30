@@ -59,6 +59,13 @@
 
     <link href="invoice.css" type="text/css" rel="stylesheet">
     <title>Invoice</title>
+
+    <!-- Style of the Table -->
+    <style>
+        table, th, td {
+           border: 5px solid black;
+        }
+     </style>
     </head>
 
     <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:cornflowerblue; border-radius: 3rem;" >Invoice</header>
@@ -88,9 +95,9 @@
                     subtotal += extended_price;
                         document.write(`
                         <tr>
-                            <td width="43%"><em>${products[i].name}</em></td>
-                            <td align="center" width="11%"><em>${quantities[i]}</em></td>
-                            <td width="13%"><em>\$${products[i].price}</em></td>
+                            <td width="40%"><em>${products[i].name}</em></td>
+                            <td align="center" width="5%"><em>${quantities[i]}</em></td>
+                            <td width="15%"><em>\$${products[i].price}</em></td>
                             <td width="54%"><em>\$${extended_price}</em></td>
                         </tr>
                         `);
@@ -99,7 +106,6 @@
             }
             
             // Calculations borrowed and modifed from Lab Invoice 2 WOD 
-
             // Tax calculation
             var tax_rate = 0.057;
             var tax = tax_rate * subtotal;
@@ -122,14 +128,17 @@
         </script>
 
         <!-- Main table for the invoice -->
+        <br>
+        <!-- Sub-Total-->
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%">Sub-total</td>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%">Sub-total</td>
             <td width="40%">$
                 <script>document.write(subtotal.toFixed(2));</script>
             </td>
         </tr>
+        <!-- Tax -->
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%"><span
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%"><span
                     style="font-family: Lucida Bright;">Tax @
                     <script>document.write(100 * tax_rate);</script>%
                     </span>
@@ -138,13 +147,16 @@
                 <script>document.write(tax.toFixed(2));</script>
             </td>
         </tr>
-        <td style="text-align: auto; font-family: sans-serif;" colspan="2" width="40%">Shipping</span></td>
+        <!-- Shipping -->
+        <tr>
+        <td style="text-align: auto; font-family: sans-serif;" colspan="3" width="40%">Shipping</span></td>
         <td width="40%">$
             <script>document.write(shipping.toFixed(2));</script>
         </td>
         </tr>
+        <!-- Total -->
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%"><strong>Total</strong>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%"><strong>Total</strong>
             </td>
             <td width="40%"><strong>$
                     <script>document.write(total.toFixed(2));</script>
@@ -152,15 +164,19 @@
         </tr>
         </tbody>
     </table>
+    <br>
         <div> 
-            <br>
             <b> OUR SHIPPING POLICY IS: 
-            <br> A subtotal of $50 is a $15 shipping fee
-            <br> A subtotal of $100 is a $25 shipping fee
-            <br> Subtotals over $100 will be charged with a 5%% shipping fee</b>
+            <br> A subtotal of $50 is a $15 shipping fee.
+            <br> A subtotal of $100 is a $25 shipping fee.
+            <br> Subtotals over $100 will be charged with a 5%% shipping fee.</b>
         </div>
-
+    <br>
           <!-- Button that allows the user to go back to the products page -->
           <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
+    <br>
+        <footer>
+            Nicholas Sebastian, 2022
+        </footer>
     </body>
     </html>

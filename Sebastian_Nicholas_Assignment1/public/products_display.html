@@ -57,13 +57,7 @@ function isNonNegInt(q, return_errors = false) {
     </div>
 </header>
 
-    <div id="mainwrapper">
-        <aside>
-            <div style="font: size 1px;text-align:center;font-weight: bold;font-style: Sans; color: rgb(1, 12, 14)">
-               Available Shoes
-            </div>
-        </aside>
-
+    <div id="Shoes">
         <main>
             <!-- Form to post to the invoice page -->
             <form name="quantity_form" action="./process_form" method="post">
@@ -73,12 +67,12 @@ function isNonNegInt(q, return_errors = false) {
                             for (i = 0; i < products.length; i++) {
                                 document.write(`
                                 <section class="item">
-                                    <h1>${products[i].brand}</h1>
+                                    <h2>${products[i].brand}</h2>
                                     <h3>${products[i].name}</h3>
                                     <img src=${products[i].image}>
                                     <h2>$${products[i].price}</h2>
-									<label id="quantity${i}_label">${products[i].quantity} in stock</label>
-									<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]">
+									<label id="quantity${i}_label">${products[i].quantity} pairs avaliable</label>
+									<input type="text" placeholder="Amount" name="quantity[${i}]">
                                     
                                 </section>
                                 `); }
@@ -89,7 +83,8 @@ function isNonNegInt(q, return_errors = false) {
                     <!--Button to submit to the invoice-->
                     <br><input type="submit" class="button" value="Cart" id="submit" name="purchase_submit">
                 </form>
-    
+    <footer>
+        Nicholas Sebastian, 2022
+    </footer>
 </body>
-
 </html>
