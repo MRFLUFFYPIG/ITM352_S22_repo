@@ -125,35 +125,30 @@
 
         <!-- Main table for the invoice -->
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="50%">Quantities</td>
-            <td width="54%">
-                <script>document.write(total_qua);</script>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="50%">Sub-total</td>
-            <td width="54%">$
+            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%">Sub-total</td>
+            <td width="40%">$
                 <script>document.write(subtotal.toFixed(2));</script>
             </td>
         </tr>
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="50%"><span
+            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%"><span
                     style="font-family: Lucida Bright;">Tax @
                     <script>document.write(100 * tax_rate);</script>%
-                </span></td>
-            <td width="54%">$
+                    </span>
+                </td>
+            <td width="40%">$
                 <script>document.write(tax.toFixed(2));</script>
             </td>
         </tr>
-        <td style="text-align: center; font-family: sans-serif;" colspan="3" width="50%">Shipping</span></td>
-        <td width="54%">$
+        <td style="text-align: auto; font-family: sans-serif;" colspan="2" width="40%">Shipping</span></td>
+        <td width="40%">$
             <script>document.write(shipping.toFixed(2));</script>
         </td>
         </tr>
         <tr>
-            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="67%"><strong>Total</strong>
+            <td style="text-align: center;font-family: sans-serif;" colspan="2" width="40%"><strong>Total</strong>
             </td>
-            <td width="54%"><strong>$
+            <td width="40%"><strong>$
                     <script>document.write(total.toFixed(2));</script>
                 </strong></td>
         </tr>

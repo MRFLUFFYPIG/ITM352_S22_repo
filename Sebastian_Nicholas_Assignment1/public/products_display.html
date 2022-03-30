@@ -72,11 +72,11 @@ function isNonNegInt(q, return_errors = false) {
                             for (i = 0; i < products.length; i++) {
                                 document.write(`
                                 <section class="item">
-                                    <h3>${products[i].brand}</h3>
+                                    <h1>${products[i].brand}</h1>
                                     <h2>${products[i].name}</h>
                                     <img src=${products[i].image}>
-                                    <p>$${products[i].price}</p>
-									<label id="quantity${i}_label">${products[i].inventory} in stock</label>
+                                    <h2>$${products[i].price}</h2>
+									<label id="quantity${i}_label">${products[i].quantity} in stock</label>
 									<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]">
                                     
                                 </section>

@@ -3,8 +3,10 @@
 /* Pictures*/ 
 img {
     width: 50%;
-    height: auto;
+    height: 60%;
     padding: 10%;
+    inline-size: auto;
+    align-content: center;
 }
 
 /* Body*/ 
@@ -17,9 +19,13 @@ body {
 }
 
 /* Pictures*/ 
-
+main {
+    text-align: center;
+}
 
 /* */ 
-
+h2 {
+    text-align: center;
+}
 
 /* */ 
