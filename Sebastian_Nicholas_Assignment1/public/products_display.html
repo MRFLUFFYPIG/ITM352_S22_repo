@@ -1,5 +1,6 @@
+<!--Nicholas Sebatian-->
+<!--Loads product array from json file-->
 <script src="/products_data.json"></script>
-
 <!DOCTYPE html>
 <html>
     <script>
@@ -29,11 +30,9 @@
 function isNonNegInt(q, return_errors = false) {
         errors = []; // No Errors
         if (q == '') q = 0; // Returns to page if input is 0
-            if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
-                else if (q > 10) errors.push('<font color="red">Only 10 in stock</font>');
-                    else if (q == 0) errors.push('<font color="red">Please select!</font>');
-                        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
-                            else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+            if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Checks if string is a number value
+                        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Checks if it is non-negative
+                            else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Checks that it is an integer
 
         return return_errors ? errors : (errors.length == 0);
     }
@@ -44,7 +43,7 @@ function isNonNegInt(q, return_errors = false) {
     <title>Shoe Store Products</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Link to prodcuts.css -->
+    <!--Link to products.css -->
     <link href="./products.css" rel="stylesheet">
 </head>
 
@@ -65,6 +64,7 @@ function isNonNegInt(q, return_errors = false) {
                     <main>
                         <script>
                             for (i = 0; i < products.length; i++) {
+                                // Layout of products on the page.
                                 document.write(`
                                 <section class="item">
                                     <h2>${products[i].brand}</h2>
@@ -72,17 +72,18 @@ function isNonNegInt(q, return_errors = false) {
                                     <img src=${products[i].image}>
                                     <h2>$${products[i].price}</h2>
 									<label id="quantity${i}_label">${products[i].quantity} pairs avaliable</label>
-									<input type="text" placeholder="Amount" name="quantity[${i}]">
-                                    
+									<input type="text" placeholder="Amount" name="quantity[${i}]">  
                                 </section>
                                 `); }
                         </script>
                     </main>
                 </div>
-         
+    
                     <!--Button to submit to the invoice-->
                     <br><input type="submit" class="button" value="Cart" id="submit" name="purchase_submit">
                 </form>
+
+    <!-- Credentials-->
     <footer>
         Nicholas Sebastian, 2022
     </footer>

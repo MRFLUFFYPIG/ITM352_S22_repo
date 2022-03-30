@@ -1,12 +1,15 @@
+<!-- Nicholas Sebatian -->
+
 <!--Link invoice.css-->
 <link href="invoice.css" rel="stylesheet" />
 
+<!-- Loads product array from json file -->
+<script src="/products_data.json"></script>
+
 <script>
     // Load params
-  let params = (new URL(document.location)).searchParams;
+    let params = (new URL(document.location)).searchParams;
 </script>
-
-<script src="/products_data.json"></script>
 
 <script>
     //  If params has a valid quantity then parse
@@ -68,19 +71,18 @@
      </style>
     </head>
 
-    <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:cornflowerblue; border-radius: 3rem;" >Invoice</header>
+    <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:rgb(1, 2, 3); border-radius: 3rem;" >Invoice</header>
     
     <body>
-      <table class=".w3-table-all w3-card-4">
-        <thead>
-            <tr class=".w3-blue">
+      <table>
+            <tr>
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Extended price</th>
-        </thead>
+            </tr>
         <script>
-            // Borrowed from invoice 4 WODs
+            // Borrowed from Lab 8 invoice
             // Checks quantities and if valid send to invoice
             // Set subtotal and quantities to 0
             // Add what the user wants to purchse to them
@@ -164,6 +166,7 @@
         </tr>
         </tbody>
     </table>
+    <!-- Shipping Policy in Invoice-->
     <br>
         <div> 
             <b> OUR SHIPPING POLICY IS: 
@@ -175,6 +178,7 @@
           <!-- Button that allows the user to go back to the products page -->
           <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
     <br>
+    <!-- Credentials-->
         <footer>
             Nicholas Sebastian, 2022
         </footer>

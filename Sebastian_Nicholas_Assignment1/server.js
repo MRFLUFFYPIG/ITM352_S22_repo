@@ -82,9 +82,9 @@ app.post("/process_form", function (request, response) {
     // Query string for quantaties 
    let qty_obj = {"quantity": JSON.stringify(request.body.quantity)};
 
-    //If data is valid, create invoice
+    // If data is valid, create invoice
    if(Object.keys(errors).length === 0) {
-    // Valid purchases remove quanitites 
+    // Valid purchases move quanitites to Invoice
       for(i in request.body.quantity){
         products[i].inventory -= Number(request.body.quantity[i]);
       }
