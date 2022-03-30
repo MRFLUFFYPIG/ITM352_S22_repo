@@ -1,0 +1,15 @@
+/* CSS for Invoice*/
+
+/*Body*/
+body {
+    font-size: large;
+    text-align: center;
+    background-color: aqua;
+}
+/*Table*/
+table {
+    text-align: center;
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+}

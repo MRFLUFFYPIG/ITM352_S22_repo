@@ -6,7 +6,7 @@
 // Most Code in Server.js is borrowed from lab 12 & lab 11
 
 // Variables & Express
-var products_array = require('./products.json');
+var product_data = require('./products_data.json');
 var express = require('express'); 
 var app = express(); 
 var querystring = require("querystring");
