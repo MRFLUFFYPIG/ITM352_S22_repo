@@ -4,12 +4,13 @@
         for (value of urlParams.values()) {
             if (value = "Tyler") {
                 document.write("Found him!");
-            else document.write("I couldn't find Tyler :("); 
+            // Had to fix the else loop by moving and adding an closing bracket 
+            } else { 
+                    document.write("I couldn't find Tyler :("); 
             }
         }
-        }
         window.stop();
-    }
+        }
 </script>
 <form action="" method="GET">
         Name: <input  name="name"><br>
