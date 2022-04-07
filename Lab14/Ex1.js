@@ -1,4 +1,5 @@
-product = {name:'small gumball', price:'$0.34’};
+// Needed to take out the quotes on price 
+product = {name:'small gumball', price: 0.34};
 
 tax_rate = 0.045;
 
