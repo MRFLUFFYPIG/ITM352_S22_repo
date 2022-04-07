@@ -1,0 +1,86 @@
+<!--Nicholas Sebatian-->
+<!--Loads product array from json file-->
+<script src="/products_data.json"></script>
+<!DOCTYPE html>
+<html>
+    <script>
+        // Loads params to the page
+		let params = (new URL(document.location)).searchParams;
+	    window.onload = () =>  {
+		if(params.has('purchase')) {
+			var quantities = JSON.parse(params.get('quantity'));
+			for(i in quantities) {
+				order_form[`quantity[${i}]`].value = quantities[i];
+			}
+		}
+		
+		// Alerts the user to any errors during purchase
+		if(params.has('errors')) {
+			var errors = JSON.parse(params.get('errors')); 
+			let err_str = '';
+			for(err in  errors) {
+				err_str += errors[err] + '\n';
+			}
+			alert(err_str);
+		}
+	}
+
+// Borrowed from lab 12
+// Prevents user from moving to invoice page
+function isNonNegInt(q, return_errors = false) {
+        errors = []; // No Errors
+        if (q == '') q = 0; // Returns to page if input is 0
+            if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Checks if string is a number value
+                        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Checks if it is non-negative
+                            else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Checks that it is an integer
+
+        return return_errors ? errors : (errors.length == 0);
+    }
+	</script>
+<head>
+    <meta charset="utf-8">
+    <title>Shoe Store Products</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Link to products.css -->
+    <link href="./products.css" rel="stylesheet">
+</head>
+
+<body>
+    <header id="header">
+        <div class="inner">
+        <h1>Shoe Locker</h1>
+        <!-- Form for the order page -->
+        <form name="order_form" action="./process_form" method="POST"></form>
+    </div>
+</header>
+    <div id="Shoes">
+            <!-- Form to post to the invoice page -->
+            <form name="quantity_form" action="./process_form" method="post">
+                <div>
+                    <main>
+                        <script>
+                            for (i = 0; i < products.length; i++) {
+                                // Layout of products on the page.
+                                document.write(`
+                                <section class="item">
+                                    <h2>${products[i].brand}</h2>
+                                    <h3>${products[i].name}</h3>
+                                    <img src=${products[i].image}>
+                                    <h2>$${products[i].price}</h2>
+									<label id="quantity${i}_label">${products[i].quantity} pairs avaliable</label>
+									<input type="text" placeholder="Amount" name="quantity[${i}]">  
+                                </section>
+                                `); }
+                        </script>
+                    </main>
+                </div>
+                    <!--Button to submit to the invoice-->
+                    <br><input type="submit" class="button" value="Cart" id="submit" name="purchase_submit">
+                </form>
+    <!-- Credentials-->
+    <footer>
+        Nicholas Sebastian, 2022
+    </footer>
+</body>
+</html>

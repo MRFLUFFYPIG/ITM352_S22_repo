@@ -1,0 +1,186 @@
+<!-- Nicholas Sebatian -->
+
+<!--Link invoice.css-->
+<link href="invoice.css" rel="stylesheet" />
+
+<!-- Loads product array from json file -->
+<script src="/products_data.json"></script>
+
+<script>
+    // Load params
+    let params = (new URL(document.location)).searchParams;
+</script>
+
+<script>
+    //  If params has a valid quantity then parse
+    if (params.has("quantity")) {
+        var quantities = JSON.parse(params.get('quantity'));
+  }
+  // Function to create table
+  function generate_item_rows(product_quantities_array) {
+    for (i in products) {
+      //Product will display in Rows
+      if (product_quantities_array[i] == 0) continue;
+      // Checks for errors  
+      errors = isNonNegInt(product_quantities_array[i], true);  
+      if (errors.length == 0) {
+        extended_price = products[i].price * quantities[i];
+        subtotal += extended_price;
+      } else {
+        extended_price = "";
+      }
+      // Document write out the purchases to the invoice page
+      // Borrowed from lab 8
+      document.write(`
+          <tr>
+            <td width="43%">${products[i].brand}</td>
+            <td align="center" width="11%">${product_quantities_array[i]}<br> <font color= "red" > ${errors.join('<br>')}</td>
+            <td width="13%">$${products[i].price}</td>
+            <td width="54%">$${extended_price.toFixed(2)}</td>
+          </tr>
+          `);
+    }
+
+    // Borrowed from lab 12
+    // Checks for NonNegInt
+    function isNonNegInt(q, returnErrors = false) {
+      errors = []; // assume no errors at first
+         if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value. 
+            if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+                if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+      return returnErrors ? errors : (errors.length == 0)
+    }
+  }
+</script>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="invoice.css" type="text/css" rel="stylesheet">
+    <title>Invoice</title>
+
+    <!-- Style of the Table -->
+    <style>
+        table, th, td {
+           border: 5px solid black;
+        }
+     </style>
+    </head>
+
+    <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:rgb(1, 2, 3); border-radius: 3rem;" >Invoice</header>
+    
+    <body>
+      <table>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Extended price</th>
+            </tr>
+        <script>
+            // Borrowed from Lab 8 invoice
+            // Checks quantities and if valid send to invoice
+            // Set subtotal and quantities to 0
+            // Add what the user wants to purchse to them
+            subtotal = 0;
+            total_quantities = 0; 
+            for (i = 0; i < products.length; i++) {
+                if (quantities[i] > 0) {
+                    // Product Rows
+                    total_quantities += Number(quantities[i]); 
+                    // Convert string values to number to display in invoice
+                    extended_price = quantities[i] * products[i].price;
+                    subtotal += extended_price;
+                        document.write(`
+                        <tr>
+                            <td width="40%"><em>${products[i].name}</em></td>
+                            <td align="center" width="5%"><em>${quantities[i]}</em></td>
+                            <td width="15%"><em>\$${products[i].price}</em></td>
+                            <td width="54%"><em>\$${extended_price}</em></td>
+                        </tr>
+                        `);
+
+                }
+            }
+            
+            // Calculations borrowed and modifed from Lab Invoice 2 WOD 
+            // Tax calculation
+            var tax_rate = 0.057;
+            var tax = tax_rate * subtotal;
+
+            // Shipping Calculation
+            // If subtotal is less than $50 then shipping is $15
+            if (subtotal <= 50) { 
+                shipping = 15;
+            }
+            // If subtotal is less than $100 then shipping is $25
+            else if (subtotal <= 100 ) { 
+                shipping = 25;
+            }
+            else {
+            // If subtotal does not meet the other two requirements, then shippings is multipled by 5% of the order
+                shipping = 0.05 * subtotal; 
+            }
+            // Grand total calculation
+            var total = subtotal + tax + shipping;
+        </script>
+
+        <!-- Main table for the invoice -->
+        <br>
+        <!-- Sub-Total-->
+        <tr>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%">Sub-total</td>
+            <td width="40%">$
+                <script>document.write(subtotal.toFixed(2));</script>
+            </td>
+        </tr>
+        <!-- Tax -->
+        <tr>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%"><span
+                    style="font-family: Lucida Bright;">Tax @
+                    <script>document.write(100 * tax_rate);</script>%
+                    </span>
+                </td>
+            <td width="40%">$
+                <script>document.write(tax.toFixed(2));</script>
+            </td>
+        </tr>
+        <!-- Shipping -->
+        <tr>
+        <td style="text-align: auto; font-family: sans-serif;" colspan="3" width="40%">Shipping</span></td>
+        <td width="40%">$
+            <script>document.write(shipping.toFixed(2));</script>
+        </td>
+        </tr>
+        <!-- Total -->
+        <tr>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%"><strong>Total</strong>
+            </td>
+            <td width="40%"><strong>$
+                    <script>document.write(total.toFixed(2));</script>
+                </strong></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Shipping Policy in Invoice-->
+    <br>
+        <div> 
+            <b> OUR SHIPPING POLICY IS: 
+            <br> A subtotal of $50 is a $15 shipping fee.
+            <br> A subtotal of $100 is a $25 shipping fee.
+            <br> Subtotals over $100 will be charged with a 5%% shipping fee.</b>
+        </div>
+    <br>
+          <!-- Button that allows the user to go back to the products page -->
+          <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
+    <br>
+    <!-- Credentials -->
+        <footer>
+            Nicholas Sebastian, 2022
+        </footer>
+    </body>
+    </html>
