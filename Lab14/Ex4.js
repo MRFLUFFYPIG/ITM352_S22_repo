@@ -4,15 +4,16 @@ var app = express();
 
 app.get('/', function(req,res) {
     res.send(
-        '<form action="/process_form" method="POST">
+        `<form action="/process_form" method="POST">
             Name1: <input  name="name1"><br>
             Name2: <input  name="name1"><br>
             <input type="submit" name="Submit" value="Send POST Request">
-        </form>'
-        );
+        </form>`
+    );
 });
 
 app.post('/processform', function(req, res) {
+    data = req.body; // For the post to work it would require the body (aka the if function)
     if (typeof req.body['Submit'] != 'undefined') {
         for (value in req.body) {
             if (value == "Tyler") {
