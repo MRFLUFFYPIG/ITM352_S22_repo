@@ -94,7 +94,7 @@ app.post("/process_form", function (request, response, next) {
 
 // Register  & Login section
 // From lab 14
-var filename = 'user_data.json'; 
+var filename = './user_data.json'; 
 if (fs.existsSync(filename)) {
     var user_data_string = fs.readFileSync(filename, 'utf-8');
     var users_reg_data = JSON.parse(user_data_string) 
@@ -114,7 +114,7 @@ app.get("register.html", function (request, response) {
 app.post("register.html", function (request, response) {
     //Register Form
     //Gets information from textboxes
-    let new_user_full_name = request.body['name'].replace(/#/g, "%20");
+    let new_user_name = request.body['name'].replace(/#/g, "%20");
     let new_user_email = request.body['email'].toLowerCase().replace(/#/g, "%20");
     let new_user_username = request.body['username'].toLowerCase().replace(/#/g, "%20");
     let new_user_password = request.body['password'];
