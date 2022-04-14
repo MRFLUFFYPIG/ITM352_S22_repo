@@ -12,19 +12,6 @@ var products_array = require('./products_data.json');
 var products = products_array;
 var querystring = require("querystring");
 
-// From lab 14
-var filename = 'user_data.json'; 
-if (fs.existsSync(filename)) {
-    var user_data_string = fs.readFileSync(filename, 'utf-8');
-    var users_reg_data = JSON.parse(user_data_string) 
-
-    var file_stats = fs.statSync(filename);
-    console.log(`${filename} has ${file_stats.size} characters`);
-    //have reg data file, so read data and parse into user_registration_info object
-} else {
-    console.log(`Hey! ${filename} doesn't exist`);
-}
-
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
@@ -95,8 +82,8 @@ app.post("/process_form", function (request, response, next) {
         for(i in request.body.quantity){
             products[i].inventory -= Number(request.body.quantity[i]);
         }
-        // Redirects to invoice page
-        response.redirect('./invoice.html?' + querystring.stringify(qty));
+        // Redirects to Register Page
+        response.redirect('./register.html?' + querystring.stringify(qty));
     } else {
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
@@ -104,18 +91,31 @@ app.post("/process_form", function (request, response, next) {
    }
 });
 
-// Register section
 
-app.get("/register", function (request, response) {
+// Register  & Login section
+// From lab 14
+var filename = 'user_data.json'; 
+if (fs.existsSync(filename)) {
+    var user_data_string = fs.readFileSync(filename, 'utf-8');
+    var users_reg_data = JSON.parse(user_data_string) 
+
+    var file_stats = fs.statSync(filename);
+    console.log(`${filename} has ${file_stats.size} characters`);
+    //have reg data file, so read data and parse into user_registration_info object
+} else {
+    console.log(`Hey! ${filename} doesn't exist`);
+}
+
+app.get("./register.html", function (request, response) {
     let params = new URLSearchParams(request.query);
     response.redirect("register.html?" + params);
 
 });
 
-app.post("/register", function (request, response) {
+app.post("./register.html", function (request, response) {
     //process a simple register form
     //get information from textboxes
-    let new_user_full_name = request.body['full_name'].replace(/#/g, "%20");
+    let new_user_full_name = request.body['name'].replace(/#/g, "%20");
     let new_user_email = request.body['email'].toLowerCase().replace(/#/g, "%20");
     let new_user_username = request.body['username'].toLowerCase().replace(/#/g, "%20");
     let new_user_password = request.body['password'];
@@ -129,26 +129,26 @@ app.post("/register", function (request, response) {
     }
     //Used to make form fields sticky
     let querystring = "register.html?";
-    querystring += quantities_string + "&full_name=" + new_user_full_name + "&email=" + new_user_email + "&username=" + new_user_username;
+    querystring += quantities_string + "&name=" + new_user_name + "&email=" + new_user_email + "&username=" + new_user_username;
 
     //VALIDATIONS: Form Fields
     let has_error = false; //initialize has_error to say there are no errors before any checking
 
     //Check FULL NAME field: something is entered
-    if (isEmptyField(new_user_full_name) == true) {
-        querystring += "&full_name_error=true"
+    if (isEmptyField(new_user_name) == true) {
+        querystring += "&name_error=true"
     };
     
     //Check FULL NAME field: only letters are used 
     var only_letters = /^[A-Za-z ]+$/; //This is adapted from https://www.w3resource.com/javascript/form/all-letters-field.php
     if (!new_user_full_name.match(only_letters)) {
         has_error = true;
-        querystring += "&full_name_syntax_error=true"
+        querystring += "&name_syntax_error=true"
     };
     //Check FULL NAME field: entered value is less than 30 characters
     if (new_user_full_name.length > 30) {
         has_error = true;
-        querystring += "&full_name_length_error=long"
+        querystring += "&name_length_error=long"
     };
 
     //Check EMAIL field: something is entered
@@ -209,12 +209,12 @@ app.post("/register", function (request, response) {
         response.redirect(querystring + "&attempted_registration=true"); //redirect back to registration page if has_error was changed to true.
     } else { //if registration fields are correct and pass the validations, then add the information to the user_data.json file
         users_reg_data[new_user_username] = {};
-        users_reg_data[new_user_username].full_name = new_user_full_name;
+        users_reg_data[new_user_username].name = new_user_name;
         users_reg_data[new_user_username].password = new_user_password;
         users_reg_data[new_user_username].email = new_user_email;
         fs.writeFileSync(filename, JSON.stringify(users_reg_data, null, 2)); //null,2 keeps the formatting of json. 
 
-        response.redirect("login_page.html?" + params + "&registration_successful=true"); 
+        response.redirect("login.html?" + params + "&registration_successful=true"); 
     };
 });
 
