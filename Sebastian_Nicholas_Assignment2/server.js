@@ -109,12 +109,11 @@ if (fs.existsSync(filename)) {
 app.get("register.html", function (request, response) {
     let params = new URLSearchParams(request.query);
     response.redirect("register.html?" + params);
-
 });
 
 app.post("register.html", function (request, response) {
-    //Tegister Form
-    //get information from textboxes
+    //Register Form
+    //Gets information from textboxes
     let new_user_full_name = request.body['name'].replace(/#/g, "%20");
     let new_user_email = request.body['email'].toLowerCase().replace(/#/g, "%20");
     let new_user_username = request.body['username'].toLowerCase().replace(/#/g, "%20");

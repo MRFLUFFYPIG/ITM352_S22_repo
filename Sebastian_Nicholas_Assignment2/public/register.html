@@ -62,37 +62,45 @@
             <script>
                 //Selecting which error message to display depending on the error received from server-side
                 if (params.get("username_error") == "true") {
-                    document.write(`<div class= invalid_input>Enter a username</div>`); //Left the field blank
+                    //Left the field blank
+                    document.write(`<div class= invalid_input>Enter a username</div>`); 
                 } else if (params.get("username_syntax_error") == "true") {
-                    document.write(`<div class= invalid_input>Only letters and numbers allowed!</div>`); //Tried to use a special character
+                    //Tried to use a special character
+                    document.write(`<div class= invalid_input>Only letters and numbers allowed!</div>`); 
                 } else if (params.get("username_length_error") == "short") {
-                    document.write(`<div class= invalid_input>Username must be at least 4 characters</div>`); //Username was too short
+                    //Username was too short
+                    document.write(`<div class= invalid_input>Username must be at least 4 characters</div>`); 
                 } else if (params.get("username_length_error") == "long") {
-                    document.write(`<div class= invalid_input>Username must be less than 10 characters</div>`); //Username was too long
+                    //Username was too long
+                    document.write(`<div class= invalid_input>Username must be less than 10 characters</div>`); 
                 } else if (params.get("username_exists") == "true") {
-                    document.write(`<div class= invalid_input>Username already taken!</div>`); //Username already exists in file.
+                    //Username already exists in file.
+                    document.write(`<div class= invalid_input>Username already taken!</div>`); 
                 } else {
-                    document.write("<br>"); //Maintains similar spacing to when there is no message
+                    document.write("<br>"); 
                 };
             </script>
             <input type="password" name="password" size="40" placeholder="Create a Password"><br>
             <script>
                 //Selecting which error message to display depending on the error received from server-side
                 if (params.get("password_error") == "true") {
-                    document.write(`<div class= invalid_input>Enter a password</div>`); //Left the field blank
+                    //Left the field blank
+                    document.write(`<div class= invalid_input>Enter a password</div>`); 
                 } else if (params.get("password_length_error") == "short") {
-                    document.write(`<div class= invalid_input>Password must be at least 6 characters</div>`); //Password is too short
+                    //Password is too short
+                    document.write(`<div class= invalid_input>Password must be at least 6 characters</div>`); 
                 } else {
-                    document.write("<br>"); //Maintains similar spacing to when there is no message
+                    document.write("<br>"); 
                 };
             </script>
             <input type="password" name="reentered_password" size="40" placeholder="Confirm Password"><br>
             <script>
                 //Selecting which error message to display depending on the error received from server-side
                 if (params.get("password_match_error") == "true") {
-                    document.write(`<div class= invalid_input>Passwords don't match</div>`); //The repeat-password doesn't match the original password.
+                    //The repeat-password doesn't match the original password.
+                    document.write(`<div class= invalid_input>Passwords don't match</div>`); 
                 } else {
-                    document.write("<br>"); //Maintains similar spacing to when there is no message
+                    document.write("<br>"); 
                 };
             </script>
             <input name="create_account_button_name" type="submit" value="Create An Account" id="submit">
@@ -101,8 +109,7 @@
         <div class=already_have_account>
             Already a user?
             <script>
-            
-            //Link to return back to the login page without having to register.
+                //Link to return back to the login page without having to register.
                 document.write(`<a href=${login_action}>Login in</a>`)
             </script>
         </div>
@@ -111,12 +118,12 @@
 
 <script>
     //These create the sticky textboxes
-    //getting the values from the query string
+    //Gets the values from the query string
     var username = params.get("username"); 
     var email = params.get("email");
     var full_name = params.get("name");
 
-    //putting the values into the textboxes again after post method
+    //Puts the values into the textboxes again after post method
     if (params.get("attempted_registration") == "true") {
         registration_fields["name"].value = name;
         registration_fields["email"].value = email;
