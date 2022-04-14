@@ -83,11 +83,11 @@ app.post("/process_form", function (request, response, next) {
             products[i].inventory -= Number(request.body.quantity[i]);
         }
         // Redirects to Register Page
-        response.redirect('./register.html?' + querystring.stringify(qty));
+        response.redirect('./register.html' + querystring.stringify(qty));
     } else {
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
-            response.redirect('./products_display.html?' + querystring.stringify(qty) + '&err_obj='+qty.errors);
+            response.redirect('./products_display.html' + querystring.stringify(qty) + '&err_obj='+qty.errors);
    }
 });
 
@@ -106,14 +106,14 @@ if (fs.existsSync(filename)) {
     console.log(`Hey! ${filename} doesn't exist`);
 }
 
-app.get("./register.html", function (request, response) {
+app.get("register.html", function (request, response) {
     let params = new URLSearchParams(request.query);
     response.redirect("register.html?" + params);
 
 });
 
-app.post("./register.html", function (request, response) {
-    //process a simple register form
+app.post("register.html", function (request, response) {
+    //Tegister Form
     //get information from textboxes
     let new_user_full_name = request.body['name'].replace(/#/g, "%20");
     let new_user_email = request.body['email'].toLowerCase().replace(/#/g, "%20");
@@ -140,13 +140,14 @@ app.post("./register.html", function (request, response) {
     };
     
     //Check FULL NAME field: only letters are used 
-    var only_letters = /^[A-Za-z ]+$/; //This is adapted from https://www.w3resource.com/javascript/form/all-letters-field.php
-    if (!new_user_full_name.match(only_letters)) {
+    //This is adapted from https://www.w3resource.com/javascript/form/all-letters-field.php
+    var only_letters = /^[A-Za-z ]+$/; 
+    if (!new_user_name.match(only_letters)) {
         has_error = true;
         querystring += "&name_syntax_error=true"
     };
     //Check FULL NAME field: entered value is less than 30 characters
-    if (new_user_full_name.length > 30) {
+    if (new_user_name.length > 30) {
         has_error = true;
         querystring += "&name_length_error=long"
     };
@@ -156,7 +157,8 @@ app.post("./register.html", function (request, response) {
         querystring += "&email_error=true"
     };
     //Check EMAIL field: correct email formatting
-    var correct_mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //referenced from https://www.w3resource.com/javascript/form/email-validation.php
+    //Referenced from https://www.w3resource.com/javascript/form/email-validation.php
+    var correct_mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
     if (!new_user_email.match(correct_mailformat)) {
         has_error = true;
         querystring += "&email_format_error=true"
@@ -206,15 +208,19 @@ app.post("./register.html", function (request, response) {
 
 
     if (has_error) { 
-        response.redirect(querystring + "&attempted_registration=true"); //redirect back to registration page if has_error was changed to true.
-    } else { //if registration fields are correct and pass the validations, then add the information to the user_data.json file
+        //Redirect back to registration page if thre is an error 
+        response.redirect(querystring + "&attempted_registration=true"); 
+    } else { 
+        //If registration fields are correct and pass the validations, then add the information to the user_data.json file
         users_reg_data[new_user_username] = {};
         users_reg_data[new_user_username].name = new_user_name;
         users_reg_data[new_user_username].password = new_user_password;
         users_reg_data[new_user_username].email = new_user_email;
-        fs.writeFileSync(filename, JSON.stringify(users_reg_data, null, 2)); //null,2 keeps the formatting of json. 
+        //Null,2 keeps the formatting of json. 
+        fs.writeFileSync(filename, JSON.stringify(users_reg_data, null, 2)); 
 
-        response.redirect("login.html?" + params + "&registration_successful=true"); 
+        //If registration passes ten leads to login page
+        response.redirect("login.html" + params + "&registration_successful=true"); 
     };
 });
 

@@ -2,14 +2,14 @@
 <!-- Registration page for users -->
 
 <script>
-    var params = (new URL(document.location)).searchParams; //Puts the url into the params variable. Used (later) to get information from the query string.
-    var registration_action = "./register?"; 
-    registration_action += params; //Keeps the quantities around.
+    var params = (new URL(document.location)).searchParams; 
+    var login_action = "login.html";
+    //Keeps the quantities around for login only .
+    login_action += params; 
 
-    var login_action = "./login?";
-    login_action += params; //Keeps the quantities around.
-
-
+    //Keeps the quantities around for register only.
+    var registration_action = "register.html";
+    registration_action += params; 
 </script>
 
 <!DOCTYPE html>
@@ -19,8 +19,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/registration_page.css">
-    <link rel="shortcut icon" type='image/jpg' href="https://img.icons8.com/doodle/48/000000/tennis-ball.png" />
     <title>Register Page</title>
 </head>
 
@@ -30,17 +28,18 @@
             <div class=header>Register</div>
 
             <script> 
-                document.write(`<form name = "registration_fields" action=${registration_action} method="POST">`) //The form submits to itself (with the quantities in the query string) so that it can be carried through once it redirects to the login page again. 
+                //Submits to itself (with the quantities in the query string) so that it can be carried through once it redirects to the login page again. 
+                document.write(`<form name = "registration_fields" action=${registration_action} method="POST">`) 
             </script>
 
-            <input type="text" name="full_name" size="40" placeholder="Full Name"><br>
+            <input type="text" name="name" size="40" placeholder="Full Name"><br>
             <script>
                 //Selecting which error message to display depending on the error received from server-side
-                if (params.get("full_name_error") == "true") {  //Left name field blank
+                if (params.get("name_error") == "true") {  //Left name field blank
                     document.write(`<div class= invalid_input>Enter your full name</div>`);
-                } else if (params.get("full_name_syntax_error") == "true") { //Tried to use a special character
+                } else if (params.get("name_syntax_error") == "true") { //Tried to use a special character
                     document.write(`<div class= invalid_input>Only letters allowed!</div>`); 
-                } else if (params.get("full_name_length_error") == "long") { //Put in a value that is too long
+                } else if (params.get("name_length_error") == "long") { //Put in a value that is too long
                     document.write(`<div class= invalid_input>Must be less than 30 characters long</div>`);
                 } else {
                     document.write("<br>"); //Maintains similar spacing to when there is no message
@@ -127,5 +126,8 @@
     };
 
 </script>
-
+    <br>
+    <!-- Button that allows the user to go back to the products page -->
+    <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'index.html';">
+    <br>
 </html>

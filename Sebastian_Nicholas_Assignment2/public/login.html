@@ -3,13 +3,14 @@
 
 <script>
 
-    var params = (new URL(document.location)).searchParams; //Puts the url into the params variable. Used (later) to get information from the query string.
-    var login_action = "./login?";
-    login_action += params; //Keeps the quantities around.
+    var params = (new URL(document.location)).searchParams; 
+    var login_action = "login.html";
+    //Keeps the quantities around for login only .
+    login_action += params; 
 
-    var registration_action = "./register?";
-    registration_action += params; //Keeps the quantities around.
-
+    //Keeps the quantities around for register only.
+    var registration_action = "register.html";
+    registration_action += params; 
 </script>
 
 <!DOCTYPE html>
@@ -32,7 +33,8 @@
                 </script>
                 <script>
                     //Selecting which error message to display depending on the error received from server-side
-                    if (params.get("attempted_login") == "true" && params.get("login_username_check") == "does_not_exist") { //If username doesn't match any in the user_data.json
+                    //If username doesn't match 
+                    if (params.get("attempted_login") == "true" && params.get("login_username_check") == "does_not_exist") { 
                         document.write(`<div class="invalid_username"> Please enter a valid username </div>`)
                     } else {
                         document.write(`<br>`)
@@ -40,7 +42,8 @@
                 </script>
                 <input type="password" name="password" size="40" placeholder="Password"><br>
                 <script>
-                    if (params.get("login_password") == "incorrect") { //If the password doesn't match the recorded password that I have in the user_data.json file under that username
+                    //If the password doesn't match 
+                    if (params.get("login_password") == "incorrect") { 
                         document.write(`<div class="invalid_password"> Incorrect Password </div>`)
                     }
                 </script>
@@ -51,7 +54,8 @@
             <div class=no_account>
                 New user?
                 <script>
-                    document.write(`<a href=${registration_action}>Register</a>`) //Link to go registration page if they have no account already.
+                    //Link to go registration page if they have no account already.
+                    document.write(`<a href=${registration_action}>Register</a>`) 
                 </script>
             </div>
         </div>
@@ -74,5 +78,8 @@
     }
 
 </script>
-
+    <br>
+    <!-- Button that allows the user to go back to the products page -->
+    <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'index.html';">
+    <br>
 </html>
