@@ -6,29 +6,32 @@
 <html>
     <script>
         // Loads params to the page
-		let params = (new URL(document.location)).searchParams;
-	    window.onload = () =>  {
+        window.onload = function()  {
+        let params = (new URL(document.location)).searchParams;
 		if(params.has('purchase')) {
-			var quantities = JSON.parse(params.get('quantity'));
-			for(i in quantities) {
-				order_form[`quantity[${i}]`].value = quantities[i];
-			}
-		}
-		
-		// Alerts the user to any errors during purchase
-		if(params.has('errors')) {
-			var errors = JSON.parse(params.get('errors')); 
-			let err_str = '';
-			for(err in  errors) {
-				err_str += errors[err] + '\n';
-			}
-			alert(err_str);
-		}
-	}
-
-    // Borrowed from lab 12
-    // Prevents user from moving to invoice page
-    function isNonNegInt(q, return_errors = false) {
+			 // Checks to if any quantity is invalid
+             for (i = 0; i < products.length; i++) {
+                if (params.has(`quantity${i}`)) {
+                    a_qty = params.get(`quantity${i}`);
+                    // Makes textboxes sticky in case of invalid data
+                    quantity_form[`quantity${i}`].value = a_qty;
+                    checkQuantityTextbox(quantity_form[`quantity${i}`]); 
+                }
+            }
+            // Alerts the user of errors 
+            if (params.has('error')) {
+                var errors = JSON.parse(params.get('error'));
+                let error_str = '';
+                for (err in errors) {
+                    error_str += errors[err] + '\n';
+                }
+                alert(error_str);
+            }
+        }
+    }
+        // Borrowed from lab 12
+        // Prevents user from moving to invoice page
+        function isNonNegInt(q, return_errors = false) {
             errors = []; // No Errors
             if (q == '') q = 0; // Returns to page if input is 0
                 if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Checks if string is a number value

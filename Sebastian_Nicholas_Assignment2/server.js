@@ -43,14 +43,14 @@ function isNonNegInt(q, returnErrors = false) {
 // Register  & Login section ------------------------------------------------------------------------------------------
 var fs = require('fs');
 var filename = './user_data.json';
-// This  object will hold our quantites when we move to the login/register page
+// This  object will hold our quantites when we move to the login register page
 var temp_qty_data = {};
 
 if (fs.existsSync(filename)) {
     var data = fs.readFileSync(filename, 'utf-8');
     var user_data = JSON.parse(data);
-    //if the file does not exists, the console willl show the nme of the file, and tell the file is not exist.
     }else{
+        // Output if file does not exist 
         console.log(`${filename} does not exist!`);
   }
   
@@ -183,16 +183,16 @@ app.post("/process_register", function (req, res) {
         // Adds email to the query
         params.append('email', user_data[username].email); 
         // Send the user to invoice page with query string
-        res.redirect('invoice.html' + params.toString());
+        res.redirect('./invoice.html' + params.toString());
     }else{
         //if error occurs, redirect back to register page
         req.body['reg_errors'] = JSON.stringify(reg_errors);
         let params = new URLSearchParams(req.body);
-        res.redirect('register.html' + params.toString());
+        res.redirect('./register.html' + params.toString());
       }
     });
 
-    // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
+    // Get the quanitity data from the order form, then sends to invoice
     app.post("/process_form", function (request, response, next) {
     let POST = request.body;
 
