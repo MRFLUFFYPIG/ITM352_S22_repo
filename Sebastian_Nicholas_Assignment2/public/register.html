@@ -8,11 +8,11 @@
     // Checkes for erros from previous page
     let params = (new URL(document.location)).searchParams;
     window.onload = function () {
-      if (params.has('reg_errors')) {
+    if (params.has('reg_errors')) {
         var errors = JSON.parse(params.get('reg_errors'));
         console.log("invalid");
         // Makes the register form sticky
-        for (i = 0; i < register.elements.length; i++) {
+    for (i = 0; i < register.elements.length; i++) {
             register[i].value = params.get(register[i].name);
                  if (typeof errors[register[i].name] != 'undefined') {
                     document.getElementById(register[i].name + '_error').innerHTML = errors[register[i].name];
