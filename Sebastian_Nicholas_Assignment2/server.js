@@ -8,10 +8,19 @@
 // Variables & Express
 var express = require('express'); 
 var app = express(); 
+var myParser = require("body-parser");
+
 var products_array = require('./products_data.json');
 var products = products_array;
+
+var fs = require('fs');
+var filename = './user_data.json';
 var querystring = require("querystring");
 var temp_qty_data = {};
+
+// This  object will hold our quantites when we move to the login register page
+var temp_qty_data = {};
+
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
@@ -20,7 +29,7 @@ app.all('*', function (request, response, next) {
 
 //Get request for products data
 app.get('/products_data.json', function (request, response) {
-    response.type('.js');
+    response.type('.json');
     var products_str = `var products = ${JSON.stringify(products)};`;
     response.send(products_str);
 });
@@ -40,14 +49,9 @@ function isNonNegInt(q, returnErrors = false) {
     return returnErrors ? errors : (errors.length == 0);
 }
 
-// Register  & Login section ------------------------------------------------------------------------------------------
-var fs = require('fs');
-var filename = './user_data.json';
-// This  object will hold our quantites when we move to the login register page
-var temp_qty_data = {};
 
 if (fs.existsSync(filename)) {
-    var data = fs.readFileSync(filename, 'utf-8');
+    var products_array = fs.readFileSync(filename, 'utf-8');
     var user_data = JSON.parse(data);
     }else{
         // Output if file does not exist 
@@ -73,21 +77,21 @@ app.post("/process_login", function (req, res) {
             let params = new URLSearchParams(temp_qty_data); 
             params.append('username', the_username); 
             params.append('email', user_data[the_username].email); 
-            res.redirect('invoice.html' + params.toString());
+            res.redirect('/invoice.html' + params.toString());
         return;
     
-    } else { 
-        // If the password has error, push an error
+    }else{ 
+        // If the password has error output
         req.query.username = the_username;
         req.query.LoginError = 'Invalid Password';
         }
-    } else { 
-        // If the username has error, push an error 
+    }else{ 
+        // If the username has error output
         req.query.LoginError = 'Invalid Username';
 }
 params = new URLSearchParams(req.query);
 // Redirects back to login page if there is an error
-res.redirect('login.html' + params.toString());
+res.redirect('./login.html' + params.toString());
 });
     
     
@@ -142,7 +146,7 @@ app.post("/process_register", function (req, res) {
     }
     
     // Email validation 
-    // Setup email limitations (from w3resource https://www.w3resource.com/javascript/form/email-validation.php)
+    // Referenced from w3resource https://www.w3resource.com/javascript/form/email-validation.php)
     // Email only allows certain characters
     if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body.email)) {
       }else{
@@ -188,7 +192,7 @@ app.post("/process_register", function (req, res) {
         //if error occurs, redirect back to register page
         req.body['reg_errors'] = JSON.stringify(reg_errors);
         let params = new URLSearchParams(req.body);
-        res.redirect('./register.html' + params.toString());
+        res.redirect('register.html' + params.toString());
       }
     });
 
@@ -232,12 +236,13 @@ app.post("/process_register", function (req, res) {
         for(i in request.body.quantity){
             products[i].inventory -= Number(request.body.quantity[i]);
         }
-        // Redirects to Register Page
-        response.redirect('./register.html' + querystring.stringify(qty));
-    } else {
+        // Redirects to login page
+        temp_qty_data = qty;
+        response.redirect('./login.html');
+    }else{
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
-            response.redirect('./products_display.html' + querystring.stringify(qty) + '&err_obj='+qty.errors);
+        response.redirect('./products_display.html' + '&err_obj='+qty.errors);
    }
 });
 

@@ -1,21 +1,20 @@
 <!-- Nicholas Sebatian -->
+<!-- Invoice Page -->
 
 <!--Link invoice.css-->
 <link href="invoice.css" rel="stylesheet" />
 
 <!-- Loads product array from json file -->
-<script src="products_data.json"></script>
+<script src="/Sebastian_Nicholas_Assignment2/products_data.json"></script>
 <script src="/Assignments/Nicholas_Sebastian_Assignment2/user_data.json" type="json"></script>
 
 <script>
     // Load params
     let params = (new URL(document.location)).searchParams;
-
-    // If logged in, put a welcome message, otherwise send them to login
     if (params.has('username')) {
     var username = params.get('username');
     }else{
-    // If not logged in, send them to the login page
+    // If not logged in, redirect back to login page
     window.location.href = "./login.html";
 }
 </script>
@@ -24,7 +23,7 @@
     //  If params has a valid quantity then parse
     if (params.has("quantity")) {
         var quantities = JSON.parse(params.get('quantity'));
-  }
+    }
   // Function to create table
   function generate_item_rows(product_quantities_array) {
     for (i in products) {
@@ -42,7 +41,7 @@
       // Borrowed from lab 8
       document.write(`
           <tr>
-            <td width="43%">${products[i].brand}</td>
+            <td width="43%">${products[i].name}</td>
             <td align="center" width="11%">${product_quantities_array[i]}<br> <font color= "red" > ${errors.join('<br>')}</td>
             <td width="13%">$${products[i].price}</td>
             <td width="54%">$${extended_price.toFixed(2)}</td>
@@ -83,6 +82,16 @@
     <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:rgb(1, 2, 3); border-radius: 3rem;" >Invoice</header>
     
     <body>
+        <script>
+            // show the username to make sure they login the correct account
+            if (username != 'undefined' && username != '') {
+                //if the username is correct, then show this
+                document.write(`<div class="center"><h5><b>${username}! Please Review Your Itmes Below!</b><h5></div>`)
+            }
+            else {
+                document.write(``)
+            }
+        </script>
       <table>
             <tr>
                 <th>Item</th>
@@ -140,6 +149,13 @@
 
         <!-- Main table for the invoice -->
         <br>
+        <!-- Quantities -->
+        <tr>
+            <td style="text-align: center;font-family: sans-serif;" colspan="3" width="67%"> Quantitie </td>
+            <td width="54%">
+                <script>document.write(total_qua);</script>
+            </td>
+        </tr>
         <!-- Sub-Total-->
         <tr>
             <td style="text-align: center;font-family: sans-serif;" colspan="3" width="40%">Sub-total</td>
