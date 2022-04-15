@@ -69,7 +69,7 @@ app.post("/process_login", function (req, res) {
         if (user_data[the_username].password == req.body.password) { 
             // Put the stored quanity data into the query
             // Adds username to the query
-            //to get the username and email from the informaation that user entered, and store it in the temp_qty_data
+            // Stores user information in temp_qty_data
             let params = new URLSearchParams(temp_qty_data); 
             params.append('username', the_username); 
             params.append('email', user_data[the_username].email); 
@@ -77,12 +77,12 @@ app.post("/process_login", function (req, res) {
         return;
     
     } else { 
-        //if the password has error, push an error
+        // If the password has error, push an error
         req.query.username = the_username;
         req.query.LoginError = 'Invalid Password';
         }
     } else { 
-        //if the username has error, push an error 
+        // If the username has error, push an error 
         req.query.LoginError = 'Invalid Username';
     
 }
