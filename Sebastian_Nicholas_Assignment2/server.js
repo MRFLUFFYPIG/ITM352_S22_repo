@@ -233,7 +233,7 @@ app.post("/process_register", function (req, res) {
             products[i].inventory -= Number(request.body.quantity[i]);
         }
         // Redirects to Register Page
-        response.redirect('./login.html' + querystring.stringify(qty));
+        response.redirect('./register.html' + querystring.stringify(qty));
     } else {
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
