@@ -39,12 +39,8 @@ function isNonNegInt(q, returnErrors = false) {
     }
     return returnErrors ? errors : (errors.length == 0);
 }
-//From lab 12
-// Gives access to data inside products_data.js
-app.use(express.urlencoded ({extended: true }));
 
-
-// Register  & Login section
+// Register  & Login section ------------------------------------------------------------------------------------------
 var fs = require('fs');
 var filename = './user_data.json';
 // This  object will hold our quantites when we move to the login/register page
@@ -54,16 +50,15 @@ if (fs.existsSync(filename)) {
     var data = fs.readFileSync(filename, 'utf-8');
     var user_data = JSON.parse(data);
     //if the file does not exists, the console willl show the nme of the file, and tell the file is not exist.
-  } else {
-    console.log(`${filename} does not exist!`);
+    }else{
+        console.log(`${filename} does not exist!`);
   }
   
 //From lab 13 
 //to access inputted data from product_data.js
 app.use(express.urlencoded ({extended: true }));
   
-    
-// Login Page
+// Login Page ---------------------------------------------------------------------------------------------------------
 app.post("/process_login", function (req, res) {
     // Process login form POST and redirect to logged in page if ok, back to login page if not
     var the_username = req.body.username.toLowerCase(); 
@@ -97,7 +92,7 @@ res.redirect('login.html' + params.toString());
 });
     
     
-// Register 
+// Register Page -------------------------------------------------------------------------------------------------------
 // Checks for valid information
 app.post("/process_register", function (req, res) {
     console.log(req.body);
