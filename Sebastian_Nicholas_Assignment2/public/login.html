@@ -10,7 +10,8 @@
     //let the users know if they have errors on username or password
     let params = (new URL(document.location)).searchParams;
     window.onload = function () {
-      if (params.has('LoginError')) {// if errors occurs, give alert
+      if (params.has('LoginError')) {
+        // Alert the user if there are any loing errors
         alert(params.get('LoginError'));
       }
       if (params.has('username')) {
@@ -111,7 +112,7 @@
           width: 100%;
         }
       }
-      
+
     </style>
     <form action="/process_login" method="POST" name="login_form">
       <div class="container">
@@ -129,7 +130,7 @@
 
       <div>
         <script>
-          // if user does not have a account yet, they can click the text Sign Up Now in order to register.
+          // If user does not have a account yet, they can click the text Sign Up Now in order to register.
           document.write(`<p><center>Don't haven an account with us? <a href="register.html${location.search}"> Sign Up Now!</a>.</p></center>`);
         </script>
       </div>

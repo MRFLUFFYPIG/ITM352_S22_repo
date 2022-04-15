@@ -84,7 +84,6 @@ app.post("/process_login", function (req, res) {
     } else { 
         // If the username has error, push an error 
         req.query.LoginError = 'Invalid Username';
-    
 }
 params = new URLSearchParams(req.query);
 // Redirects back to login page if there is an error
@@ -193,7 +192,6 @@ app.post("/process_register", function (req, res) {
       }
     });
 
-
     // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
     app.post("/process_form", function (request, response, next) {
     let POST = request.body;
@@ -206,10 +204,11 @@ app.post("/process_register", function (req, res) {
     for(i in request.body.quantity) {
         // Checks if there are NonNegInt
         // Borrowed from lab 12
-        if(isNonNegInt(request.body.quantity[i]) == false) { //
+        if(isNonNegInt(request.body.quantity[i]) == false) { 
             console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
             errors['quantity'+i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
         }
+
         // Checks if we have enough products in stock
         if(request.body.quantity[i]>products[i].inventory){
             errors['inventory'+i] = `Stock does not have ${request.body.quantity[i]} pairs for ${products[i].brand}`;
