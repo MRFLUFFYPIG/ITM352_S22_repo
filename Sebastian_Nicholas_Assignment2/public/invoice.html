@@ -10,6 +10,14 @@
 <script>
     // Load params
     let params = (new URL(document.location)).searchParams;
+
+    // If logged in, put a welcome message, otherwise send them to login
+    if (params.has('username')) {
+    var username = params.get('username');
+    }else{
+    // If not logged in, send them to the login page
+    window.location.href = "./login.html";
+}
 </script>
 
 <script>
