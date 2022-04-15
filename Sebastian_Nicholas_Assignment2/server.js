@@ -16,8 +16,6 @@ var products = products_array;
 var fs = require('fs');
 var filename = './user_data.json';
 var querystring = require("querystring");
-
-
 // This  object will hold our quantites when we move to the login register page
 var temp_qty_data = {};
 
@@ -76,7 +74,7 @@ app.post("/process_login", function (req, res) {
             let params = new URLSearchParams(temp_qty_data); 
             params.append('username', the_username); 
             params.append('email', user_data[the_username].email); 
-            res.redirect('/invoice.html' + params.toString());
+            res.redirect('./invoice.html?' + params.toString());
         return;
     
     }else{ 
@@ -191,7 +189,7 @@ app.post("/process_register", function (req, res) {
         //if error occurs, redirect back to register page
         req.body['reg_errors'] = JSON.stringify(reg_errors);
         let params = new URLSearchParams(req.body);
-        res.redirect('register.html' + params.toString());
+        res.redirect('register.html?' + params.toString());
       }
     });
 
@@ -237,11 +235,11 @@ app.post("/process_register", function (req, res) {
         }
         // Redirects to login page
         temp_qty_data = qty;
-        response.redirect('./login.html');
+        response.redirect('./login.html?');
     }else{
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
-        response.redirect('./products_display.html' + '&err_obj='+qty.errors);
+        response.redirect('./products_display.html?' + '&err_obj='+qty.errors);
    }
 });
 
