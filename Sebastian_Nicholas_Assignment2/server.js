@@ -11,7 +11,7 @@ var app = express();
 var products_array = require('./products_data.json');
 var products = products_array;
 var querystring = require("querystring");
-
+var temp_qty_data = {};
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
@@ -58,105 +58,120 @@ if (fs.existsSync(filename)) {
     console.log(`${filename} does not exist!`);
   }
   
-  //From lab 13 
-  //to access inputted data from product_data.js
-  app.use(express.urlencoded ({extended: true }));
+//From lab 13 
+//to access inputted data from product_data.js
+app.use(express.urlencoded ({extended: true }));
   
     
-    // Login Page
-    app.post("/process_login", function (req, res) {
-      // Process login form POST and redirect to logged in page if ok, back to login page if not
-      var the_username = req.body.username.toLowerCase(); //username in lowercase
+// Login Page
+app.post("/process_login", function (req, res) {
+    // Process login form POST and redirect to logged in page if ok, back to login page if not
+    var the_username = req.body.username.toLowerCase(); 
     
-      if (typeof user_data[the_username] != 'undefined') { //matching username
-        if (user_data[the_username].password == req.body.password) { //if all the info is correct, then redirect to the invoice page
-          // Put the stored quanity data into the query
-          //add username to query to know who's login
-          //to get the username and email from the informaation that user entered, and store it in the temp_qty_data
-          let params = new URLSearchParams(temp_qty_data); //put the temp_qty_data inside the params
-          params.append('username', the_username); // add the username to the query
-          params.append('email', user_data[the_username].email); // add email to the query
-          res.redirect('/invoice.html' + params.toString());//if good to go, send to invoice page with the username and email to the string
-          return;
+    // Cheks for Matching username
+    if (typeof user_data[the_username] != 'undefined') { 
+        // If passes then redirect to the invoice page
+        if (user_data[the_username].password == req.body.password) { 
+            // Put the stored quanity data into the query
+            // Adds username to the query
+            //to get the username and email from the informaation that user entered, and store it in the temp_qty_data
+            let params = new URLSearchParams(temp_qty_data); 
+            params.append('username', the_username); 
+            params.append('email', user_data[the_username].email); 
+            res.redirect('invoice.html' + params.toString());
+        return;
     
-        } else { //if the password has error, push an error
-          req.query.username = the_username;
-          req.query.LoginError = 'Invalid Password';
+    } else { 
+        //if the password has error, push an error
+        req.query.username = the_username;
+        req.query.LoginError = 'Invalid Password';
         }
-      } else { //if the username has error, push an error 
+    } else { 
+        //if the username has error, push an error 
         req.query.LoginError = 'Invalid Username';
     
-      }
-      params = new URLSearchParams(req.query);
-      res.redirect('./login.html' + params.toString());//redirect to login page if there is a error
-    });
+}
+params = new URLSearchParams(req.query);
+// Redirects back to login page if there is an error
+res.redirect('login.html' + params.toString());
+});
     
     
-    // Register 
-    // Checks for valid information
-    app.post("/process_register", function (req, res) {
+// Register 
+// Checks for valid information
+app.post("/process_register", function (req, res) {
     console.log(req.body);
 
     // Object sets errors to 0
     var reg_errors = {};
-    var reg_username = req.body.username.toLowerCase(); //register username in lowercase
+    // Sets usernames to lowcase
+    var reg_username = req.body.username.toLowerCase(); 
     
-      // Full name validation 
-      // Checks if name is correct 
-      if (/^[A-Za-z, ]+$/.test(req.body.fullname)) { 
+    // Full name validation 
+    // Checks if name is correct 
+    if (/^[A-Za-z, ]+$/.test(req.body.fullname)) { 
         }else{
-            // Checks if name has any errors
-            reg_errors['fullname'] = 'Only Letters allowed for Full Name (Ex. Alex Smith)';
-      }
-    
-      // Checks if name is between 30 and 1 charactes 
-      if (req.body.fullname.length > 30 && req.body.fullname.length < 1) { 
+        // Checks if name has any errors
+        reg_errors['fullname'] = 'Only Letters allowed for Full Name (Ex. Alex Smith)';
+    }
+
+    // Checks if name is between 30 and 1 charactes 
+    if (req.body.fullname.length > 30 && req.body.fullname.length < 1) { 
         // If character length does not match
         reg_errors['fullname'] = 'Fullname must contain Maximum 30 Characters';
-      }
+    }
     
-      // Username validation 
-      // Check if the length of username is less than 4 or greater than 10
-      if (req.body.username.length > 10 || req.body.username.length < 4) { 
-            // if enter invalid length, put wrong
+    // Username validation 
+    // Check if the length of username is less than 4 or greater than 10
+    if (req.body.username.length > 10 || req.body.username.length < 4) { 
+        // if enter invalid length, put wrong
         reg_errors['username'] = 'Minimum of 4 characters and maximum of 10 characters';
-      }
+    }
+      
+    // Checks if username is avaliable 
+    if (typeof user_data[reg_username] != 'undefined') { 
+
+        reg_errors['username'] = 'This username is already taken!';
+    }
     
-      if (typeof user_data[reg_username] != 'undefined') { //check if the username is taken or not
-        reg_errors['username'] = 'This username is already registered!';//if the username is taken, show this
-      }
+    // Checks if the username is empty or not
+    if (typeof user_data[reg_username] == '') { 
+        // Outputs if there is an error
+        reg_errors['username'] = 'You need a username!'; 
+    }
     
+    // Checks if username only has letterss and numbers
+    if (/^[0-9a-zA-Z]+$/.test(req.body.username)) {
+      }else{
+        //if the user enter a wrong username, show this
+        reg_errors['username'] = 'Username is Letters and Numbers Only (Ex. Abc123)';
+    }
     
-      if (typeof user_data[reg_username] == '') { //check if the username is empty or not
-        reg_errors['username'] = 'You need a username!'; // if invalid, show this
-      }
+    // Email validation 
+    // Setup email limitations (from w3resource https://www.w3resource.com/javascript/form/email-validation.php)
+    // Email only allows certain characters
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body.email)) {
+      }else{
+        // Outputs error message 
+        reg_errors['email'] = 'Must enter a valid email (Ex. username@mailserver.domain).';
+    }
     
-      if (/^[0-9a-zA-Z]+$/.test(req.body.username)) {//username only letter and number
-      }
-      else {
-        reg_errors['username'] = 'Username is Letters and Numbers Only (Ex. Abc123)';//if the user enter a wrong username, show this
-      }
+    // Password validation 
+    //Checkls if password length is to be 7 characters or more
+    if (req.body.password.length < 7) {
+        // Outputs error message
+        reg_errors['password'] = 'Minimum: 7 Characters';
+    }
     
-      // Email validation 
-      // Setup email limitations (from w3resource https://www.w3resource.com/javascript/form/email-validation.php)
-      if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body.email)) {// Email only allows certain character for x@y.z
-      }
-      else {
-        reg_errors['email'] = 'Must enter a valid email (Ex. username@mailserver.domain).';//otherwise, show this to the user
-      }
+    // Repeat Password validation 
+    // Checks if the repeat password is matching password
+    if (req.body.password !== req.body.repeat_password) {  
+        // Outputs error message
+        reg_errors['repeat_password'] = 'Repeat password not the same as password!';
+    }
     
-      // Password validation 
-      if (req.body.password.length < 6) {//password length need to be 6 characters or more
-        reg_errors['password'] = 'Minimum: 6 Characters';// otherwise, show this
-      }
-    
-      // Repeat Password validation 
-      if (req.body.password !== req.body.repeat_password) {  // check if the repeat password is matching password
-        reg_errors['repeat_password'] = 'Repeat password not the same as password!';// if not, show this
-      }
-    
-      // If no errors then save new user and redirect to invoice, otherwise back to registration form and note errors
-      if (Object.keys(reg_errors).length == 0) {
+    // If no errors then save new user and redirect to invoice, otherwise back to registration form and note errors
+    if (Object.keys(reg_errors).length == 0) {
         //If user enterd valid information, then save and store in JSON file 
         console.log('no errors')
         var username = req.body['name'].toLowerCase();
@@ -169,16 +184,17 @@ if (fs.existsSync(filename)) {
         // Put the stored quanitiy data into the temp_qty_data
         //get the username and email from the register information
         let params = new URLSearchParams(temp_qty_data);
-        params.append('username', username); // add the username to the query
-        params.append('email', user_data[username].email); // add email to the query
-        res.redirect('./invoice.html' + params.toString());// if good to go, send the user to invoice page with query string
-      }
-    
-      //if error occurs, redirect to register page
-      else {
+        // Adds the username to the query
+        params.append('username', username); 
+        // Adds email to the query
+        params.append('email', user_data[username].email); 
+        // Send the user to invoice page with query string
+        res.redirect('invoice.html' + params.toString());
+    }else{
+        //if error occurs, redirect back to register page
         req.body['reg_errors'] = JSON.stringify(reg_errors);
         let params = new URLSearchParams(req.body);
-        res.redirect('./register.html' + params.toString());
+        res.redirect('register.html' + params.toString());
       }
     });
 
@@ -188,7 +204,7 @@ if (fs.existsSync(filename)) {
     let POST = request.body;
 
     // Checks if quantities are valid (nonnegint and have inventory)
-    // this object holds errors the server finds
+    // This object holds errors the server finds
     var errors = {};
 
     // For loop for quantities 
@@ -223,14 +239,13 @@ if (fs.existsSync(filename)) {
             products[i].inventory -= Number(request.body.quantity[i]);
         }
         // Redirects to Register Page
-        response.redirect('./register.html' + querystring.stringify(qty));
+        response.redirect('./login.html' + querystring.stringify(qty));
     } else {
         // Redirects back to products display
         qty.errors = JSON.stringify(errors);
             response.redirect('./products_display.html' + querystring.stringify(qty) + '&err_obj='+qty.errors);
    }
 });
-
 
 // Routes to the public folder
 app.use(express.static('./public'));
