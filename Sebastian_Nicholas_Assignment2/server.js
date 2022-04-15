@@ -93,11 +93,11 @@ if (fs.existsSync(filename)) {
     
     
     // Register 
-    //to make sure the user put in valid information
+    // Checks for valid information
     app.post("/process_register", function (req, res) {
     console.log(req.body);
 
-    // assume no register errors from the start, so set no register errors 
+    // Object sets errors to 0
     var reg_errors = {};
     var reg_username = req.body.username.toLowerCase(); //register username in lowercase
     
