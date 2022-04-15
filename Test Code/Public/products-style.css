@@ -1,0 +1,152 @@
+ /* General */
+ 
+
+ html {
+  
+    font-family: 'Raleway', sans-serif;
+    background-color: blanchedalmond;
+    font-size: 10px;
+    
+  }
+  
+  body {
+    width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Typography */
+  
+  
+  h1, h2 {
+    
+    font-family: 'Cherry Swash', cursive;
+    margin: 0;
+    
+    text-align: center;
+  }
+  
+  
+  h1 {
+    font-size: 7rem;
+    background-size: 60px 60px;
+    background-blend-mode: lighten;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    color: rgb(56, 129, 212);
+    text-align: left;
+    width: 160px;
+    position: absolute;
+    right: 4%;
+   
+    /*
+    z-index: 3000;
+    line-height: 0;
+    padding-top: 0.9rem;
+    */
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 1.5rem;
+  }
+  
+  
+  /* block styling */
+  
+  
+  header, aside, main, footer {
+    padding: 10px;
+  }
+  
+    
+  footer h1 {
+    font-style: italic;
+    font-size: 3rem;
+    position:relative
+  }
+  
+  aside {
+    flex: 3;
+  }
+  
+  main {
+    flex: 7;
+  }
+  
+  
+  /*  Form styling */
+  
+  main {
+    display: flex;
+    border: mediumblue;
+    border-radius: 2rem;
+    flex-flow: row;
+    justify-content: space-around;
+  }
+  
+  
+  aside {
+    display: medium;
+    align-items: large;
+    background: url(images/board.jpg) no-repeat 100% center;
+    padding: 30px 0;
+  }
+  
+  aside div {
+    margin-bottom: 20px;
+  }
+  
+  
+  /* Styling the products */
+  
+  
+  section {
+    width: 200%;
+    margin: 5px;
+    background-color: lightskyblue;
+    position: relative;
+    height: 300px;
+  }
+  
+  section p {
+    color: white(56, 129, 212);
+    background: grey;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border:mediumblue;
+    border-radius: 10rem;
+    box-shadow: 2px 2px 1px rgb(56, 129, 212);
+    position: absolute;
+    right: 1px;
+    bottom: 226px;
+    z-index: 3000;
+  }
+  
+  
+  .item {
+    background-size: 200px 24px;
+  }
+  
+  
+  .item img {
+      width: 170.5px;
+      height: 200px; 
+      border: blue;
+      border-radius: 2rem;
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      
+  }
+  label{
+    font-size: 1.6rem;
+  }
+  
