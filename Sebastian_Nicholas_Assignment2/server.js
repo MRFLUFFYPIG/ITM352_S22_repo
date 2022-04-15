@@ -16,7 +16,7 @@ var products = products_array;
 var fs = require('fs');
 var filename = './user_data.json';
 var querystring = require("querystring");
-var temp_qty_data = {};
+
 
 // This  object will hold our quantites when we move to the login register page
 var temp_qty_data = {};
@@ -44,14 +44,13 @@ function isNonNegInt(q, returnErrors = false) {
                 if(q>10) errors.push('Not enough in stock. '); //checks quanitity
                     if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
                         if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-
     }
     return returnErrors ? errors : (errors.length == 0);
 }
 
 
 if (fs.existsSync(filename)) {
-    var products_array = fs.readFileSync(filename, 'utf-8');
+    var data = fs.readFileSync(filename, 'utf-8');
     var user_data = JSON.parse(data);
     }else{
         // Output if file does not exist 
@@ -187,7 +186,7 @@ app.post("/process_register", function (req, res) {
         // Adds email to the query
         params.append('email', user_data[username].email); 
         // Send the user to invoice page with query string
-        res.redirect('./invoice.html' + params.toString());
+        res.redirect('/invoice.html?' + params.toString());
     }else{
         //if error occurs, redirect back to register page
         req.body['reg_errors'] = JSON.stringify(reg_errors);
