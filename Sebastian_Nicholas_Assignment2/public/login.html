@@ -1,83 +1,140 @@
 <!-- Nicholas Sebastian -->
-<!-- Login Page for the site -->
+<!-- Login Page for Site -->
 
-<script>
-
-    var params = (new URL(document.location)).searchParams; 
-    var login_action = "login.html";
-    //Keeps the quantities around for login only .
-    login_action += params; 
-
-    //Keeps the quantities around for register only.
-    var registration_action = "register.html";
-    registration_action += params; 
-</script>
+<script src="/Assignments/Nicholas_Sebastian_Assignment2/user_data.json" type="json"></script>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In Page</title>
+  <script>
+    //let the users know if they have errors on username or password
+    let params = (new URL(document.location)).searchParams;
+    window.onload = function () {
+      if (params.has('LoginError')) {// if errors occurs, give alert
+        alert(params.get('LoginError'));
+      }
+      if (params.has('username')) {
+        usernameid.value = params.get('username')
+      }
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
 </head>
 
 <body>
-    <div class=container>
-        <div class=login_card>
-                <div class=header>Log In</div>
-                <script> //Post the form to itself so that I can keep the quantities in the query
-                    document.write(`<form name="login_fields" action=${login_action} method="POST">
-                    <input type="text" name="username" size="40" placeholder="Username" ><br>`)
-                </script>
-                <script>
-                    //Selecting which error message to display depending on the error received from server-side
-                    //If username doesn't match 
-                    if (params.get("attempted_login") == "true" && params.get("login_username_check") == "does_not_exist") { 
-                        document.write(`<div class="invalid_username"> Please enter a valid username </div>`)
-                    } else {
-                        document.write(`<br>`)
-                    }
-                </script>
-                <input type="password" name="password" size="40" placeholder="Password"><br>
-                <script>
-                    //If the password doesn't match 
-                    if (params.get("login_password") == "incorrect") { 
-                        document.write(`<div class="invalid_password"> Incorrect Password </div>`)
-                    }
-                </script>
+  <div class="imgcontainer">
     
-                <input type="submit" value="Log In" id="submit">
+    <style>
+      aside {
+        display: flex;
+        align-items: stretch;
+        background: no-repeat 50% center;
+        padding: 50px 0;
+      }
 
-                </form>
-            <div class=no_account>
-                New user?
-                <script>
-                    //Link to go registration page if they have no account already.
-                    document.write(`<a href=${registration_action}>Register</a>`) 
-                </script>
-            </div>
-        </div>
+      /* Bordered form */
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
 
+      form {
+        border: 3px solid #f1f1f1;
+      }
+
+      /* Full-width inputs */
+      input[type=text],
+      input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      /* Set a style for all buttons */
+      button {
+        background-color: rgb(67, 24, 221);
+        color: white;
+        padding: 14px 20px;
+        margin: 4px 0;
+        border: auto;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      /* Add a hover effect for buttons */
+      button:hover {
+        opacity: 0.8;
+      }
+
+      /* Extra style for the cancel button (red) */
+      .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: tan;
+      }
+
+      /* Center the avatar image inside this container */
+      .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+      }
+
+      /* Avatar image */
+      img.avatar {
+        width: 40%;
+        border-radius: 50%;
+      }
+
+      /* Add padding to containers */
+      .container {
+        padding: 16px;
+      }
+
+      /* The "Forgot password" text */
+      span.psw {
+        float: right;
+        padding-top: 16px;
+      }
+
+      /* Change styles for span and cancel button on extra small screens */
+      @media screen and (max-width: 300px) {
+        span.psw {
+          display: block;
+          float: none;
+        }
+
+        .cancelbtn {
+          width: 100%;
+        }
+      }
+    </style>
+    <form action="/process_login" method="POST" name="login_form">
+      <div class="container">
+        <label for="username"><b>Username</b></label>
+        <input id="usernameid" type="text" placeholder="Enter Username" name="username"
+          onchange='this.value=this.value.toLowerCase();' required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button class="log-in" type="submit" value="Login" name="login"> Login </button>
+
+        <input type="button" onClick="location.href='index.html'" class="cancelbtn" value='Cancel'>
+      </div>
+
+      <div>
+        <script>
+          // if user does not have a account yet, they can click the text Sign Up Now in order to register.
+          document.write(`<p><center>Don't haven an account with us? <a href="register.html${location.search}"> Sign Up Now!</a>.</p></center>`);
+        </script>
+      </div>
+    </form>
 </body>
-
-<script>
-
-    //Makes username login field sticky. Not the password though for security reasons.
-    var entered_username = params.get("login_username");
-
-    if (params.get("attempted_login") == "true") {
-        login_fields["username"].value = entered_username; //making username sticky
-    };
-    if (params.get("login") == "no_login_entered") {
-        alert("Please enter your username.") //if there is no username inputted, then it sends an alert.
-    }
-    if (params.get("registration_successful") == "true") { //This pops up after the registration. It just made more sense to me to have the customer test out the account after they register.
-        alert("Registration successful! Please log in to continue.")
-    }
-
-</script>
     <br>
     <!-- Button that allows the user to go back to the products page -->
     <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'index.html';">
