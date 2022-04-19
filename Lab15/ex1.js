@@ -1,6 +1,3 @@
-var cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 var users_reg_data = require("./user_data.json");
 
 // Ex1a
@@ -26,8 +23,10 @@ if (fs.existsSync(filename)) {
 
 // Ex3
 var express = require('express');
-const res = require('express/lib/response');
 var app = express();
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -107,6 +106,12 @@ app.get("/register", function (request, response) {
     response.send(`cookie sent for ${myname}`);
 
  });
+
+ app.get("/get_cookie", function (request, response) {
+    console.log(request.cookies);
+    response.send(`Welcome to the Use Cookie Page ${request.cookies['users_name']}`);
+ });
+
 
 
 
