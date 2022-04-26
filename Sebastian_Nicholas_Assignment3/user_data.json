@@ -1,0 +1,20 @@
+{
+    "itm352@hawaii.edu": {
+        "name": "ITM 352",
+        "password": "grader"
+    },
+    "dport@hawaii.edu": {
+        "name": "Dan Port",
+        "password": "portspassword"
+    },
+    "kazman@hawaii.edu": {
+        "name": "Rick Kazman",
+        "password": "kazmanpassword"
+        
+    },
+    "nfs37@hawaii.edu": {
+        "name": "Nicholas Sebastian",
+        "password": "Zenpassword"
+    
+    }
+}

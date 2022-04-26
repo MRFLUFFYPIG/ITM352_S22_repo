@@ -1,0 +1,162 @@
+{
+    "Shoes": [{
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 5
+    }
+    ],
+
+
+
+    "Shirts": [{
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    }
+    ,
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    }
+    ],
+
+
+
+    "Shorts": [{
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    }
+    ,
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 6
+    }
+    ],
+
+
+
+    "Other": [{
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    },
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    }
+    ,
+    {
+        "name": "",
+        "price": 0.00,
+        "image": "",
+        "quantity_available": 3
+    }
+    ]
+}
