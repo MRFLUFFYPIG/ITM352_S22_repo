@@ -26,6 +26,7 @@ var express = require('express');
 var app = express();
 
 var cookieParser = require('cookie-parser');
+const res = require("express/lib/response");
 app.use(cookieParser());
 
 
@@ -100,19 +101,29 @@ app.get("/register", function (request, response) {
     }
  });
 
- app.get("/set_cookie", function (request, response) {
-    var myname = "Dan Port";
-    response.cookie("users_name", myname);
-    response.send(`cookie sent for ${myname}`);
 
+ app.get("/set_cookie", function(request, response) {
+    var name = "Nick Sebastian"
+    response.cookie("users_name", name, { maxAge: 5 * 1000 }); //users_name is what the cookie is called and name is the value contained in the cookie 
+    response.send(`cookie sent for ${name}`);
+});
+
+ // You can set a timer for the cookie to disapper on a timer or by the client to deleting it
+ // Express cookie set expiration
+ app.get("/expire_cookie", function (request, response) {
+    var myname = "Nick Sebastian";
+    response.cookie("users_name", myname, {expire: Date.now()});
+    // response.cookie("users_name", myname, {maxAge: 5*1000});
+    // Timer
+    /*
+    res.cookie(name, 'value', {expire: 360000 + Date.now()});
+    res.cookie(name, 'value', {maxAge: 360000}); */
+    response.send(`cookie sent for ${myname}`);
  });
 
  app.get("/get_cookie", function (request, response) {
     console.log(request.cookies);
     response.send(`Welcome to the Use Cookie Page ${request.cookies['users_name']}`);
  });
-
-
-
 
 app.listen(8080, () => console.log(`listening on port 8080`));

@@ -95,17 +95,24 @@ app.post("/register", function(request, response) {
 });
 
 app.get("/set_cookie", function(request, response) {
-    var name = "Kobi Kinoshita"
+    var name = "Nick Sebastian"
     response.cookie("users_name", name, { maxAge: 5 * 1000 }); //users_name is what the cookie is called and name is the value contained in the cookie 
     response.send(`cookie sent for ${name}`);
 });
 
-app.get("/expire_cookie", function(request, response) {
-    var name = "Kobi Kinoshita"
-    response.cookie("users_name", name, { expire: 0 }); //users_name is what the cookie is called and name is the value contained in the cookie 
-    response.send(`cookie sent for ${name}`);
-});
-
+ // You can set a timer for the cookie to disapper on a timer or by the client to deleting it
+ // Express cookie set expiration
+ app.get("/expire_cookie", function (request, response) {
+    var myname = "Nick Sebastian";
+    response.cookie("users_name", myname, {expire: Date.now()});
+    // response.cookie("users_name", myname, {maxAge: 5*1000});
+    // Timer
+    /*
+    res.cookie(name, 'value', {expire: 360000 + Date.now()});
+    res.cookie(name, 'value', {maxAge: 360000}); */
+    response.send(`cookie sent for ${myname}`);
+ });
+ 
 app.get("/use_cookie", function(request, response) {
     console.log(request.cookies); //logs the information in the cookie into the server console
     response.send(`Welcome to the Use Cookie page ${request.cookies['users_name']}`);
