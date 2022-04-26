@@ -88,7 +88,7 @@ app.get("/register", function (request, response) {
     fs.writeFileSync(filename, JSON.stringify(users));
 
     if(typeof users[request.body.username] != 'undefined') {
-        // user name exist, get the stored password and check if it matches
+        // User name exist, get the stored password and check if it matches
         if(users[request.body.username].password == request.body.password) {
             response.send(`${request.body.username} is logged in!`)
             return;
