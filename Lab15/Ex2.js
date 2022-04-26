@@ -33,6 +33,10 @@ app.get("/login", function(request, response) {
     if (typeof request.session.last_login != 'undefined') {
         last_login = request.session.last_login;
     }
+    // Give a simple login form
+    if(typeof request.cookies.username != 'undefined') {
+        wecome_msg = `Welcome ${request}`
+    }
     // Login Page
     str = `
 <body>
