@@ -1,162 +1,159 @@
 {
     "Shoes": [{
-        "name": "",
-        "price": 0.00,
-        "image": "",
+        "name": "FLUIDFLOW 2.0 SHOES",
+        "price": 80.00,
+        "image": "./images/Fluidflow_Shoe.png",
+        "quantity_available": 10
+    },
+    {
+        "name": "SUPERNOVA SHOES",
+        "price": 90.00,
+        "image": "./images/Supernova_Shoe.png",
         "quantity_available": 5
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
+        "name": "ULTRABOOST 22 SHOES",
+        "price": 190.00,
+        "image": "./images/Ultraboost_Shoe.png",
         "quantity_available": 5
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 5
+        "name": "DAILY 3.0 SHOES",
+        "price": 60.00,
+        "image": "./images/Daily_Shoe.png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 5
+        "name": "BUSENITZ PRO SHOES",
+        "price": 80.00,
+        "image": "./images/Busenitz_Shoe.png",
+        "quantity_available": 10
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 5
-    },
-    {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 5
+        "name": "DURAMO 10 SHOES",
+        "price": 65.00,
+        "image": "./images/Duramo_Shoe.png",
+        "quantity_available": 15
     }
     ],
 
 
 
     "Shirts": [{
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "FAST GRAPHIC TEE",
+        "price": 40.00,
+        "image": "./images/Fast_Graphic_Tee_Shirt.png",
+        "quantity_available": 5
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "NYC TUNNEL TYPE GRAPHIC TEE",
+        "price": 30.00,
+        "image": "./images/NYC_Tunnel_Type_Graphic_Tee_Shirt.png",
+        "quantity_available": 10
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "BADGE OF SPORT TEE (Grey)",
+        "price": 25.00,
+        "image": "./images/Badge_Of_Sport(Grey).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "BADGE OF SPORT TEE (Royal Blue)",
+        "price": 25.00,
+        "image": "./images/Badge_Of_Sport(Royal Blue).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
-    }
-    ,
+        "name": "BADGE OF SPORT TEE (Casual Blue)",
+        "price": 25.00,
+        "image": "./images/Badge_Of_Sport(Casual Blue).png",
+        "quantity_available": 15
+    },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "BADGE OF SPORT TEE (Casual Red)",
+        "price": 25.00,
+        "image": "./images/Badge_Of_Sport(Casual Red).png",
+        "quantity_available": 15
     }
     ],
 
 
 
     "Shorts": [{
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "GAME MODE SHORTS (Navy)",
+        "price": 40.00,
+        "image": "./images/Game_Mode_Shorts(Navy).png",
+        "quantity_available": 10
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "GAME MODE SHORTS (Grey)",
+        "price": 40.00,
+        "image": "./images/Game_Mode_Shorts(Grey).png",
+        "quantity_available": 10
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "TASTIGO 19 SHORTS (White)",
+        "price": 25.00,
+        "image": "./images/Tastigo_Shorts(White).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "TASTIGO 19 SHORTS (Black)",
+        "price": 25.00,
+        "image": "./images/Tastigo_Shorts(Black).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
-    }
-    ,
+        "name": "LOUNGEWEAR SHORTS (Black)",
+        "price": 35.00,
+        "image": "./images/Loungewear_Shorts(Black).png",
+        "quantity_available": 5
+    },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 6
+        "name": "LOUNGEWEAR SHORTS (Grey)",
+        "price": 35.00,
+        "image": "./images/Loungewear_Shorts(Grey).png",
+        "quantity_available": 5
     }
     ],
 
 
 
     "Other": [{
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
+        "name": "STEEL METAL BOTTLE 1L (Light Green)",
+        "price": 30.00,
+        "image": "./images/Steel_Bottle(LightBlue).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
+        "name": "STEEL METAL BOTTLE 1L (Black)",
+        "price": 30.00,
+        "image": "./images/Steel_Bottle(Black).png",
+        "quantity_available": 15
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
+        "name": "UTILITY SLING BAG",
+        "price": 40.00,
+        "image": "./images/Bag(Utility).png",
+        "quantity_available": 5
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
+        "name": "YOUNG Z FESTIVAL BAG",
+        "price": 25.00,
+        "image": "./images/Bag(Festival).png",
+        "quantity_available": 10
     },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
-    }
-    ,
+        "name": "SST PLUS STRAP-BACK HAT",
+        "price": 35.00,
+        "image": "./images/Hat(White).png",
+        "quantity_available": 10
+    },
     {
-        "name": "",
-        "price": 0.00,
-        "image": "",
-        "quantity_available": 3
+        "name": "SUPERLITE PRO PRINT HAT",
+        "price": 30.00,
+        "image": "./images/Hat(Black).png",
+        "quantity_available": 15
     }
     ]
 }
