@@ -42,37 +42,37 @@
     "Shirts": [{
         "name": "FAST GRAPHIC TEE",
         "price": 40.00,
-        "image": "./images/Fast_Graphic_Tee_Shirt.png",
+        "image": "./images/S6.png",
         "quantity_available": 5
     },
     {
         "name": "NYC TUNNEL TYPE GRAPHIC TEE",
         "price": 30.00,
-        "image": "./images/NYC_Tunnel_Type_Graphic_Tee_Shirt.png",
+        "image": "./images/S5.png",
         "quantity_available": 10
     },
     {
         "name": "BADGE OF SPORT TEE (Grey)",
         "price": 25.00,
-        "image": "./images/Badge_Of_Sport(Grey).png",
+        "image": "./images/S3.png",
         "quantity_available": 15
     },
     {
         "name": "BADGE OF SPORT TEE (Royal Blue)",
         "price": 25.00,
-        "image": "./images/Badge_Of_Sport(Royal Blue).png",
+        "image": "./images/S4.png",
         "quantity_available": 15
     },
     {
         "name": "BADGE OF SPORT TEE (Casual Blue)",
         "price": 25.00,
-        "image": "./images/Badge_Of_Sport(Casual Blue).png",
+        "image": "./images/S1.png",
         "quantity_available": 15
     },
     {
         "name": "BADGE OF SPORT TEE (Casual Red)",
         "price": 25.00,
-        "image": "./images/Badge_Of_Sport(Casual Red).png",
+        "image": "./images/S2.png",
         "quantity_available": 15
     }
     ],
