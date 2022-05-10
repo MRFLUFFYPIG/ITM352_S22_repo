@@ -1,1 +1,73 @@
 <!-- Author Nicholas Sebastian -->
+
+
+
+<!--get product data from server-->
+<script src="./products_data.js" type="text/javascript"></script>
+    
+<script>
+  //get quantities from querystring
+  let params = (new URL(document.location)).searchParams;
+  var quantities = []; //start with no quantities
+
+  if (params.has('cart')) {
+      var cart = JSON.parse(params.get('cart'));
+    }
+    //get email from query
+    email = params.get('email');
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Cart</title>
+    <link rel="stylesheet" href="./invoice-style.css">
+</head>
+<body>
+    <main>
+  <section class="Headers">
+            <h1>Item</h1>
+            <h1>Quantity</h1>
+            <h1>Price</h1>
+            <h1>Extended Price</h1>
+</section>
+
+        <script>
+            subtotal = 0; //start subtotal with 0
+
+            //generate item rows for table
+            for(pkey in cart){
+            quantities = cart[pkey];
+            for (i = 0; i < products_data[pkey].length; i++) {
+                if (quantities[i] > 0) {
+                    //calculate extended price
+                    extended_price = quantities[i] * products_data[pkey][i].price;
+                    subtotal += extended_price;
+                    //generate the product rows for table
+                    document.write(`
+                    <section class="order_info"${[i]}>
+                    <span id="name">${products_data[pkey][i].name}</span>
+                    <span id="amount">${quantities[i]}</span>
+                    <span id="price">\$${products_data[pkey][i].price}</span>
+                    <span id="ext price">\$${extended_price.toFixed(2)}</span>
+                </section>
+                    `);
+                }
+            }
+          }
+        </script>
+</main>
+<section class="added_up">
+
+    <h2>Sub-total</h2>
+        <span>$<script>document.write(subtotal.toFixed(2));</script></span>
+    </section>
+<br>
+</br>
+<a href="./Invoice.html"> <input type="button" value="Checkout"></a>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./login-style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Update</title>
+</head>
+<script>
+    //get query string
+        let params = (new URL(document.location)).searchParams;
+
+    //if form was submitted in order_form, get quantity if it is in the query string
+    if (params.has('quantities')) {
+        quantities = JSON.parse(params.get(`quantities`));
+    }
+
+    window.onload = () => {
+        //if there's an error, add error message
+        if (params.has('upd_error_string')) {
+            alert(params.get('upd_error_string'));
+        }
+    }
+</script>
+<body>
+    <main>
+        <section class="update_info">
+                <h2>Update Info</h2>
+            <form name="update_info" action="./update" method="POST">
+                <script>
+                    quantities = params.get(`quantities`);
+                    document.write(`<input type="hidden" name="quantities" id="quantities" value='${quantities}'>`)
+                </script>
+            <label>Full Name:</label>
+            <br><input type="text" placeholder="Enter" name="name" pattern=".*[A-Za-z]" title="Name must only contain letters">
+            <br><label>Email:</label>
+            <br><input type="text" placeholder="Enter" name="email">
+            <br>
+            <label>Password:</label>
+            <br><input type="password" placeholder="Enter" name="password" title="Must be 6 characters long">
+            <br> Verify Password: 
+            <br><input type="password" placeholder="Enter" name="password2" title="Must be 6 characters long"></br>
+            <br><input type="submit" name="update" value="Submit">
+        </form>
+        </section>
+        </main>
+</body>
+</html>
