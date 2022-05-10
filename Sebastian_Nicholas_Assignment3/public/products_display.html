@@ -4,7 +4,9 @@
     - This page will be showing each array of products
     - Utilizes Side bar for navigation to different pages on the site
     // -->
-                                                                
+  
+<script src="/products_data.json"></script>   
+
 <!-- Template Borrowed from w3schools -->
 
 <!DOCTYPE html>
@@ -43,6 +45,24 @@ let params = (new URL(document.location)).searchParams;
         alert(params.get('error_string'));
         }
 </script>
+
+<script src="./function&RDR7.js"></script>
+  <script>
+    var products_data;
+    var total = 0;
+    loadJSON('get_products_data', function (response) {
+      // Parsing JSON string into object
+      products_data = JSON.parse(response);
+    });
+
+    if (params.has('products_key')) {
+      var this_products_key = params.get('products_key');
+    } else {
+      document.write('no products key in query string');
+      document.stop;
+    }
+    nav_bar(this_products_key, products_data);
+  </script>
 </head>
 <!------------------------------------------------------------------------------>
 <body>
@@ -54,7 +74,7 @@ let params = (new URL(document.location)).searchParams;
   <!-- Sidebar Links to other Pages -->
 
   <!-- Index -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+  <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
 
   <!-- Products -->
   <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Shoes</a>
@@ -63,11 +83,11 @@ let params = (new URL(document.location)).searchParams;
   <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Accessories</a>
   <br>
   <!-- Shopping Cart -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
+  <a href="store_cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
   <!-- Register -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Sign-Up</a>
+  <a href="register.html" onclick="w3_close()" class="w3-bar-item w3-button">Sign-Up</a>
   <!-- Login -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Login</a>
+  <a href="login.html" onclick="w3_close()" class="w3-bar-item w3-button">Login</a>
 </nav>
 
 <!-- Top menu -->
@@ -88,43 +108,29 @@ let params = (new URL(document.location)).searchParams;
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
 
-  <!-- First Row 3 Products-->
-  <div class="w3-row-padding w3-padding-16 w3-center" id="">
-    <div class="w3-quarter">
-      <img src="/w3images/sandwich.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
+  <form name="order_form" action="./process_form" method="POST">
+    <div>
+      <main class="w3-center w3-container">
+        <script>
+          products = products_data[this_products_key];
+          for (i = 0; i < products.length; i++) {
+            document.write(`
+        <section class="item w3-quarter">
+          <div class="desc">
+          <h2>${products[i].name}</h2>
+          <p>$${products[i].price}</p>
+          <label id="quantity_textbox_label">${products[i].quantity_available} in stock</label>
+          <br><input type="text" placeholder="Enter Amount" name="quantity_textbox[${this_products_key}][${i}]">
+          <img src="${products[i].image}" width="100%">
+          </div>
+        </section>
+              `);
+          }
+
+        </script>
     </div>
-    <div class="w3-quarter">
-      <img src="/w3images/steak.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/cherries.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
-    </div>
-  </div>
-  
-  <!-- Second Row 3 Products-->
-  <div class="w3-row-padding w3-padding-16 w3-center">
-    <div class="w3-quarter">
-      <img src="/w3images/popsicle.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/salmon.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/sandwich.jpg" alt="" style="width:100%">
-      <h3>---------------------</h3>
-      <p>---------------------</p>
-    </div>
-  </div>
+    </main>
+    <div>
 
 <!------------------------------------------------------------------------------>
 
@@ -134,16 +140,13 @@ let params = (new URL(document.location)).searchParams;
   <div class="w3-center w3-padding-32">
     <div class="w3-bar">
       <!-- Can be used to go back and forward -->
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
-
-
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">Shoes</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">Shirts</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">Shorts</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">Accessories</a>
+      <a href="products_display.html?products_key=Shoes" class="w3-bar-item w3-button w3-hover-black">Shoes</a>
+      <a href="products_display.html?products_key=Shirts" class="w3-bar-item w3-button w3-hover-black">Shirts</a>
+      <a href="products_display.html?products_key=Shorts" class="w3-bar-item w3-button w3-hover-black">Shorts</a>
+      <a href="products_display.html?products_key=Other" class="w3-bar-item w3-button w3-hover-black">Accessories</a>
 
       <!-- Can be used to go back and forward-->
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+     
     </div>
   </div>
   
@@ -155,67 +158,17 @@ let params = (new URL(document.location)).searchParams;
 
   <!-- About Section -->
   <div class="w3-container w3-padding-32 w3-center">  
-    <h3>---------------</h3>
-    <br>
-    <img src="-----------" alt="Shipping Policy" class="w3-image" style="display:block;margin:auto" width="800" height="533">
-    <div class="w3-padding-32">
-      <h4><b>--------------</b></h4>
-      <h6><i>----------------</i></h6>
-      <p>---------------</p>
-    </div>
+    <h3>Shipping Policy</h3>
+    <b> OUR SHIPPING POLICY IS: 
+      <br> A subtotal of $50 is a $15 shipping fee.
+      <br> A subtotal of $100 is a $25 shipping fee.
+      <br> Subtotals over $100 will be charged with a 5%% shipping fee.
+      <br> Shipping is provided and handled by USPS Services 
+    </b>
+    <img src="./Images/usps.jpeg" alt="Shipping Policy" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+
   </div>
   <hr>
-
-
-<!------------------------------------------------------------------------------>
-
-  <!-- Footer Bottom Left of the Page-->
-  <footer class="w3-row-padding w3-padding-32">
-    <div class="w3-third">
-      <h3>FOOTER</h3>
-      <p>--------</p>
-      <p>-----------<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-    </div>
-  
-    <!-- Bottom Middle of the Page -->
-    <div class="w3-third">
-      <h3>--------</h3>
-      <ul class="w3-ul w3-hoverable">
-        <li class="w3-padding-16">
-          <img src="/w3images/workshop.jpg" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">-------</span><br>
-          <span>--------</span>
-        </li>
-        <li class="w3-padding-16">
-          <img src="/w3images/gondol.jpg" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">-------</span><br>
-          <span>--------</span>
-        </li> 
-      </ul>
-    </div>
-
-
-    <!-- Bottom right of page -->
-    <div class="w3-third w3-serif">
-      <h3>-------</h3>
-      <p>
-        <span class="w3-tag w3-black w3-margin-bottom">------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">----</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-----</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-----</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-----</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">------</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">-----</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">------</span> 
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">------</span>
-      </p>
-    </div>
-  </footer>
 
 <!-- End page content -->
 </div>
