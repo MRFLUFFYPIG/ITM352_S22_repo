@@ -118,7 +118,9 @@ let params = (new URL(document.location)).searchParams;
         <section class="item w3-quarter">
           <div class="desc">
           <h2>${products[i].name}</h2>
+        
           <p>$${products[i].price}</p>
+          
           <label id="quantity_textbox_label">${products[i].quantity_available} in stock</label>
           <br><input type="text" placeholder="Enter Amount" name="quantity_textbox[${this_products_key}][${i}]">
           <img src="${products[i].image}" width="100%">
@@ -132,6 +134,11 @@ let params = (new URL(document.location)).searchParams;
     </main>
     <div>
 
+    <div>
+      <label>Add to</label>
+      <input type="submit" name="purchase_order" value="Cart" Purchase>
+    </div>
+
 <!------------------------------------------------------------------------------>
 
   
@@ -140,19 +147,17 @@ let params = (new URL(document.location)).searchParams;
   <div class="w3-center w3-padding-32">
     <div class="w3-bar">
       <!-- Can be used to go back and forward -->
+      <b>
       <a href="products_display.html?products_key=Shoes" class="w3-bar-item w3-button w3-hover-black">Shoes</a>
       <a href="products_display.html?products_key=Shirts" class="w3-bar-item w3-button w3-hover-black">Shirts</a>
       <a href="products_display.html?products_key=Shorts" class="w3-bar-item w3-button w3-hover-black">Shorts</a>
       <a href="products_display.html?products_key=Other" class="w3-bar-item w3-button w3-hover-black">Accessories</a>
-
+      </b>
       <!-- Can be used to go back and forward-->
      
     </div>
   </div>
-  <div>
-    <label>Add to</label>
-    <input type="submit" name="purchase_order" value="Cart" Purchase>
-  </div>
+  
 
 <!------------------------------------------------------------------------------>
 
