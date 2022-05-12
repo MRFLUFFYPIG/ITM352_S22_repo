@@ -5,7 +5,7 @@
     - Utilizes Side bar for navigation to different pages on the site
     // -->
   
-<script src="/products_data.json"></script>   
+
 
 <!-- Template Borrowed from w3schools -->
 
@@ -18,10 +18,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link href="products.css" rel="stylesheet" />
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 .w3-bar-block .w3-bar-item {padding:20px}
 </style>
+
+
+<script>
+  var userinfo;
+    loadJSON("get_userinfo", function (response) {
+        // Parsing JSON string into object
+        userinfo = JSON.parse(response);
+    });
+</script>
 
 <!------------------------------------------------------------------------------>
 <script>
@@ -46,7 +56,7 @@ let params = (new URL(document.location)).searchParams;
         }
 </script>
 
-<script src="./function&RDR7.js"></script>
+<script src="./function&IDR7.js"></script>
   <script>
     var products_data;
     var total = 0;
@@ -58,10 +68,9 @@ let params = (new URL(document.location)).searchParams;
     if (params.has('products_key')) {
       var this_products_key = params.get('products_key');
     } else {
-      document.write('no products key in query string');
       document.stop;
     }
-    nav_bar(this_products_key, products_data);
+   
   </script>
 </head>
 <!------------------------------------------------------------------------------>
@@ -92,25 +101,23 @@ let params = (new URL(document.location)).searchParams;
 
 <!-- Top menu -->
 <div class="w3-top">
-  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+  <div class="w3-white w3-xlarge" style="max-width:2000px; margin:right">
     <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
 
-    <!-- Links to Cart Page -->
-    <div class="w3-right w3-padding-16">Cart</div>
-
+  
     <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
-    <div class="w3-center w3-padding-16">Adidas Sports</div>
+    <div class="w3-center w3-padding-32">Adidas Sports</div>
   </div>
 </div>
   
 <!------------------------------------------------------------------------------>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+<div class="w3-main w3-content w3-padding" style="max-width:1600px;margin-top:100px">
 
   <form name="order_form" action="./process_form" method="POST">
     <div>
-      <main class="w3-center w3-container">
+      <main class="w3-center ">
         <script>
           products = products_data[this_products_key];
           for (i = 0; i < products.length; i++) {
@@ -120,51 +127,44 @@ let params = (new URL(document.location)).searchParams;
           <h2>${products[i].name}</h2>
         
           <p>$${products[i].price}</p>
-          
+        
           <label id="quantity_textbox_label">${products[i].quantity_available} in stock</label>
           <br><input type="text" placeholder="Enter Amount" name="quantity_textbox[${this_products_key}][${i}]">
+          
           <img src="${products[i].image}" width="100%">
+
           </div>
         </section>
-              `);
-          }
+          `);
+        }
 
         </script>
     </div>
     </main>
     <div>
 
-    <div>
-      <label>Add to</label>
-      <input type="submit" name="purchase_order" value="Cart" Purchase>
-    </div>
-
 <!------------------------------------------------------------------------------>
 
   
   <!-- Might Want to use this to show all products on different pages -->
   <!-- Can also be used to navigate to other accessory Pages-->
-  <div class="w3-center w3-padding-32">
+  <div class="w3-center w3-padding-8" style="max-width:1200px;margin-top:250px">
     <div class="w3-bar">
-      <!-- Can be used to go back and forward -->
-      <b>
+      <!-- Can be used to go to specific categories -->
       <a href="products_display.html?products_key=Shoes" class="w3-bar-item w3-button w3-hover-black">Shoes</a>
       <a href="products_display.html?products_key=Shirts" class="w3-bar-item w3-button w3-hover-black">Shirts</a>
       <a href="products_display.html?products_key=Shorts" class="w3-bar-item w3-button w3-hover-black">Shorts</a>
       <a href="products_display.html?products_key=Other" class="w3-bar-item w3-button w3-hover-black">Accessories</a>
-      </b>
-      <!-- Can be used to go back and forward-->
-     
     </div>
   </div>
-  
+  <div>
+    <label>Add to</label>
+    <input type="submit" name="purchase_order" value="Cart" Purchase>
+  </div>
 
 <!------------------------------------------------------------------------------>
 
-<!-- Info about shipping info-->
-  <hr id="about">
-
-  <!-- About Section -->
+  <!-- Shipping Section -->
   <div class="w3-container w3-padding-32 w3-center">  
     <h3>Shipping Policy</h3>
     <b> OUR SHIPPING POLICY IS: 

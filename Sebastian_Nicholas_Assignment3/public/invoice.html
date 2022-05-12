@@ -4,7 +4,8 @@
 <!-- Invoice Page -->
 
 <!--Link invoice.css-->
-<link href="invoice.css" rel="stylesheet" />
+<!--<link href="invoice.css" rel="stylesheet" /> -->
+
 
 <!-- Loads product array from json file -->
 <script src="products_data.json"></script>
@@ -12,6 +13,7 @@
 
 <script>
     // Load params
+    /*
     let params = (new URL(document.location)).searchParams;
     if (params.has('username')) {
         var username = params.get('username');
@@ -19,6 +21,7 @@
             // If not logged in, redirect back to login page
             window.location.href = "./login.html";
     }
+    */
 </script>
 
 <script>
@@ -49,7 +52,7 @@
             <td width="54%">$${extended_price.toFixed(2)}</td>
           </tr>
           `);
-    }
+        }
 
     // Borrowed from lab 12
     // Checks for NonNegInt
@@ -69,21 +72,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link href="invoice.css" type="text/css" rel="stylesheet">
+     
+    <!--<link href="invoice.css" type="text/css" rel="stylesheet"> -->
+    
     <title>Invoice</title>
 
     <!-- Style of the Table -->
-    <style>
-        table, th, td {
-           border: 5px solid black;
-        }
-     </style>
+   
     </head>
 
     <header style="font-size:3rem; text-align:center; font-weight: bold; font-style: sans; border:rgb(1, 2, 3); border-radius: 3rem;" >Invoice</header>
     
     <body>
+        
         <script>
             // show the username to make sure they login the correct account
             if (username != 'undefined' && username != '') {
@@ -203,11 +204,8 @@
         </div>
     <br>
           <!-- Button that allows the user to go back to the products page -->
-          <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'index.html';">
+          <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
     <br>
-    <!-- Credentials -->
-        <footer>
-            Nicholas Sebastian, 2022
-        </footer>
+
     </body>
     </html>

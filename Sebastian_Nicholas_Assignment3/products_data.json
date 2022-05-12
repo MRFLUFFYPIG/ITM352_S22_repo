@@ -1,36 +1,36 @@
 {
     "Shoes": [{
-        "name": "FLUIDFLOW 2.0 SHOES",
+        "name": "FLUIDFLOW 2.0",
         "price": 80.00,
         "image": "./images/Fluidflow_Shoe.png",
         "quantity_available": 10
     },
     {
-        "name": "SUPERNOVA SHOES",
+        "name": "SUPERNOVA",
         "price": 90.00,
         "image": "./images/Supernova_Shoe.png",
         "quantity_available": 5
     },
     {
-        "name": "ULTRABOOST 22 SHOES",
+        "name": "ULTRABOOST 22",
         "price": 190.00,
         "image": "./images/Ultraboost_Shoe.png",
         "quantity_available": 5
     },
     {
-        "name": "DAILY 3.0 SHOES",
+        "name": "DAILY 3.0",
         "price": 60.00,
         "image": "./images/Daily_Shoe.png",
         "quantity_available": 15
     },
     {
-        "name": "BUSENITZ PRO SHOES",
+        "name": "BUSENITZ PRO",
         "price": 80.00,
         "image": "./images/Busenitz_Shoe.png",
         "quantity_available": 10
     },
     {
-        "name": "DURAMO 10 SHOES",
+        "name": "DURAMO 10",
         "price": 65.00,
         "image": "./images/Duramo_Shoe.png",
         "quantity_available": 15
@@ -40,7 +40,7 @@
 
 
     "Shirts": [{
-        "name": "FAST GRAPHIC TEE",
+        "name": "FAST GRAPHIC TEE MARBLE (Grey)",
         "price": 40.00,
         "image": "./images/S6.png",
         "quantity_available": 5
@@ -120,13 +120,13 @@
 
 
     "Other": [{
-        "name": "STEEL METAL BOTTLE 1L (Light Green)",
+        "name": "STEEL METAL (G)",
         "price": 30.00,
         "image": "./images/Steel_Bottle(LightBlue).png",
         "quantity_available": 15
     },
     {
-        "name": "STEEL METAL BOTTLE 1L (Black)",
+        "name": "STEEL METAL (B)",
         "price": 30.00,
         "image": "./images/Steel_Bottle(Black).png",
         "quantity_available": 15
@@ -144,13 +144,13 @@
         "quantity_available": 10
     },
     {
-        "name": "SST PLUS STRAP-BACK HAT",
+        "name": "SST PLUS STRAP (White)",
         "price": 35.00,
         "image": "./images/Hat(White).png",
         "quantity_available": 10
     },
     {
-        "name": "SUPERLITE PRO PRINT HAT",
+        "name": "SUPERLITE PRO (Black))",
         "price": 30.00,
         "image": "./images/Hat(Black).png",
         "quantity_available": 15

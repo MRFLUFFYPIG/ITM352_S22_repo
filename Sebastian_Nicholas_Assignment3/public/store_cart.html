@@ -1,9 +1,5 @@
 <!-- Author Nicholas Sebastian -->
 
-
-
-<!--get product data from server-->
-<script src="./products_data.js" type="text/javascript"></script>
     
 <script>
   //get quantities from querystring
@@ -20,21 +16,39 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+<script src="./functions&IDR7.js"></script>
+<script>
+    var products_data;
+    loadJSON('get_products_data', function (response) {
+        // Parsing JSON string into object
+        products_data = JSON.parse(response);
+    });
+    var cart;
+    loadJSON("get_cart", function (response) {
+        // Parsing JSON string into object
+        cart = JSON.parse(response);
+    });
+    var userinfo;
+    loadJSON("get_userinfo", function (response) {
+        // Parsing JSON string into object
+        userinfo = JSON.parse(response);
+    });
+</script>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Cart</title>
-    <link rel="stylesheet" href="./invoice-style.css">
 </head>
 <body>
     <main>
-  <section class="Headers">
+        <section class="Headers">
             <h1>Item</h1>
             <h1>Quantity</h1>
             <h1>Price</h1>
-            <h1>Extended Price</h1>
-</section>
+        </section>
 
         <script>
             subtotal = 0; //start subtotal with 0
@@ -44,17 +58,20 @@
             quantities = cart[pkey];
             for (i = 0; i < products_data[pkey].length; i++) {
                 if (quantities[i] > 0) {
+
+                    /*
                     //calculate extended price
                     extended_price = quantities[i] * products_data[pkey][i].price;
                     subtotal += extended_price;
                     //generate the product rows for table
+                    */
+
                     document.write(`
                     <section class="order_info"${[i]}>
                     <span id="name">${products_data[pkey][i].name}</span>
                     <span id="amount">${quantities[i]}</span>
                     <span id="price">\$${products_data[pkey][i].price}</span>
-                    <span id="ext price">\$${extended_price.toFixed(2)}</span>
-                </section>
+                    </section>
                     `);
                 }
             }
@@ -69,5 +86,8 @@
 <br>
 </br>
 <a href="./Invoice.html"> <input type="button" value="Checkout"></a>
+<br>
+<!-- Button that allows the user to go back to the products page -->
+<input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
 </body>
 </html>

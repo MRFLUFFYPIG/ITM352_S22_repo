@@ -16,7 +16,7 @@ var app = express();
 var fs = require('fs');
 
 // Product array for product data in products_data.json
-var products_data = require('./products_data.json');
+var products_data = require(__dirname + '/products_data.json');
 
 // Cookie Parse for cookies 
 var cookieParser = require('cookie-parser');
@@ -171,7 +171,7 @@ app.post("/login", function (request, response) {
         user_logged_in == true;
         params.append('quantities', request.body.quantities)
         params.append('email', request.body.email)
-        response.redirect('./Invoice.html?' + params.toString());
+        response.redirect('./products_display.html?' + params.toString());
         return;
     } else {
         //generate login error message
@@ -185,7 +185,6 @@ app.post("/login", function (request, response) {
         console.log(`log_error_string=${log_error_string}`);
     }
 });
-
 
 //-----------------------------------------------------------------------------//
 // Register Page //
@@ -227,15 +226,17 @@ app.post("/register", function (request, response) {
         reg_errors[`name`] = `Enter your full name. \n`;
     } 
     
+    /*
     else if (name.length > 30) {
         reg_errors[`name`] = `Name cannot be more than 30 characters. \n`;
     }
+    */
 
     //validate password value
-    //password must be at least 6 characters minimum
+    //password must be at least 8 characters minimum
     if (password == 'undefined') {
         reg_errors[`password`] = `Enter a password. \n`;
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
         reg_errors[`password`] = `Password is too short. \n`;
     }
 
@@ -268,7 +269,7 @@ let params = (new URLSearchParams());
         user_logged_in == true;
         params.append('quantities', request.body.quantities)
         params.append('email', request.body.email)
-        response.redirect(`./Invoice.html?` + params.toString());
+        response.redirect(`./invoice.html?` + params.toString());
     } else {
         //generate login error message
         let reg_error_string = '';
@@ -279,7 +280,7 @@ let params = (new URLSearchParams());
         let params = (new URLSearchParams());
         params.append('quantities', request.body.quantities)
         
-        response.redirect('./register.html?' + `&reg_error_string=${reg_error_string}&` + params.toString());
+        response.redirect('./login.html?' + `&reg_error_string=${reg_error_string}&` + params.toString());
         console.log(`reg_error_string=${reg_error_string} `);
     }
 });
@@ -315,7 +316,7 @@ app.post("/profile", function (request, response) {
     //password must be at least 6 characters minimum
     if (password == 'undefined') {
         upd_errors[`password`] = `Enter a password. `;
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
         upd_errors[`password`] = `Password is too short. `;
     }
 
@@ -378,12 +379,20 @@ function isNonNegInt(q, returnErrors = false) {
     return returnErrors ? errors : (errors.length == 0);
     };
 
+
+
+
+
+
 //-----------------------------------------------------------------------------//
 // Everyhing from the Method Section to this line has been borrowed and slightly modifed  
 //-----------------------------------------------------------------------------//
 
 
 
+//-----------------------------------------------------------------------------//
+// Cart
+//-----------------------------------------------------------------------------//
 app.get("/add_to_cart", function (request, response) {
     var products_key = request.query['products_key']; // get the product key sent from the form post
     var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
