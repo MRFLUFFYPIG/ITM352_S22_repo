@@ -1,5 +1,11 @@
 <!-- Author Nicholas Sebastian -->
 
+<script>
+//-----------------------------------------------------------------------------//
+// Shopping Cart  //
+// This is a separate page from the products page
+//-----------------------------------------------------------------------------//
+</script>
     
 <script>
   //get quantities from querystring
@@ -78,16 +84,18 @@
           }
         </script>
 </main>
-<section class="added_up">
 
+<section class="added_up">
     <h2>Sub-total</h2>
         <span>$<script>document.write(subtotal.toFixed(2));</script></span>
-    </section>
-<br>
-</br>
-<a href="./Invoice.html"> <input type="button" value="Checkout"></a>
+ </section>
+
+
 <br>
 <!-- Button that allows the user to go back to the products page -->
-<input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
+<input type="button" class="button" value="Continue Shopping" onclick="window.location.href = 'products_display.html';">
+<br>
+<!-- Button that allows the user to continue to the invoice page -->
+<input type="button" class="button" value="Checkout" onclick="window.location.href = 'invoice.html';">
 </body>
 </html>

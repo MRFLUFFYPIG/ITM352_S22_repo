@@ -1,15 +1,17 @@
+<!-- Author Nicholas Sebastian -->
+<!-- Profile Edit page for Website -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>Update</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prodile Edit</title>
 </head>
 <script>
     //get query string
-        let params = (new URL(document.location)).searchParams;
+    let params = (new URL(document.location)).searchParams;
 
     //if form was submitted in order_form, get quantity if it is in the query string
     if (params.has('quantities')) {
@@ -24,26 +26,126 @@
     }
 </script>
 <body>
-    <main>
-        <section class="update_info">
-                <h2>Update Info</h2>
-            <form name="update_info" action="./update" method="POST">
-                <script>
-                    quantities = params.get(`quantities`);
-                    document.write(`<input type="hidden" name="quantities" id="quantities" value='${quantities}'>`)
-                </script>
-            <label>Full Name:</label>
-            <br><input type="text" placeholder="Enter" name="name" pattern=".*[A-Za-z]" title="Name must only contain letters">
-            <br><label>Email:</label>
-            <br><input type="text" placeholder="Enter" name="email">
-            <br>
-            <label>Password:</label>
-            <br><input type="password" placeholder="Enter" name="password" title="Must be 6 characters long">
-            <br> Verify Password: 
-            <br><input type="password" placeholder="Enter" name="password2" title="Must be 6 characters long"></br>
-            <br><input type="submit" name="update" value="Submit">
-        </form>
-        </section>
-        </main>
+  <div class="imgcontainer">
+    
+    <style>
+      aside {
+        display: flex;
+        align-items: stretch;
+        background: no-repeat 50% center;
+        padding: 50px 0;
+      }
+
+      /* Bordered form */
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      form {
+        border: 3px solid #f1f1f1;
+      }
+
+      /* Full-width inputs */
+      input[type=text],
+      input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      /* Set a style for all buttons */
+      button {
+        background-color: rgb(67, 24, 221);
+        color: white;
+        padding: 14px 20px;
+        margin: 4px 0;
+        border: auto;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      /* Adds the hover effect for buttons */
+      button:hover {
+        opacity: 0.8;
+      }
+
+      /* Extra style for the cancel button (red) */
+      .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: tan;
+      }
+
+      /* Center the avatar image inside this container */
+      .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+      }
+
+      /* Avatar image */
+      img.avatar {
+        width: 40%;
+        border-radius: 50%;
+      }
+
+      /* Add padding to containers */
+      .container {
+        padding: 16px;
+      }
+
+      /* The "Forgot password" text */
+      span.psw {
+        float: right;
+        padding-top: 16px;
+      }
+
+      /* Change styles for span and cancel button on extra small screens */
+      @media screen and (max-width: 300px) {
+        span.psw {
+          display: block;
+          float: none;
+        }
+        .cancelbtn {
+          width: 100%;
+        }
+      }
+
+    </style>
+  
+   <!-- Section to change/edit user infomation -->
+   <main>
+       <section class = "profile_edit">
+           <!-- Form for profile edit -->
+           <form name = "profile_edit" action="./profile" method = "POST">
+            <script>
+                quantities = params.get(`quantities`);
+                document.write(`<input type="hidden" name="quantities" id="quantities" value='${quantities}'>`)
+            </script>
+                <b><label>Full Name:</label></b>
+                <br>
+                <input type="text" placeholder="Enter" name="name" pattern=".*[A-Za-z]" title="Name must only contain letters">
+                <br>
+                <b><label>Email:</label></b>
+                <br>
+                <input type="text" placeholder="Enter" name="email">
+                <br>
+                <b><label>Password:</label></b>
+                <br
+                ><input type="password" placeholder="Enter" name="password" title="Must be 8 characters long">
+                <br> 
+                <b><label>Re-enter Password:</label></b>
+                <br>
+                <input type="password" placeholder="Enter" name="password2" title="Must be 8 characters long">
+                <div class="log"><input type="submit" value="Update"></div>
+           </form>
+       </section>
+   </main>
 </body>
+    <br>
+    <!-- Button that allows the user to go back to the products page -->
+    <input type="button" class="button" value="Home" onclick="window.location.href = 'Products_display.html';">
+    <br>
 </html>

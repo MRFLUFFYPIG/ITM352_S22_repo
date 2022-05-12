@@ -1,6 +1,9 @@
+// Author Nicholas Sebastian
 
-
-// Code borrowed from Assignment 3 Examples Page
+//-----------------------------------------------------------------------------//
+// Functions Section // 
+// Code borrowed from Assignment 3 Examples Page provided by Professor Dan Port
+//-----------------------------------------------------------------------------//
 // This function asks the server for a "service" and converts the response to text. 
 function loadJSON(service, callback) {   
     var xobj = new XMLHttpRequest();
@@ -16,7 +19,6 @@ function loadJSON(service, callback) {
  }
 
 // This function makes a navigation bar from a products_data object
-
 function nav_bar(this_product_key, products_data) {
     // This makes a navigation bar to other product pages
     for (let products_key in products_data) {

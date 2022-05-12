@@ -26,7 +26,7 @@ app.use(cookieParser());
 var session = require('express-session');
 
 //-----------------------------------------------------------------------------//
-// Function Section //
+// Request Section //
 //-----------------------------------------------------------------------------//
 
 // ALL function which deals with all functions 
@@ -42,23 +42,21 @@ app.get("/products_data.js", function (request, response) {
     response.send(products_str);
 });
 
+// GET product data from the server 
 app.post("/get_products_data", function (request, response) {
     response.json(products_data);
 });
 
-
 // USE function to utilize input data from pages 
 app.use(express.urlencoded({ extended: true }));
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
 
 //-----------------------------------------------------------------------------//
-// Method Section //
-// This section deals with different <form> methods to send form data 
-
 /* For this section it is a mix of borrowed code from Emily Melchor and Kyle McWhirter */
+// Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
 
-// GET method appends form data 
-// POST method sends data as a HTTP post transaction
+// Checkout/Purchase //
+// This section handles product quantities 
 //-----------------------------------------------------------------------------//
 
 // Post method for product quantities, routes valid quantities to the server and returns errors if an invalid quantity is inputted.
@@ -93,43 +91,45 @@ app.post("/process_form", function(request, response) {
         var has_quantity = true;
     }
    }
-//if there are no quantities, send back to order page with message (need quantities)
+        //if there are no quantities, send back to order page with message (need quantities)
         if (!has_quantity) {
             errors['no_quantities'] = 'Please enter a quantity! \n';
        }
         
-const qstring = `purchase_order=Cart&quantities=${JSON.stringify(quantity)}`;
-   //if there's no errors, create a receipt
+   //if there's no errors, add quantities to cart
    if (Object.keys(errors).length === 0) {
-       for(i in quantity){
-        products_data[products_key][i].quantity_available -= Number(quantity[i]); // remove inventory for this item
-        console.log(`${products_data[products_key][i].quantity_available} is new inventory amount`);
-        if(typeof request.session.cart == 'undefined') {
-            request.session.cart = {};
+    for (products_key in request.body['quantity_textbox']) {
+        for (i in quantity) {
+            products_data[products_key][i].quantity_available -= Number(quantity[i]); // remove inventory for this item
+            console.log(`${products_data[products_key][i].quantity_available} is new inventory amount`);
+            if (typeof request.session.cart == 'undefined') {
+                request.session.cart = {};
+            }
+            if (typeof request.session.cart[products_key] == 'undefined') {
+                request.session.cart[products_key] = [];
+            }
+            request.session.cart[products_key][i] = quantity[i]; // add qty to cart
         }
-        if(typeof request.session.cart[products_key] == 'undefined'){
-            request.session.cart[products_key] = [];
-        }
-        request.session.cart[products_key][i] = quantity[i]; // add qty to cart
     }
-    response.redirect(`./products_display.html?products_key=${products_key}`);
-} 
+    response.redirect(`./products_display.html?products_key=ALLPRODUCTS`);
+    }
     else {
-       //if there is errors
-       //generate error message based on type of error
-       let error_string = ''; //start with empty error string
-       for (err in errors) {
-           //for each error, add error message to overall error_string
-           error_string += errors[err];   
-       }
-       //send back to order page with error message
-       response.redirect(`./products_display.html?products_key=${products_key}&` + qstring + `&error_string=${error_string}`);
-       console.log(`error_string=${error_string}`);
-   }
-});
+    //if there is errors
+    //generate error message based on type of error
+    let error_string = ''; //start with empty error string
+    for (err in errors) {
+        //for each error, add error message to overall error_string
+        error_string += errors[err];
+    }
+        //send back to order page with error message
+        response.redirect(`./products_display.html?products_key=${products_key}&` + `&error_string=${error_string}`);
+        console.log(`error_string=${error_string}`);
+    }
+    });
 
 //-----------------------------------------------------------------------------//
 // Login Page //
+// Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
 // This page checks for errors and validation for logging in.
 //-----------------------------------------------------------------------------//
 
@@ -187,7 +187,8 @@ app.post("/login", function (request, response) {
 });
 
 //-----------------------------------------------------------------------------//
-// Register Page //
+// Register Page 
+// Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
 // This page stores new user information to the server and can be used in the login page.
 //-----------------------------------------------------------------------------//
 
@@ -225,12 +226,9 @@ app.post("/register", function (request, response) {
     if (name == 'undefined') {
         reg_errors[`name`] = `Enter your full name. \n`;
     } 
-    
-    /*
     else if (name.length > 30) {
         reg_errors[`name`] = `Name cannot be more than 30 characters. \n`;
     }
-    */
 
     //validate password value
     //password must be at least 8 characters minimum
@@ -242,7 +240,7 @@ app.post("/register", function (request, response) {
 
     //confirm password
     if (confirm_password == 'undefined') {
-        reg_errors[`passwordReenter`] = `Reenter your password. \n`;
+        reg_errors[`passwordReenter`] = `Re-enter your password. \n`;
     } else if (password == confirm_password) {
         console.log('passwords match');
     } else {
@@ -259,7 +257,7 @@ app.post("/register", function (request, response) {
     } else {
         reg_errors[`email`] = `Email is invalid. `;
     }
-let params = (new URLSearchParams());
+    let params = (new URLSearchParams());
     //if there's no errors, add registration info to user_data.json, log in user, and redirect to invoice
     if (Object.keys(reg_errors).length == 0) {
         user_reg_info[email] = {};
@@ -267,9 +265,8 @@ let params = (new URLSearchParams());
         user_reg_info[email].password = request.body.password;
         fs.writeFileSync(filename, JSON.stringify(user_reg_info), "utf-8");
         user_logged_in == true;
-        params.append('quantities', request.body.quantities)
-        params.append('email', request.body.email)
-        response.redirect(`./invoice.html?` + params.toString());
+        request.session.email = email;
+        response.redirect(`./products_display.html?products_key=ALLPRODUCTS`);
     } else {
         //generate login error message
         let reg_error_string = '';
@@ -279,14 +276,16 @@ let params = (new URLSearchParams());
         //response.send(reg_error_string) and quantities
         let params = (new URLSearchParams());
         params.append('quantities', request.body.quantities)
-        
-        response.redirect('./login.html?' + `&reg_error_string=${reg_error_string}&` + params.toString());
+
+        response.redirect('./login.html?' + `&reg_error_string=${reg_error_string}&`);
         console.log(`reg_error_string=${reg_error_string} `);
     }
 });
 
 //-----------------------------------------------------------------------------//
-// Validation
+// Profile Edit Section 
+// Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
+// This section allows the user to edit their user info
 //-----------------------------------------------------------------------------//
 
 app.post("/profile", function (request, response) {
@@ -322,7 +321,7 @@ app.post("/profile", function (request, response) {
 
     //confirm password
     if (confirm_password == 'undefined') {
-        upd_errors[`passwordReenter`] = `Reenter your password. `;
+        upd_errors[`passwordReenter`] = `Re-enter your password. `;
     } else if (password == confirm_password) {
         console.log('passwords match');
     } else {
@@ -380,18 +379,26 @@ function isNonNegInt(q, returnErrors = false) {
     };
 
 
-
-
-
-
 //-----------------------------------------------------------------------------//
-// Everyhing from the Method Section to this line has been borrowed and slightly modifed  
+// Everyhing from here on is borrowed from Assignment 3 Examples provide by Professor Port
 //-----------------------------------------------------------------------------//
 
+//-----------------------------------------------------------------------------//
+// Sessions Section
+//-----------------------------------------------------------------------------//
 
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
+// Login function that redirects user back to login screen 
+app.get("/logout", function (request, response, next) {
+    delete request.session.email;
+    console.log(request.session);
+    response.redirect("./login.html");
+    next();
+});
 
 //-----------------------------------------------------------------------------//
-// Cart
+// Cart Section
 //-----------------------------------------------------------------------------//
 app.get("/add_to_cart", function (request, response) {
     var products_key = request.query['products_key']; // get the product key sent from the form post
@@ -406,19 +413,12 @@ app.get("/get_cart", function (request, response) {
 
 
 
-
-
-
-
-
 //-----------------------------------------------------------------------------//
-// IR7 Requirement
+// IR7 Requirement - which requires me to make sure that carts are stored for different users.
 /* 
-My individual requirement task is #7, which requires me to make sure that carts are stored for different users.
+May include IR 1, 2, & 3
 */
 //-----------------------------------------------------------------------------//
-
-
 
 
 //-----------------------------------------------------------------------------//
