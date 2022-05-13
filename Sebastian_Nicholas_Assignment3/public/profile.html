@@ -9,10 +9,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prodile Edit</title>
 </head>
-<script>
-    //get query string
-    let params = (new URL(document.location)).searchParams;
 
+<script>
+    // Load params
+    let params = (new URL(document.location)).searchParams;
+    if (params.has('username')) {
+        var username = params.get('username');
+        }else{
+            // If not logged in, redirect back to login page
+            window.location.href = "./profile.html";
+    }
+    
     //if form was submitted in order_form, get quantity if it is in the query string
     if (params.has('quantities')) {
         quantities = JSON.parse(params.get(`quantities`));

@@ -25,6 +25,8 @@ app.use(cookieParser());
 // Session package 
 var session = require('express-session');
 
+
+
 //-----------------------------------------------------------------------------//
 // Request Section //
 //-----------------------------------------------------------------------------//
@@ -49,6 +51,65 @@ app.post("/get_products_data", function (request, response) {
 
 // USE function to utilize input data from pages 
 app.use(express.urlencoded({ extended: true }));
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+//-----------------------------------------------------------------------------//
+// Cart Section
+//-----------------------------------------------------------------------------//
+app.get("/add_to_cart", function (request, response) {
+    var products_key = request.query['products_key']; // get the product key sent from the form post
+    var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
+    request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+    response.redirect('./store_cart.html');
+});
+
+app.get("/get_cart", function (request, response) {
+    response.json(request.session.cart);
+});
+
+// sends cart data from the server to each page that requests
+app.post("/get_cart", function (request, response) {
+    if (typeof request.session.cart == 'undefined') {
+        request.session.cart = {};
+    }
+    response.json(request.session.cart);
+});
+
+
+//-----------------------------------------------------------------------------//
+// Logout Section
+//-----------------------------------------------------------------------------//
+
+// Login function that redirects user back to login screen 
+app.get("/logout", function (request, response, next) {
+    delete request.session.email;
+    console.log(request.session);
+    response.redirect("./login.html");
+    next();
+});
+
+
+
+//-----------------------------------------------------------------------------//
+// User Section
+//-----------------------------------------------------------------------------//
+
+app.post("/get_user_info", function (request, response) {
+    console.log(request.session.email);
+    let uinfo = { name: "Login", email: "" };
+    if (typeof request.session.email != 'undefined') {
+        uinfo.email = request.session.email;
+        uinfo.name = user_reg_info[request.session.email].name;
+    }
+    console.log(uinfo)
+    response.json(uinfo);
+});
+
+app.get("/logout", function (request, response, next) {
+    delete request.session.email;
+    console.log(request.session);
+    response.redirect("./index.html");
+    next();
+});
 
 
 //-----------------------------------------------------------------------------//
@@ -381,43 +442,6 @@ function isNonNegInt(q, returnErrors = false) {
 
 //-----------------------------------------------------------------------------//
 // Everyhing from here on is borrowed from Assignment 3 Examples provide by Professor Port
-//-----------------------------------------------------------------------------//
-
-//-----------------------------------------------------------------------------//
-// Sessions Section
-//-----------------------------------------------------------------------------//
-
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
-
-// Login function that redirects user back to login screen 
-app.get("/logout", function (request, response, next) {
-    delete request.session.email;
-    console.log(request.session);
-    response.redirect("./login.html");
-    next();
-});
-
-//-----------------------------------------------------------------------------//
-// Cart Section
-//-----------------------------------------------------------------------------//
-app.get("/add_to_cart", function (request, response) {
-    var products_key = request.query['products_key']; // get the product key sent from the form post
-    var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
-    request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
-    response.redirect('./cart.html');
-});
-
-app.get("/get_cart", function (request, response) {
-    response.json(request.session.cart);
-});
-
-
-
-//-----------------------------------------------------------------------------//
-// IR7 Requirement - which requires me to make sure that carts are stored for different users.
-/* 
-May include IR 1, 2, & 3
-*/
 //-----------------------------------------------------------------------------//
 
 

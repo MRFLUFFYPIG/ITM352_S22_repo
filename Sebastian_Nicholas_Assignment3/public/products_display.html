@@ -24,15 +24,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 .w3-bar-block .w3-bar-item {padding:20px}
 </style>
 
-
-<script>
-  var userinfo;
-    loadJSON("get_userinfo", function (response) {
-        // Parsing JSON string into object
-        userinfo = JSON.parse(response);
-    });
-</script>
-
 <!------------------------------------------------------------------------------>
 <script>
 //get query string
@@ -70,7 +61,11 @@ let params = (new URL(document.location)).searchParams;
     } else {
       document.stop;
     }
-   
+    var userinfo;
+    loadJSON("get_userinfo", function (response) {
+        // Parsing JSON string into object
+        userinfo = JSON.parse(response);
+    });
   </script>
 </head>
 <!------------------------------------------------------------------------------>
@@ -92,11 +87,13 @@ let params = (new URL(document.location)).searchParams;
   <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Accessories</a>
   <br>
   <!-- Shopping Cart -->
-  <a href="store_cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
+  <a href="cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
   <!-- Register -->
   <a href="register.html" onclick="w3_close()" class="w3-bar-item w3-button">Sign-Up</a>
   <!-- Login -->
   <a href="login.html" onclick="w3_close()" class="w3-bar-item w3-button">Login</a>
+  <!-- Profile/Account Editor-->
+  <a href="profile.html" onclick="w3_close()" class="w3-bar-item w3-button">Profile</a>
 </nav>
 
 <!-- Top menu -->
