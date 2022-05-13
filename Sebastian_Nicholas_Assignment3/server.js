@@ -50,9 +50,11 @@ app.post("/get_products_data", function (request, response) {
 // USE function to utilize input data from pages 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
 //-----------------------------------------------------------------------------//
 // Cart Section
 //-----------------------------------------------------------------------------//
+
 // sends cart data from the server to each page that requests
 app.post("/get_cart", function (request, response) {
     if (typeof request.session.cart == 'undefined') {
@@ -60,7 +62,6 @@ app.post("/get_cart", function (request, response) {
     }
     response.json(request.session.cart);
 });
-
 
 //-----------------------------------------------------------------------------//
 // User Section
@@ -76,14 +77,6 @@ app.post("/get_user_info", function (request, response) {
     console.log(uinfo)
     response.json(uinfo);
 });
-
-app.get("/logout", function (request, response, next) {
-    delete request.session.email;
-    console.log(request.session);
-    response.redirect("./index.html");
-    next();
-});
-
 
 //-----------------------------------------------------------------------------//
 /* For this section it is a mix of borrowed code from Emily Melchor and Kyle McWhirter */
