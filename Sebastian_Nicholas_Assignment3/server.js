@@ -25,8 +25,6 @@ app.use(cookieParser());
 // Session package 
 var session = require('express-session');
 
-
-
 //-----------------------------------------------------------------------------//
 // Request Section //
 //-----------------------------------------------------------------------------//
@@ -55,17 +53,6 @@ app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}))
 //-----------------------------------------------------------------------------//
 // Cart Section
 //-----------------------------------------------------------------------------//
-app.get("/add_to_cart", function (request, response) {
-    var products_key = request.query['products_key']; // get the product key sent from the form post
-    var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
-    request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
-    response.redirect('./store_cart.html');
-});
-
-app.get("/get_cart", function (request, response) {
-    response.json(request.session.cart);
-});
-
 // sends cart data from the server to each page that requests
 app.post("/get_cart", function (request, response) {
     if (typeof request.session.cart == 'undefined') {
@@ -73,20 +60,6 @@ app.post("/get_cart", function (request, response) {
     }
     response.json(request.session.cart);
 });
-
-
-//-----------------------------------------------------------------------------//
-// Logout Section
-//-----------------------------------------------------------------------------//
-
-// Login function that redirects user back to login screen 
-app.get("/logout", function (request, response, next) {
-    delete request.session.email;
-    console.log(request.session);
-    response.redirect("./login.html");
-    next();
-});
-
 
 
 //-----------------------------------------------------------------------------//
