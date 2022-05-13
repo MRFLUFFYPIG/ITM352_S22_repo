@@ -1,6 +1,10 @@
 /* Nicholas Sebastian */
 /*CSS for Prodcuts_Display*/
 
+.w3-top {
+    position:relative;
+    display: inline-block;
+}
 
 img {
     width: 250px; 

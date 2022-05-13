@@ -24,6 +24,11 @@ app.use(cookieParser());
 
 // Session package 
 var session = require('express-session');
+// USE function to utilize input data from pages 
+app.use(express.urlencoded({ extended: true }));
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
+
 
 //-----------------------------------------------------------------------------//
 // Request Section //
@@ -46,10 +51,6 @@ app.get("/products_data.js", function (request, response) {
 app.post("/get_products_data", function (request, response) {
     response.json(products_data);
 });
-
-// USE function to utilize input data from pages 
-app.use(express.urlencoded({ extended: true }));
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
 //-----------------------------------------------------------------------------//
 // Cart Section
@@ -75,9 +76,16 @@ app.post("/get_user_info", function (request, response) {
         uinfo.name = user_reg_info[request.session.email].name;
     }
     console.log(uinfo)
-    response.json(uinfo);
+    response.json(uinfo)
 });
 
+app.get("/use_session", function (request, response) {
+    console.log(request.session);
+    response.send(`welcome, your session ID is ${request.session.id}`);
+ });
+
+
+ 
 //-----------------------------------------------------------------------------//
 /* For this section it is a mix of borrowed code from Emily Melchor and Kyle McWhirter */
 // Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
@@ -407,8 +415,53 @@ function isNonNegInt(q, returnErrors = false) {
 
 
 //-----------------------------------------------------------------------------//
-// Everyhing from here on is borrowed from Assignment 3 Examples provide by Professor Port
+// Mailer
 //-----------------------------------------------------------------------------//
+
+app.get("/checkout", function (request, response) {
+    var user_email = request.query.email; // email address in querystring
+  // Generate HTML invoice string
+    var invoice_str = `Thank you for your order ${user_email}!<table border><th>Quantity</th><th>Item</th>`;
+    var shopping_cart = request.session.cart;
+    for(product_key in products_data) {
+      for(i=0; i<products_data[product_key].length; i++) {
+          if(typeof shopping_cart[product_key] == 'undefined') continue;
+          qty = shopping_cart[product_key][i];
+          if(qty > 0) {
+            invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+          }
+      }
+  }
+    invoice_str += '</table>';
+  // Set up mail server. Only will work on UH Network due to security restrictions
+    var transporter = nodemailer.createTransport({
+      host: "mail.hawaii.edu",
+      port: 25,
+      secure: false, // use TLS
+      tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false
+      }
+    });
+  
+    var mailOptions = {
+      from: 'phoney_store@bogus.com',
+      to: user_email,
+      subject: 'Your phoney invoice',
+      html: invoice_str
+    };
+  
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+      } else {
+        invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+      }
+      response.send(invoice_str);
+    });
+   
+  });
+
 
 
 //-----------------------------------------------------------------------------//

@@ -81,10 +81,10 @@ let params = (new URL(document.location)).searchParams;
   <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
 
   <!-- Products -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Shoes</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Shirts</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Shorts</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Accessories</a>
+  <a href="products_display.html?products_key=Shoes" onclick="w3_close()" class="w3-bar-item w3-button">Shoes</a>
+  <a href="products_display.html?products_key=Shirts" onclick="w3_close()" class="w3-bar-item w3-button">Shirts</a>
+  <a href="products_display.html?products_key=Shorts" onclick="w3_close()" class="w3-bar-item w3-button">Shorts</a>
+  <a href="products_display.html?products_key=Other" onclick="w3_close()" class="w3-bar-item w3-button">Accessories</a>
   <br>
   <!-- Shopping Cart -->
   <a href="cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
@@ -104,11 +104,17 @@ let params = (new URL(document.location)).searchParams;
   
     <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
     <img src="./Images/logo.png" alt="Logo" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+
+    <!-- Add to Cart Button-->
+    
+    <label>Add to</label>
+    <input type="submit" name="purchase_order" value="Cart" Purchase>
+    
   </div>
 </div>
   
 <!------------------------------------------------------------------------------>
-
+Select Products in the sidebar
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1600px;margin-top:100px">
 
@@ -135,34 +141,20 @@ let params = (new URL(document.location)).searchParams;
         </section>
           `);
         }
-
+       
         </script>
     </div>
     </main>
     <div>
 
-<!------------------------------------------------------------------------------>
-  
-  <!-- Might Want to use this to show all products on different pages -->
-  <!-- Can also be used to navigate to other accessory Pages-->
-  <div class="w3-center w3-padding-8" style="max-width:1600px;margin-top:250px">
-    <div class="w3-bar">
-      <!-- Can be used to go to specific categories -->
-      <a href="products_display.html?products_key=Shoes" class="w3-bar-item w3-button w3-hover-black">Shoes</a>
-      <a href="products_display.html?products_key=Shirts" class="w3-bar-item w3-button w3-hover-black">Shirts</a>
-      <a href="products_display.html?products_key=Shorts" class="w3-bar-item w3-button w3-hover-black">Shorts</a>
-      <a href="products_display.html?products_key=Other" class="w3-bar-item w3-button w3-hover-black">Accessories</a>
-    </div>
-  </div>
-  <div>
-    <label>Add to</label>
-    <input type="submit" name="purchase_order" value="Cart" Purchase>
-  </div>
+
 
 <!------------------------------------------------------------------------------>
 <!-- End page content -->
 </div>
+<!------------------------------------------------------------------------------>
 
+  
 
 <!------------------------------------------------------------------------------>
 <script>
