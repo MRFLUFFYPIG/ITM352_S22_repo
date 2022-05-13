@@ -28,6 +28,8 @@ var session = require('express-session');
 app.use(express.urlencoded({ extended: true }));
 app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
+// Mailer 
+var nodemailer = require('nodemailer');
 
 
 //-----------------------------------------------------------------------------//
@@ -219,6 +221,10 @@ app.post("/login", function (request, response) {
         response.redirect('./login.html?' + `log_error_string=${log_error_string}&` + params.toString());
         console.log(`log_error_string=${log_error_string}`);
     }
+    // Sessions for login
+    request.session['email'] = user_email;
+    request.session['email'] = user_reg_info[user_email].email;
+    request.session['cart'] = user_reg_info[user_cart].cart;
 });
 
 //-----------------------------------------------------------------------------//
@@ -420,7 +426,7 @@ function isNonNegInt(q, returnErrors = false) {
 
 app.get("/checkout", function (request, response) {
     var user_email = request.query.email; // email address in querystring
-  // Generate HTML invoice string
+    // Generate HTML invoice string
     var invoice_str = `Thank you for your order ${user_email}!<table border><th>Quantity</th><th>Item</th>`;
     var shopping_cart = request.session.cart;
     for(product_key in products_data) {
