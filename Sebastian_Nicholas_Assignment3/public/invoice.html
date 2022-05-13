@@ -10,7 +10,7 @@
 <!-- Loads product array from json file -->
 <script src="products_data.json"></script>
 <script src="/Assignments/Nicholas_Sebastian_Assignment3/user_data.json" type="json"></script>
-
+<link href="invoice.css" rel="stylesheet" />
 <script src="./function&IDR7.js"></script>
     <script>
         var products_data;
@@ -63,9 +63,7 @@
             }
           }
           
-          itemList.onclick = function(i) {
-              console.log()
-          }
+          generate_item_rows();
         </script>
 
         <script>
@@ -112,10 +110,23 @@
     <h2>Total</h2>
         <span>$<script>document.write(grandtotal.toFixed(2));</script></span>
 </section>
-   
+
+
+<br>
+Thank you 
+<script>
+    document.write(`${name}`)
+</script>
+for shopping at Adidas, a digital invoice will be sent to 
+<script>
+    document.write(`${email}`)
+</script>
+
+<br>
+    <br>
           <!-- Button that allows the user to go back to the products page -->
           <input type="button" class="button" value="Back To Store" onclick="window.location.href = 'products_display.html';">
     <br>
 
-    </body>
-    </html>
+</body>
+</html>

@@ -105,11 +105,10 @@ let params = (new URL(document.location)).searchParams;
     <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
     <img src="./Images/logo.png" alt="Logo" class="w3-image" style="display:block;margin:auto" width="800" height="533">
 
-    <!-- Add to Cart Button-->
+    <!-- Logout button -->
+    <script>document.write(`<id="logout_button" class="logout_button"><a href="/logout">Logout ${name}</a>`);</script>
     
-    <label>Add to</label>
-    <input type="submit" name="purchase_order" value="Cart" Purchase>
-    
+
   </div>
 </div>
   
@@ -143,6 +142,10 @@ Select Products in the sidebar
         }
        
         </script>
+        <!-- Add to Cart Button-->
+    
+        <label>Add to</label>
+        <input type="submit" name="purchase_order" value="Cart" Purchase>
     </div>
     </main>
     <div>

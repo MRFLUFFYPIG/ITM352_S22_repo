@@ -6,13 +6,9 @@
 body {
     font-size: large;
     text-align: center;
-    background-color: rgb(194, 194, 135);
-}
-/*Table*/
-table {
-    text-align: center;
-    margin: auto;
-    
+    background-color: rgb(201, 201, 201);
+    font-family:Arial, Helvetica, sans-serif;
+
 }
 
 /* Headers*/
@@ -21,3 +17,7 @@ h1, h2, p {
     color: black;
 }
 
+img {
+    width: 250px; 
+    height: 250px;
+}

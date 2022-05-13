@@ -221,10 +221,21 @@ app.post("/login", function (request, response) {
         response.redirect('./login.html?' + `log_error_string=${log_error_string}&` + params.toString());
         console.log(`log_error_string=${log_error_string}`);
     }
+
+
     // Sessions for login
+    // Referenced from Brandon Jude (Fall 2021)
     request.session['email'] = user_email;
-    request.session['email'] = user_reg_info[user_email].email;
+    request.session['name'] = user_reg_info[user_email].name;
     request.session['cart'] = user_reg_info[user_cart].cart;
+    // Outputs session back to log
+    console.log(request.session);
+    if (Object.keys(request.session.cart).length == 0) {
+        response.redirect(`./products_display.html`);
+    //else if user logs in and has products in cart, redirect to the cart
+    } else {
+        response.redirect(`./cart.html`);
+    }
 });
 
 //-----------------------------------------------------------------------------//
@@ -322,6 +333,10 @@ app.post("/register", function (request, response) {
         console.log(`reg_error_string=${reg_error_string} `);
     }
 });
+
+// Session for new accounts
+
+
 
 //-----------------------------------------------------------------------------//
 // Profile Edit Section 
@@ -421,53 +436,24 @@ function isNonNegInt(q, returnErrors = false) {
 
 
 //-----------------------------------------------------------------------------//
+// Sessions - Referenced from Brandon Jude (Fall2021)
+//-----------------------------------------------------------------------------//
+app.get("/logout", function (request, response, next) {
+    //destroy the session when the user logs out
+    request.session.destroy();
+    //redirect to the index.html page when user logs out
+    response.redirect('./index.html');
+});
+//request to clear session will be called when the final checkout page is loaded
+app.get("/clear_session.js", function (request, response, next) {
+    //destroy the session when the final checkout confirmation page loads
+    request.session.destroy();
+    next();
+});
+
+//-----------------------------------------------------------------------------//
 // Mailer
 //-----------------------------------------------------------------------------//
-
-app.get("/checkout", function (request, response) {
-    var user_email = request.query.email; // email address in querystring
-    // Generate HTML invoice string
-    var invoice_str = `Thank you for your order ${user_email}!<table border><th>Quantity</th><th>Item</th>`;
-    var shopping_cart = request.session.cart;
-    for(product_key in products_data) {
-      for(i=0; i<products_data[product_key].length; i++) {
-          if(typeof shopping_cart[product_key] == 'undefined') continue;
-          qty = shopping_cart[product_key][i];
-          if(qty > 0) {
-            invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
-          }
-      }
-  }
-    invoice_str += '</table>';
-  // Set up mail server. Only will work on UH Network due to security restrictions
-    var transporter = nodemailer.createTransport({
-      host: "mail.hawaii.edu",
-      port: 25,
-      secure: false, // use TLS
-      tls: {
-        // do not fail on invalid certs
-        rejectUnauthorized: false
-      }
-    });
-  
-    var mailOptions = {
-      from: 'phoney_store@bogus.com',
-      to: user_email,
-      subject: 'Your phoney invoice',
-      html: invoice_str
-    };
-  
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        invoice_str += '<br>There was an error and your invoice could not be emailed :(';
-      } else {
-        invoice_str += `<br>Your invoice was mailed to ${user_email}`;
-      }
-      response.send(invoice_str);
-    });
-   
-  });
-
 
 
 //-----------------------------------------------------------------------------//
