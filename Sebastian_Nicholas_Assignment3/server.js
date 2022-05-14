@@ -1,5 +1,6 @@
 // Author Nicholas Sebastian
 // Date May 3rd, 2022
+// Individual Requirement IR7
 /*
 Description of Page:
 This page is responsible for all server processing of incoming and outgoing requests utilizing different routes. 
@@ -209,6 +210,20 @@ app.post("/login", function (request, response) {
         params.append('quantities', request.body.quantities)
         params.append('email', request.body.email)
         response.redirect('./products_display.html?' + params.toString());
+
+        
+        request.session['email'] = user_email;
+        request.session['name'] = user_reg_info[user_email].name;
+        // IR7
+        request.session['cart'] = user_reg_info[user_cart].cart;
+        // Outputs session back to log
+        console.log(request.session);
+        if (Object.keys(request.session.cart).length == 0) {
+            response.redirect(`./products_display.html`);
+        //else if user logs in and has products in cart, redirect to the cart
+    } else {
+        response.redirect(`./cart.html`);
+    }
         return;
     } else {
         //generate login error message
@@ -223,19 +238,7 @@ app.post("/login", function (request, response) {
     }
 
 
-    // Sessions for login
-    // Referenced from Brandon Jude (Fall 2021)
-    request.session['email'] = user_email;
-    request.session['name'] = user_reg_info[user_email].name;
-    request.session['cart'] = user_reg_info[user_cart].cart;
-    // Outputs session back to log
-    console.log(request.session);
-    if (Object.keys(request.session.cart).length == 0) {
-        response.redirect(`./products_display.html`);
-    //else if user logs in and has products in cart, redirect to the cart
-    } else {
-        response.redirect(`./cart.html`);
-    }
+    
 });
 
 //-----------------------------------------------------------------------------//
@@ -436,7 +439,7 @@ function isNonNegInt(q, returnErrors = false) {
 
 
 //-----------------------------------------------------------------------------//
-// Sessions - Referenced from Brandon Jude (Fall2021)
+// Sessions 
 //-----------------------------------------------------------------------------//
 app.get("/logout", function (request, response, next) {
     //destroy the session when the user logs out

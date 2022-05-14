@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<!--Author, Joshua Chun-->
+
+<head>
+
+  <!--stylesheet W3 template-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .w3-sidebar a {
+      font-family: "Roboto", sans-serif
+    }
+
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .w3-wide {
+      font-family: "Montserrat", sans-serif;
+    }
+  </style>
+
+  <!--script to pull products-->
+  <script src="../products_data.js"></script>
+  <script>
+    //from Assignment3 example
+    function loadJSON(service, callback) {   
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('POST', service, false);
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+ }
+
+    var cart;
+        loadJSON('/get_cart', function (response) {
+            // Parsing JSON string into object
+            cart = JSON.parse(response);
+        });
+
+        var ud;
+        loadJSON('/get_ud', function (response) {
+            // Parsing JSON string into object
+            ud = JSON.parse(response);
+        });
+  </script>
+
+</head>
+
+<body class="w3-content" style="max-width:1200px">
+  <!--end stylesheet W3 template-->
+
+  <!--functions-->
+  <script>
+    //variable to state if there are valid quantities
+    //used in checkQuantity function
+    /*var valid_qty = true*/ //removed, not approved by TA
+
+    //function, if valid_qty is false, disable submit button
+    //BUG if user hits tab or backspace, submit button may re-enable when not supposed to
+    /*function checkValidQty() {
+      if (valid_qty != true) {
+        document.getElementById("purchase_submit").disabled = true
+      } //disable submit button
+      else {
+        document.getElementById("purchase_submit").disabled = false
+      } //enable submit button
+    } */ //removed, not approved by TA
+
+    //function to set cookie from https://www.w3schools.com/js/js_cookies.asp
+    function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+//function to get cookie from https://www.w3schools.com/js/js_cookies.asp
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+    //Function from Lab11
+    //Check if textbox isNonNegInt
+    function checkQuantityTextbox(theTextbox) {
+      errs = isNonNegInt(theTextbox.value, true);
+      /*valid_qty = isNonNegInt(theTextbox.value, false);*/ //removed, not approved by TA
+      document.getElementById(theTextbox.name + '_message').innerHTML = errs.join(", ");
+    }
+
+
+    //function to check if NonNegInt
+    function isNonNegInt(q, return_errors = false) {
+      errors = []; // assume no errors at first
+      if (q == '') q = 0; // handle blank inputs as if they are 0
+      if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+      else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+      else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+      return return_errors ? errors : (errors.length == 0);
+    }
+
+    //from Reece Nagaoka Assignment 1
+    // get the query string which has the form data
+    let params = (new URL(document.location)).searchParams;
+
+    window.onload = function () {
+
+      //set cookie for product key
+      setCookie('last_page', this_products_key)
+
+      // form was submitted so check that quantities are valid then redirect to invoice if ok.
+      if (params.has('errors')) {
+        //turns string in object
+        var errors = JSON.parse(params.get('errors'));
+        let err_str = '';
+        //combine errors in one string
+        for (err in errors) {
+          err_str += errors[err] + '\n';
+        }
+        alert(err_str);
+      }
+
+      if (params.has('quantity')) {
+        //turns string in object
+        var quantities = JSON.parse(params.get('quantity'));
+        // put quantities in quantity textboxes
+        for (i in quantities) {
+          order_form[`quantity${i}`].value = quantities[i];
+          checkQuantityTextbox(order_form[`quantity${i}`]);
+        }
+      }
+    }
+
+    //from Assignment 3 workshop
+    //checks query for product key
+    if (params.has('products_key')) {
+      var this_products_key = params.get('products_key');
+    } else {
+      document.write('no products key in query string');
+      document.stop;
+    }
+
+    //from assignment 3 workshop
+    // This function makes a navigation bar from a products_data object
+    function nav_bar(this_product_key, products) {
+      // This makes a navigation bar to other product pages
+      for (let products_key in products) {
+        //create navs for other products
+        if (products_key == this_product_key) {
+          document.write(`<a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">${products_key}</a>`)
+        } else {
+          document.write(`<a href="./products_display.html?products_key=${products_key}" class="w3-bar-item w3-button">${products_key}</a>`);
+        }
+      }
+    }
+
+    function nav_login() {
+      //if logged in, welcome user
+      if (typeof ud['user_email'] != 'undefined') {
+        document.write(`<a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">Welcome back ${ud['user_name']}</a>`);
+      }
+      //if logged out, show login
+      else {
+        document.write(`<a href="./login.html" class="w3-bar-item w3-button">Login</a>`);
+      }
+    }
+  </script>
+
+  <!-- Sidebar/menu W3 template-->
+  <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+    <div class="w3-container w3-display-container w3-padding-16">
+      <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+      <h3 class="w3-wide"><b>HTF</b></h3>
+    </div>
+    <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+      <!--onclick from BrowserHistory6-->
+      <!--redirect to Home Page-->
+      <a href="#" class="w3-bar-item w3-button" onclick="window.location.href = 'index.html'">Home</a>
+      <!--Generate product navs-->
+      <script> nav_bar(this_products_key, products); nav_login()</script>
+    </div>
+    <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
+    <a href="#footer" class="w3-bar-item w3-button w3-padding">Store Info</a>
+  </nav>
+
+  <!-- Top menu on small screens W3 template-->
+  <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+    <div class="w3-bar-item w3-padding-24 w3-wide">HTF</div>
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i
+        class="fa fa-bars"></i></a>
+  </header>
+
+  <!-- Overlay effect when opening sidebar on small screens W3 template-->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+    id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! W3 template-->
+  <div class="w3-main" style="margin-left:250px">
+
+    <!-- Push down content on small screens W3 template-->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <!-- Top header W3 template-->
+    <header class="w3-container w3-xlarge">
+      <p class="w3-left">Store</p>
+      <!--appears at top of page-->
+      <p class="w3-right">
+        <i class="fa fa-shopping-cart w3-margin-right" onclick="window.location.href = 'invoice.html'"></i>
+        <i class="fa fa-search"></i>
+      </p>
+    </header>
+
+    <!-- Image header W3 template-->
+    <div class="w3-display-container w3-container">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_U4RWxI28bx0mtXDWh18fPvxkexl8BkRONOelH08QGyOOilhVR3-BiT4IcdrKndqQf8E&usqp=CAU"
+        style="width:100%">
+      <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+        <h1 class="w3-jumbo w3-hide-small">High Tech Fruit Store</h1>
+        <!--appears in banner-->
+        <h1 class="w3-hide-large w3-hide-medium">High Tech Fruit Store</h1>
+        <!--appears in banner?-->
+        <h1 class="w3-hide-small">All the Fruit Products You Need</h1>
+        <!--appears in banner-->
+      </div>
+    </div>
+
+    <script>
+      if (typeof ud['user_email'] != 'undefined') {
+        document.write(`<center><div><p style="font-size: x-large; color: dodgerblue;"><b>Welcome back ${ud['user_name']}</p></b></div></center>`);
+      }
+    </script>
+    <center><div><p style="font-size: x-large;"><b>Shopping Cart on top right of page</p></b></div></center>
+
+    <div class="w3-container w3-text-grey">
+      <p><script>
+        var products = products[this_products_key];
+        document.write(products.length);
+        </script> items</p>
+      <!--appears above products, can remove-->
+    </div>
+
+    <!-- Product grid-->
+    <form name="quantity_form" action="/process_form" method="post">
+      <!--Opening tag for quantity form-->
+
+      <script id="display_prods">
+        document.write(`<INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${this_products_key}">`);
+        //Code from WOD SmartPhonePProducts3
+        //Loop to display products and quantity box
+        //qty_textbox from Lab11, quantity enter
+        //var products = products[this_products_key];
+        for (i = 0; i < products.length; i++) {
+          var qty = '0';
+            if(typeof cart[this_products_key] != 'undefined') {
+                qty = cart[this_products_key][i];
+            }
+          document.write(`
+            <div class="w3-col l3 s6">
+                <div class="w3-container">
+                <img src=${products[i].image} style="width:200px;height:200px;">
+                <p>${products[i].name}<br>
+                ${products[i].quantity_available} available<br>
+                <b>$${products[i].price}</b></p>
+                </div>
+            <br>
+            <label>Quantity:</label>
+            <input type="text" name="quantity[${[i]}]" placeholder="0" value = "${qty}" onkeyup="checkQuantityTextbox(this); checkValidQty();">
+            <br><span id='quantity[${[i]}]_message'></span><br>
+            </div>
+            `)
+        }
+      </script>
+      <br>
+      <input name="purchase_submit" type="submit" value="Add to cart" id="purchase_submit"
+        style="background-color: dodgerblue;">
+      <!--Submit button-->
+    </form>
+
+
+    <!-- Footer W3 template-->
+    <footer class="w3-padding-64 w3-light-grey w3-small w3-center" id="footer">
+      <div class="w3-row-padding">
+        <div class="w3-col s4">
+          <h4>Contact</h4>
+          <p>Questions? Go ahead.</p>
+          <form action="/action_page.php" target="_blank">
+            <p><input class="w3-input w3-border" type="text" placeholder="Name" name="Name" required></p>
+            <p><input class="w3-input w3-border" type="text" placeholder="Email" name="Email" required></p>
+            <p><input class="w3-input w3-border" type="text" placeholder="Subject" name="Subject" required></p>
+            <p><input class="w3-input w3-border" type="text" placeholder="Message" name="Message" required></p>
+            <button type="button" class="w3-button w3-block w3-black">Send</button>
+            <!-- Button type so it doenst do anything -->
+          </form>
+        </div>
+
+
+        <!--part of footer W3 template-->
+        <div class="w3-col s4 w3-justify">
+          <h4>Store</h4>
+          <p><i class="fa fa-fw fa-map-marker"></i> High Tech Fruit Store</p>
+          <p><i class="fa fa-fw fa-phone"></i> 555-555-5555</p>
+          <p><i class="fa fa-fw fa-envelope"></i> HTF@exmail.com</p>
+          <h4>We accept</h4>
+          <p><i class="fa fa-fw fa-cc-amex"></i> Amex</p>
+          <p><i class="fa fa-fw fa-credit-card"></i> Credit Card</p>
+          <br>
+          <i class="fa fa-facebook-official w3-hover-opacity w3-large"></i>
+          <i class="fa fa-instagram w3-hover-opacity w3-large"></i>
+          <i class="fa fa-snapchat w3-hover-opacity w3-large"></i>
+          <i class="fa fa-pinterest-p w3-hover-opacity w3-large"></i>
+          <i class="fa fa-twitter w3-hover-opacity w3-large"></i>
+          <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
+        </div>
+      </div>
+    </footer>
+
+    <!--W3 template bottom banner, can remove-->
+    <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp"
+        title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+
+    <!-- End page content -->
+  </div>
+
+
+  </div>
+  </div>
+  </div>
+
+  <script>
+    //ALL SCRIPTS BELOW ARE FROM W3 TEMPLATE
+    // Accordion 
+    function myAccFunc() {
+      var x = document.getElementById("demoAcc");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+
+    // Click on the "Jeans" link on page load to open the accordion for demo purposes
+    document.getElementById("myBtn").click();
+
+
+    // Open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>
