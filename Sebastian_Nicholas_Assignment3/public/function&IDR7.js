@@ -26,7 +26,6 @@ function nav_bar(this_product_key, products_data) {
         document.write(`<a href='./products_display.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
     }
 }
-
 //-----------------------------------------------------------------------------//
 // IR7 // 
 //-----------------------------------------------------------------------------//
