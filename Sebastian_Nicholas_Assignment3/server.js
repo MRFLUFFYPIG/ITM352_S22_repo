@@ -483,54 +483,77 @@ app.get("/clear_session.js", function (request, response, next) {
 //-----------------------------------------------------------------------------//
 // Mailer - referenced from Brandon Jude (Fall 2021)
 //-----------------------------------------------------------------------------//
-app.get("/checkout", function (request, response) {
-    var email = request.query.email; // email address in querystring
-    // Generate HTML invoice string
-    var invoice_str = `Thank you for your order ${email}!<table border><th>Quantity</th><th>Item</th>`;
-    var shopping_cart = request.session.cart;
-    for (product_key in products_data) {
-        for (i = 0; i < products_data[product_key].length; i++) {
-            if (typeof shopping_cart[product_key] == 'undefined') continue;
-            qty = shopping_cart[product_key][i];
-            if (qty > 0) {
-                invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+// Check out button for invoice
+app.post("/checkout", function (request, response, next) {
+    //if the uses username does not exist in session data (not logged in),
+    if (typeof request.session.username == 'undefined') {
+        //redirect back to the login page with query string to alert user to sign in first
+        response.redirect('./login.html?please_sign_in');
+    } else {
+        //taken from Assignment 3 code examples page
+        //if the user has not successfully logged in but tries to access invoice
+        // Generate HTML invoice string
+        var invoice_str = `Thank you for your order, ${request.session.full_name}! <br><br><table border><th>Quantity</th><th>Item</th>`;
+        var shopping_cart = request.session.cart;
+        //iterate through the products array and find what product keys match those in session
+        for (product_key in products_array) {
+            for (i = 0; i < products_array[product_key].length; i++) {
+                if (typeof shopping_cart[product_key] == 'undefined') continue;
+                qty = shopping_cart[product_key][i];
+                if (qty > 0) {
+                    //add a table row with product quantity and name of product
+                    invoice_str += `<tr><td>${qty}</td><td>${products_array[product_key][i].name}</td><tr>`;
+                }
             }
         }
+
+        //updating the products_data JSON file with new inventory
+        var updated_shopping_cart = request.session.cart;
+        for (product_key in products_array) {
+            for (i = 0; i < products_array[product_key].length; i++) {
+                if (typeof updated_shopping_cart[product_key] == 'undefined') continue;
+                //assign variable qty_to_remove to the quantity that is desired
+                qty_to_remove = updated_shopping_cart[product_key][i];
+                //subtract the qty_to_remove from the current available quantity
+                products_array[product_key][i]['quantity_available'] -= qty_to_remove;
+            }
+        }
+        //stringify the products_array object that has the new quantities
+        new_product_data = JSON.stringify(products_array);
+        //re-write the data the product_data_.json file
+        fs.writeFileSync('./product_data_.json', new_product_data);
+
+        //end the table element
+        invoice_str += '</table>';
+        // Set up mail server. Created a brandonitm352@gmail.com email for testing purposes
+        var transporter = nodemailer.createTransport({
+            //gmail service setup code from https://mailtrap.io/blog/nodemailer-gmail/
+            service: 'gmail',
+            auth: {
+                name: 'nfs37@gmail.com',
+                pass: 'Zenps808'
+            }
+        });
+        //grab the users email from the session data
+        var user_email = request.session.email;
+        var mailOptions = {
+            from: 'adidas@store.com',
+            //send to the users email
+            to: user_email,
+            subject: "Adidas Conformation order",
+            //content will be html code from invoice_str
+            html: invoice_str
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+            } else {
+                invoice_str += `<br>Your invoice was mailed to ${email}`;
+            }
+            response.redirect(`./invoice.html`);
+        });
     }
-    invoice_str += '</table>';
-    // Set up mail server. Only will work on UH Network due to security restrictions
-    var transporter = nodemailer.createTransport({
-        host: "mail.hawaii.edu",
-        port: 25,
-        secure: false, // use TLS
-        tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false
-        }
-    });
-
-    var mailOptions = {
-        from: 'adidas_store.com',
-        to: email,
-        subject: 'This is your invoice',
-        html: invoice_str
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
-        } else {
-            invoice_str += `<br>Your invoice was mailed to ${email}`;
-        }
-        response.send(invoice_str);
-    });
-
-});
-
-// When user clicks done button on final page, they will be redirected to the index page
-app.post("/done", function (request, response, next) {
-    response.redirect(`./`);
-    next();
 });
 
 //-----------------------------------------------------------------------------//
