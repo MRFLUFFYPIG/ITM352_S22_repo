@@ -27,7 +27,7 @@ app.use(cookieParser());
 var session = require('express-session');
 // USE function to utilize input data from pages 
 app.use(express.urlencoded({ extended: true }));
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
 // Mailer 
 var nodemailer = require('nodemailer');
@@ -85,10 +85,10 @@ app.post("/get_user_info", function (request, response) {
 app.get("/use_session", function (request, response) {
     console.log(request.session);
     response.send(`welcome, your session ID is ${request.session.id}`);
- });
+});
 
 
- 
+
 //-----------------------------------------------------------------------------//
 /* For this section it is a mix of borrowed code from Emily Melchor and Kyle McWhirter */
 // Kyle McWhirter also helped me with implementing this code to my server & assisted me with my Assignment 3
@@ -98,72 +98,72 @@ app.get("/use_session", function (request, response) {
 //-----------------------------------------------------------------------------//
 
 // Post method for product quantities, routes valid quantities to the server and returns errors if an invalid quantity is inputted.
-app.post("/process_form", function(request, response) {
+app.post("/process_form", function (request, response) {
     console.log(request.body);
     var errors = []; //start with no errors
     var has_quantity = false; //start with no quantity
     var products_key = Object.keys(request.body["quantity_textbox"])[0]; // get the product key sent from the form post
     var quantity = request.body['quantity_textbox'][products_key]; // Get quantities from the form post and convert strings from form post to numbers
     //use loop to validate all product quantities
-   for (i in quantity) {
-    // create query string from request.body
-   const qstring = `purchase_order=Cart&quantities=${JSON.stringify(quantity)}`;
-    //check if there is a quantity; if not, has_quantity will still be false
+    for (i in quantity) {
+        // create query string from request.body
+        const qstring = `purchase_order=Cart&quantities=${JSON.stringify(quantity)}`;
+        //check if there is a quantity; if not, has_quantity will still be false
         if (isNonNegInt(quantity[i]) == false) {
-        errors['invalid_quantity'[i]] = `${quantity[i]} is not a valid quantity for ${products_data[products_key][i].name} \n`;
-       }
+            errors['invalid_quantity'[i]] = `${quantity[i]} is not a valid quantity for ${products_data[products_key][i].name} \n`;
+        }
 
-    //check if there is enough in inventory
-    //access quantity_available from json file
-       let inventory = products_data[products_key][i].quantity_available;
-       
-    //if quantity ordered is less than or same as the amount in inventory, reduce inventory by quantity ordered amount 
-       if (Number(quantity[i]) <= inventory) {
-       }
-       //if there's not enough in inventory, add error (quantity too large)
-       if (quantity[i] > inventory) {
-           errors[`invalid_quantity`[i]] = `Please order a smaller amount of ${products_data[products_key][i].name}! \n`;
-       }
+        //check if there is enough in inventory
+        //access quantity_available from json file
+        let inventory = products_data[products_key][i].quantity_available;
 
-       if(quantity[i] > 0) {
-        var has_quantity = true;
-    }
-   }
-        //if there are no quantities, send back to order page with message (need quantities)
-        if (!has_quantity) {
-            errors['no_quantities'] = 'Please enter a quantity! \n';
-       }
-        
-   //if there's no errors, add quantities to cart
-   if (Object.keys(errors).length === 0) {
-    for (products_key in request.body['quantity_textbox']) {
-        for (i in quantity) {
-            products_data[products_key][i].quantity_available -= Number(quantity[i]); // remove inventory for this item
-            console.log(`${products_data[products_key][i].quantity_available} is new inventory amount`);
-            if (typeof request.session.cart == 'undefined') {
-                request.session.cart = {};
-            }
-            if (typeof request.session.cart[products_key] == 'undefined') {
-                request.session.cart[products_key] = [];
-            }
-            request.session.cart[products_key][i] = quantity[i]; // add qty to cart
+        //if quantity ordered is less than or same as the amount in inventory, reduce inventory by quantity ordered amount 
+        if (Number(quantity[i]) <= inventory) {
+        }
+        //if there's not enough in inventory, add error (quantity too large)
+        if (quantity[i] > inventory) {
+            errors[`invalid_quantity`[i]] = `Please order a smaller amount of ${products_data[products_key][i].name}! \n`;
+        }
+
+        if (quantity[i] > 0) {
+            var has_quantity = true;
         }
     }
-    response.redirect(`./products_display.html?products_key=ALLPRODUCTS`);
+    //if there are no quantities, send back to order page with message (need quantities)
+    if (!has_quantity) {
+        errors['no_quantities'] = 'Please enter a quantity! \n';
+    }
+
+    //if there's no errors, add quantities to cart
+    if (Object.keys(errors).length === 0) {
+        for (products_key in request.body['quantity_textbox']) {
+            for (i in quantity) {
+                products_data[products_key][i].quantity_available -= Number(quantity[i]); // remove inventory for this item
+                console.log(`${products_data[products_key][i].quantity_available} is new inventory amount`);
+                if (typeof request.session.cart == 'undefined') {
+                    request.session.cart = {};
+                }
+                if (typeof request.session.cart[products_key] == 'undefined') {
+                    request.session.cart[products_key] = [];
+                }
+                request.session.cart[products_key][i] = quantity[i]; // add qty to cart
+            }
+        }
+        response.redirect(`./products_display.html?products_key=ALLPRODUCTS`);
     }
     else {
-    //if there is errors
-    //generate error message based on type of error
-    let error_string = ''; //start with empty error string
-    for (err in errors) {
-        //for each error, add error message to overall error_string
-        error_string += errors[err];
-    }
+        //if there is errors
+        //generate error message based on type of error
+        let error_string = ''; //start with empty error string
+        for (err in errors) {
+            //for each error, add error message to overall error_string
+            error_string += errors[err];
+        }
         //send back to order page with error message
         response.redirect(`./products_display.html?products_key=${products_key}&` + `&error_string=${error_string}`);
         console.log(`error_string=${error_string}`);
     }
-    });
+});
 
 //-----------------------------------------------------------------------------//
 // Login Page //
@@ -200,10 +200,10 @@ app.post("/login", function (request, response) {
     }
 
     if (typeof user_reg_info[email] != 'undefined' && user_reg_info[email].password == login_password) {
-            console.log('no log in errors');
-    } else if(user_reg_info.password != login_password){
+        console.log('no log in errors');
+    } else if (user_reg_info.password != login_password) {
         log_errors['incorrect_password'] = `Incorrect password for ${email}. Please try again. \n`;
-    }   
+    }
     let params = (new URLSearchParams());
     if (Object.keys(log_errors).length == 0) {
         user_logged_in == true;
@@ -211,7 +211,7 @@ app.post("/login", function (request, response) {
         params.append('email', request.body.email)
         response.redirect('./products_display.html?' + params.toString());
 
-        
+
         request.session['email'] = user_email;
         request.session['name'] = user_reg_info[user_email].name;
         // IR7
@@ -220,10 +220,10 @@ app.post("/login", function (request, response) {
         console.log(request.session);
         if (Object.keys(request.session.cart).length == 0) {
             response.redirect(`./products_display.html`);
-        //else if user logs in and has products in cart, redirect to the cart
-    } else {
-        response.redirect(`./cart.html`);
-    }
+            //else if user logs in and has products in cart, redirect to the cart
+        } else {
+            response.redirect(`./cart.html`);
+        }
         return;
     } else {
         //generate login error message
@@ -238,7 +238,7 @@ app.post("/login", function (request, response) {
     }
 
 
-    
+
 });
 
 //-----------------------------------------------------------------------------//
@@ -280,7 +280,7 @@ app.post("/register", function (request, response) {
     //name cannot be more than 30 characters
     if (name == 'undefined') {
         reg_errors[`name`] = `Enter your full name. \n`;
-    } 
+    }
     else if (name.length > 30) {
         reg_errors[`name`] = `Name cannot be more than 30 characters. \n`;
     }
@@ -354,7 +354,7 @@ app.post("/profile", function (request, response) {
     var confirm_password = request.body.password2;
     var upd_errors = {}; //start with no errors
 
-// If email does not exist
+    // If email does not exist
     if (typeof user_reg_info[email] == 'undefined') {
         upd_errors['incorrect_email'] = `${email} does not exist, Sign up! `;
     }
@@ -395,24 +395,24 @@ app.post("/profile", function (request, response) {
     //name cannot be more than 30 characters
     if (name == 'undefined') {
         upd_errors[`name`] = `Enter your full name. `;
-    } 
-    
+    }
+
     else if (name.length > 30) {
         upd_errors[`name`] = `Name cannot be more than 30 characters. `;
     }
 
     let params = (new URLSearchParams());
-//if there's no errors, and the email does exist add updated info to user_data.json, log in user, and redirect to invoice
+    //if there's no errors, and the email does exist add updated info to user_data.json, log in user, and redirect to invoice
     if (Object.keys(upd_errors).length == 0 && typeof user_reg_info[email] != 'undefined') {
-    user_reg_info[email] = {};
-    user_reg_info[email].name = request.body.name;
-    user_reg_info[email].password = request.body.password;
-    fs.writeFileSync(filename, JSON.stringify(user_reg_info), "utf-8");
-    user_logged_in == true;
-    params.append('quantities', request.body.quantities)
-    params.append('email', request.body.email)
-    response.redirect(`./Invoice.html?` + params.toString());  
-}   else {
+        user_reg_info[email] = {};
+        user_reg_info[email].name = request.body.name;
+        user_reg_info[email].password = request.body.password;
+        fs.writeFileSync(filename, JSON.stringify(user_reg_info), "utf-8");
+        user_logged_in == true;
+        params.append('quantities', request.body.quantities)
+        params.append('email', request.body.email)
+        response.redirect(`./Invoice.html?` + params.toString());
+    } else {
         //generate update error message
         let upd_error_string = '';
         for (err in upd_errors) {
@@ -421,7 +421,7 @@ app.post("/profile", function (request, response) {
         //response.send(upd_error_string);
         response.redirect('./update_info.html?' + `&upd_error_string=${upd_error_string}` + params.toString());
         console.log(`upd_error_string=${upd_error_string} `);
-    } 
+    }
 });
 
 //If returnErrors is true, array of errors is returned
@@ -431,11 +431,11 @@ function isNonNegInt(q, returnErrors = false) {
     if (q == '') q = 0;
     if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
     else {
-       if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-       if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+        if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
     }
     return returnErrors ? errors : (errors.length == 0);
-    };
+};
 
 
 //-----------------------------------------------------------------------------//

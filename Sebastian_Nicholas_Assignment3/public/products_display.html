@@ -1,10 +1,10 @@
 <!-- Author Nicholas Sebastian -->
-    <!-- //
+<!-- //
     Main Page for Products 
     - This page will be showing each array of products
     - Utilizes Side bar for navigation to different pages on the site
     // -->
-  
+
 
 
 <!-- Template Borrowed from w3schools -->
@@ -13,41 +13,52 @@
 <html>
 
 <head>
-<title>Assignment 3</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
-<link href="products.css" rel="stylesheet" />
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
-.w3-bar-block .w3-bar-item {padding:20px}
-</style>
+  <title>Assignment 3</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+  <link href="products.css" rel="stylesheet" />
+  <style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Karma", sans-serif
+    }
 
-<!------------------------------------------------------------------------------>
-<script>
-//get query string
-let params = (new URL(document.location)).searchParams;
+    .w3-bar-block .w3-bar-item {
+      padding: 20px
+    }
+  </style>
+
+  <!------------------------------------------------------------------------------>
+  <script>
+    //get query string
+    let params = (new URL(document.location)).searchParams;
     window.onload = () => {
-    //if there's an error, add error message
-    if (params.has('quantity_textbox')) {
+      //if there's an error, add error message
+      if (params.has('quantity_textbox')) {
         var quantities = JSON.parse(params.get('quantity'));
-          for(i in quantities){
-            order_form[`quantity_textbox`].value = quantities[i];
-          }
-        }   
-      }     
-    if (params.has('error_string')) {
-        var errors = JSON.parse(params.get('errors'))
-        let err_str = '';
-        for(err in  errors) {
-			err_str += errors[err] + '\n';
-		}
-        alert(params.get('error_string'));
+        for (i in quantities) {
+          order_form[`quantity_textbox`].value = quantities[i];
         }
-</script>
+      }
+    }
+    if (params.has('error_string')) {
+      var errors = JSON.parse(params.get('errors'))
+      let err_str = '';
+      for (err in errors) {
+        err_str += errors[err] + '\n';
+      }
+      alert(params.get('error_string'));
+    }
+  </script>
 
-<script src="./function&IDR7.js"></script>
+  <script src="./function&IDR7.js"></script>
   <script>
     var products_data;
     var total = 0;
@@ -63,67 +74,70 @@ let params = (new URL(document.location)).searchParams;
     }
     var userinfo;
     loadJSON("get_userinfo", function (response) {
-        // Parsing JSON string into object
-        userinfo = JSON.parse(response);
+      // Parsing JSON string into object
+      userinfo = JSON.parse(response);
     });
   </script>
 </head>
 <!------------------------------------------------------------------------------>
+
 <body>
 
-<!-- Sidebar (hidden by default) -->
-<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()"
-  class="w3-bar-item w3-button">Close</a>
-  <!-- Sidebar Links to other Pages -->
+  <!-- Sidebar (hidden by default) -->
+  <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+    style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">Close</a>
+    <!-- Sidebar Links to other Pages -->
 
-  <!-- Index -->
-  <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+    <!-- Index -->
+    <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
 
-  <!-- Products -->
-  <a href="products_display.html?products_key=Shoes" onclick="w3_close()" class="w3-bar-item w3-button">Shoes</a>
-  <a href="products_display.html?products_key=Shirts" onclick="w3_close()" class="w3-bar-item w3-button">Shirts</a>
-  <a href="products_display.html?products_key=Shorts" onclick="w3_close()" class="w3-bar-item w3-button">Shorts</a>
-  <a href="products_display.html?products_key=Other" onclick="w3_close()" class="w3-bar-item w3-button">Accessories</a>
-  <br>
-  <!-- Shopping Cart -->
-  <a href="cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
-  <!-- Register -->
-  <a href="register.html" onclick="w3_close()" class="w3-bar-item w3-button">Sign-Up</a>
-  <!-- Login -->
-  <a href="login.html" onclick="w3_close()" class="w3-bar-item w3-button">Login</a>
-  <!-- Profile/Account Editor-->
-  <a href="profile.html" onclick="w3_close()" class="w3-bar-item w3-button">Profile</a>
-</nav>
+    <!-- Products -->
+    <a href="products_display.html?products_key=Shoes" onclick="w3_close()" class="w3-bar-item w3-button">Shoes</a>
+    <a href="products_display.html?products_key=Shirts" onclick="w3_close()" class="w3-bar-item w3-button">Shirts</a>
+    <a href="products_display.html?products_key=Shorts" onclick="w3_close()" class="w3-bar-item w3-button">Shorts</a>
+    <a href="products_display.html?products_key=Other" onclick="w3_close()"
+      class="w3-bar-item w3-button">Accessories</a>
+    <br>
+    <!-- Shopping Cart -->
+    <a href="cart.html" onclick="w3_close()" class="w3-bar-item w3-button">Cart </a>
+    <!-- Register -->
+    <a href="register.html" onclick="w3_close()" class="w3-bar-item w3-button">Sign-Up</a>
+    <!-- Login -->
+    <a href="login.html" onclick="w3_close()" class="w3-bar-item w3-button">Login</a>
+    <!-- Profile/Account Editor-->
+    <a href="profile.html" onclick="w3_close()" class="w3-bar-item w3-button">Profile</a>
+  </nav>
 
-<!-- Top menu -->
-<div class="w3-top">
-  <div class="w3-white w3-xlarge" style="max-width:2000px; margin:right">
-    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+  <!-- Top menu -->
+  <div class="w3-top">
+    <div class="w3-white w3-xlarge" style="max-width:2000px; margin:right">
+      <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
 
-  
-    <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
-    <img src="./Images/logo.png" alt="Logo" class="w3-image" style="display:block;margin:auto" width="800" height="533">
 
-    <!-- Logout button -->
-    <script>document.write(`<id="logout_button" class="logout_button"><a href="/logout">Logout ${name}</a>`);</script>
-    
+      <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
+      <img src="./Images/logo.png" alt="Logo" class="w3-image" style="display:block;margin:auto" width="800"
+        height="533">
 
+      <!-- Logout button -->
+      <script>document.write(`<id="logout_button" class="logout_button"><a href="/logout">Logout ${name}</a>`);</script>
+
+
+    </div>
   </div>
-</div>
-  
-<!------------------------------------------------------------------------------>
-Select Products in the sidebar
-<!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1600px;margin-top:100px">
 
-  <form name="order_form" action="./process_form" method="POST">
-    <div>
-      <main class="w3-center ">
-        <script>
-          products = products_data[this_products_key];
-          for (i = 0; i < products.length; i++) {
-            document.write(`
+  <!------------------------------------------------------------------------------>
+  Select Products in the sidebar
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main w3-content w3-padding" style="max-width:1600px;margin-top:100px">
+
+    <form name="order_form" action="./process_form" method="POST">
+      <div>
+        <main class="w3-center ">
+          <script>
+            products = products_data[this_products_key];
+            for (i = 0; i < products.length; i++) {
+              document.write(`
         <section class="item w3-quarter">
           <div class="desc">
           <h2>${products[i].name}</h2>
@@ -139,39 +153,40 @@ Select Products in the sidebar
           </div>
         </section>
           `);
+            }
+
+          </script>
+          <!-- Add to Cart Button-->
+
+          <label>Add to</label>
+          <input type="submit" name="purchase_order" value="Cart" Purchase>
+      </div>
+      </main>
+      <div>
+
+
+
+        <!------------------------------------------------------------------------------>
+        <!-- End page content -->
+      </div>
+      <!------------------------------------------------------------------------------>
+
+
+
+      <!------------------------------------------------------------------------------>
+      <script>
+        // Script to open and close sidebar
+        function w3_open() {
+          document.getElementById("mySidebar").style.display = "block";
         }
-       
-        </script>
-        <!-- Add to Cart Button-->
-    
-        <label>Add to</label>
-        <input type="submit" name="purchase_order" value="Cart" Purchase>
-    </div>
-    </main>
-    <div>
 
-
-
-<!------------------------------------------------------------------------------>
-<!-- End page content -->
-</div>
-<!------------------------------------------------------------------------------>
-
-  
-
-<!------------------------------------------------------------------------------>
-<script>
-// Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-}
- 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-}
-</script>
+        function w3_close() {
+          document.getElementById("mySidebar").style.display = "none";
+        }
+      </script>
 
 </body>
+
 </html>
 
 <script>
