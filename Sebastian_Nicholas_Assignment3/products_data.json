@@ -3,37 +3,43 @@
         "name": "FLUIDFLOW 2.0",
         "price": 80.00,
         "image": "./images/Fluidflow_Shoe.png",
-        "quantity_available": 10
+        "quantity_available": 10,
+        "total_in_carts": 0
     },
     {
         "name": "SUPERNOVA",
         "price": 90.00,
         "image": "./images/Supernova_Shoe.png",
-        "quantity_available": 5
+        "quantity_available": 5,
+        "total_in_carts": 0
     },
     {
         "name": "ULTRABOOST 22",
         "price": 190.00,
         "image": "./images/Ultraboost_Shoe.png",
-        "quantity_available": 5
+        "quantity_available": 5,
+        "total_in_carts": 0
     },
     {
         "name": "DAILY 3.0",
         "price": 60.00,
         "image": "./images/Daily_Shoe.png",
-        "quantity_available": 15
+        "quantity_available": 15,
+        "total_in_carts": 0
     },
     {
         "name": "BUSENITZ PRO",
         "price": 80.00,
         "image": "./images/Busenitz_Shoe.png",
-        "quantity_available": 10
+        "quantity_available": 10,
+        "total_in_carts": 0
     },
     {
         "name": "DURAMO 10",
         "price": 65.00,
         "image": "./images/Duramo_Shoe.png",
-        "quantity_available": 15
+        "quantity_available": 15,
+        "total_in_carts": 0
     }
     ],
 

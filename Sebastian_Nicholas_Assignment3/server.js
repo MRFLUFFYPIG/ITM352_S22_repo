@@ -41,6 +41,32 @@ var nodemailer = require('nodemailer');
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to ' + request.path);
     next();
+    request.sessionStore.all((e, sessions) => {
+
+        //-------------------------------------------------------------------------------------------------//
+        // IR7 - different sessions for multiple carts 
+        // Had help from Professor Port 
+        // Loop for products_data
+        //-------------------------------------------------------------------------------------------------//
+        for (let pkey in products_data) {
+            for (let i in products_data[pkey]) {
+                // Start with 0 items in the carts 
+                products_data[pkey][i].total_in_carts = 0;
+            }
+        }
+
+        // session for carts 
+        for (let s_id in sessions) {
+            if (typeof sessions[s_id].cart != 'undefined') {
+                for (let pkey in sessions[s_id].cart) {
+                    for (let i in sessions[s_id].cart[pkey]) {
+                        products_data[pkey][i].total_in_carts += Number(sessions[s_id].cart[pkey][i]);
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------//
+    });
 });
 
 // GET function which gets data from the products_data.json file
@@ -455,9 +481,57 @@ app.get("/clear_session.js", function (request, response, next) {
 });
 
 //-----------------------------------------------------------------------------//
-// Mailer
+// Mailer - referenced from Brandon Jude (Fall 2021)
 //-----------------------------------------------------------------------------//
+app.get("/checkout", function (request, response) {
+    var email = request.query.email; // email address in querystring
+    // Generate HTML invoice string
+    var invoice_str = `Thank you for your order ${email}!<table border><th>Quantity</th><th>Item</th>`;
+    var shopping_cart = request.session.cart;
+    for (product_key in products_data) {
+        for (i = 0; i < products_data[product_key].length; i++) {
+            if (typeof shopping_cart[product_key] == 'undefined') continue;
+            qty = shopping_cart[product_key][i];
+            if (qty > 0) {
+                invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+            }
+        }
+    }
+    invoice_str += '</table>';
+    // Set up mail server. Only will work on UH Network due to security restrictions
+    var transporter = nodemailer.createTransport({
+        host: "mail.hawaii.edu",
+        port: 25,
+        secure: false, // use TLS
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false
+        }
+    });
 
+    var mailOptions = {
+        from: 'adidas_store.com',
+        to: email,
+        subject: 'This is your invoice',
+        html: invoice_str
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+        } else {
+            invoice_str += `<br>Your invoice was mailed to ${email}`;
+        }
+        response.send(invoice_str);
+    });
+
+});
+
+// When user clicks done button on final page, they will be redirected to the index page
+app.post("/done", function (request, response, next) {
+    response.redirect(`./`);
+    next();
+});
 
 //-----------------------------------------------------------------------------//
 // Enables routing and GET request to files in the public directory  

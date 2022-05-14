@@ -3,11 +3,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prodile Edit</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodile Edit</title>
 </head>
 
 <script>
@@ -15,11 +16,11 @@
     let params = (new URL(document.location)).searchParams;
     if (params.has('username')) {
         var username = params.get('username');
-        }else{
-            // If not logged in, redirect back to login page
-            window.location.href = "./profile.html";
+    } else {
+        // If not logged in, redirect back to login page
+        window.location.href = "./profile.html";
     }
-    
+
     //if form was submitted in order_form, get quantity if it is in the query string
     if (params.has('quantities')) {
         quantities = JSON.parse(params.get(`quantities`));
@@ -32,127 +33,129 @@
         }
     }
 </script>
+
 <body>
-  <div class="imgcontainer">
-    
-    <style>
-      aside {
-        display: flex;
-        align-items: stretch;
-        background: no-repeat 50% center;
-        padding: 50px 0;
-      }
+    <div class="imgcontainer">
 
-      /* Bordered form */
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-      }
+        <style>
+            aside {
+                display: flex;
+                align-items: stretch;
+                background: no-repeat 50% center;
+                padding: 50px 0;
+            }
 
-      form {
-        border: 3px solid #f1f1f1;
-      }
+            /* Bordered form */
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
 
-      /* Full-width inputs */
-      input[type=text],
-      input[type=password] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-      }
+            form {
+                border: 3px solid #f1f1f1;
+            }
 
-      /* Set a style for all buttons */
-      button {
-        background-color: rgb(67, 24, 221);
-        color: white;
-        padding: 14px 20px;
-        margin: 4px 0;
-        border: auto;
-        cursor: pointer;
-        width: 100%;
-      }
+            /* Full-width inputs */
+            input[type=text],
+            input[type=password] {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
 
-      /* Adds the hover effect for buttons */
-      button:hover {
-        opacity: 0.8;
-      }
+            /* Set a style for all buttons */
+            button {
+                background-color: rgb(67, 24, 221);
+                color: white;
+                padding: 14px 20px;
+                margin: 4px 0;
+                border: auto;
+                cursor: pointer;
+                width: 100%;
+            }
 
-      /* Extra style for the cancel button (red) */
-      .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        background-color: tan;
-      }
+            /* Adds the hover effect for buttons */
+            button:hover {
+                opacity: 0.8;
+            }
 
-      /* Center the avatar image inside this container */
-      .imgcontainer {
-        text-align: center;
-        margin: 24px 0 12px 0;
-      }
+            /* Extra style for the cancel button (red) */
+            .cancelbtn {
+                width: auto;
+                padding: 10px 18px;
+                background-color: tan;
+            }
 
-      /* Avatar image */
-      img.avatar {
-        width: 40%;
-        border-radius: 50%;
-      }
+            /* Center the avatar image inside this container */
+            .imgcontainer {
+                text-align: center;
+                margin: 24px 0 12px 0;
+            }
 
-      /* Add padding to containers */
-      .container {
-        padding: 16px;
-      }
+            /* Avatar image */
+            img.avatar {
+                width: 40%;
+                border-radius: 50%;
+            }
 
-      /* The "Forgot password" text */
-      span.psw {
-        float: right;
-        padding-top: 16px;
-      }
+            /* Add padding to containers */
+            .container {
+                padding: 16px;
+            }
 
-      /* Change styles for span and cancel button on extra small screens */
-      @media screen and (max-width: 300px) {
-        span.psw {
-          display: block;
-          float: none;
-        }
-        .cancelbtn {
-          width: 100%;
-        }
-      }
+            /* The "Forgot password" text */
+            span.psw {
+                float: right;
+                padding-top: 16px;
+            }
 
-    </style>
-  
-   <!-- Section to change/edit user infomation -->
-   <main>
-       <section class = "profile_edit">
-           <!-- Form for profile edit -->
-           <form name = "profile_edit" action="./profile" method = "POST">
-            <script>
-                quantities = params.get(`quantities`);
-                document.write(`<input type="hidden" name="quantities" id="quantities" value='${quantities}'>`)
-            </script>
-                <b><label>Full Name:</label></b>
-                <br>
-                <input type="text" placeholder="Enter" name="name" pattern=".*[A-Za-z]" title="Name must only contain letters">
-                <br>
-                <b><label>Email:</label></b>
-                <br>
-                <input type="text" placeholder="Enter" name="email">
-                <br>
-                <b><label>Password:</label></b>
-                <br
-                ><input type="password" placeholder="Enter" name="password" title="Must be 8 characters long">
-                <br> 
-                <b><label>Re-enter Password:</label></b>
-                <br>
-                <input type="password" placeholder="Enter" name="password2" title="Must be 8 characters long">
-                <div class="log"><input type="submit" value="Update"></div>
-           </form>
-       </section>
-   </main>
+            /* Change styles for span and cancel button on extra small screens */
+            @media screen and (max-width: 300px) {
+                span.psw {
+                    display: block;
+                    float: none;
+                }
+
+                .cancelbtn {
+                    width: 100%;
+                }
+            }
+        </style>
+
+        <!-- Section to change/edit user infomation -->
+        <main>
+            <section class="profile_edit">
+                <!-- Form for profile edit -->
+                <form name="profile_edit" action="./profile" method="POST">
+                    <script>
+                        quantities = params.get(`quantities`);
+                        document.write(`<input type="hidden" name="quantities" id="quantities" value='${quantities}'>`)
+                    </script>
+                    <b><label>Full Name:</label></b>
+                    <br>
+                    <input type="text" placeholder="Enter" name="name" pattern=".*[A-Za-z]"
+                        title="Name must only contain letters">
+                    <br>
+                    <b><label>Email:</label></b>
+                    <br>
+                    <input type="text" placeholder="Enter" name="email">
+                    <br>
+                    <b><label>Password:</label></b>
+                    <br><input type="password" placeholder="Enter" name="password" title="Must be 8 characters long">
+                    <br>
+                    <b><label>Re-enter Password:</label></b>
+                    <br>
+                    <input type="password" placeholder="Enter" name="password2" title="Must be 8 characters long">
+                    <div class="log"><input type="submit" value="Update"></div>
+                </form>
+            </section>
+        </main>
 </body>
-    <br>
-    <!-- Button that allows the user to go back to the products page -->
-    <input type="button" class="button" value="Home" onclick="window.location.href = 'Products_display.html';">
-    <br>
+<br>
+<!-- Button that allows the user to go back to the products page -->
+<input type="button" class="button" value="Home" onclick="window.location.href = 'Products_display.html';">
+<br>
+
 </html>
