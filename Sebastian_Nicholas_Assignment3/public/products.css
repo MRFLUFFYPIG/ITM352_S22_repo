@@ -2,17 +2,17 @@
 /*CSS for Prodcuts_Display*/
 
 .w3-top {
-    position:relative;
+    position: relative;
     display: inline-block;
 }
 
 img {
-    width: 250px; 
+    width: 250px;
     height: 250px;
-    
+
 }
 
-/* Body*/ 
+/* Body*/
 body {
     text-align: center;
     font-size: medium;
@@ -20,3 +20,50 @@ body {
 }
 
 
+/* Dropdown Button */
+.rate {
+    background-color: #404443;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.RateMe {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.rate_items {
+    display: none;
+    position: center;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.rate_items a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.rate_items a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.rate:hover .rate_items {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.rate:hover .rate {
+    background-color: #4d40c4;
+}

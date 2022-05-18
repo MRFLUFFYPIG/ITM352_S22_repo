@@ -4,31 +4,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-    // Checkes for erros from previous page
-    let params = (new URL(document.location)).searchParams;
-    window.onload = function () {
-    if (params.has('reg_errors')) {
-        var errors = JSON.parse(params.get('reg_errors'));
-        console.log("invalid");
-        // Makes the register form sticky
-    for (i = 0; i < register.elements.length; i++) {
-            register[i].value = params.get(register[i].name);
-                 if (typeof errors[register[i].name] != 'undefined') {
-                    document.getElementById(register[i].name + '_error').innerHTML = errors[register[i].name];
-                 }
-        }
-        alert('Please fix the following errors!');
-      }
-    }
-    </script>
-
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registration page</title>
-
 </head>
+
+
+<script>
+//-----------------------------------------------------------------------------//
+// Kyle McWhirter also helped me with implementing this code 
+//-----------------------------------------------------------------------------//
+
+  //get query string
+      let params = (new URL(document.location)).searchParams;
+
+  //if form was submitted in order_form, get quantity if it is in the query string
+  if (params.has('quantities')) {
+      quantities = JSON.parse(params.get(`quantities`));
+  }
+
+  window.onload = () => {
+      //if there's an error, add error message
+      if (params.has('reg_error_string')) {
+          alert(params.get('reg_error_string'));
+      }
+  }
+</script>
 
 <body>
 
@@ -120,14 +122,14 @@
       </style>
 
 
-    <form action="./register" method="POST" name="register">
+    <form name="register_form" action="./register" method="POST" >
         <div class="container">
             <h1>Register</h1>
             <hr>
             <!-- Full Name -->
             <label for="fullname" size="30"><b>Full Name</b></label>
             <div id='fullname_error' style="color: orangered;"></div>
-            <input type="text" placeholder="Enter first and last name" class="form__input" name="fullname" id="fullname">
+            <input type="text" placeholder="Enter Full Name" name="name" pattern=".*[A-Za-z]" title="Name must only contain letters">
 
             <!-- Email Address -->
             <label for="email"><b>Email</b></label>
@@ -137,13 +139,12 @@
             <!-- Password -->
             <label for="password"><b>Password</b></label>
             <div id='password_error' style="color: orangered;"></div>
-            <input type="password" placeholder="Enter Password" class="form__input" name="password" id="password">
+            <input type="password" placeholder="Enter Password"  name="password" id="password">
 
             <!-- Password Conformation -->
             <label for="repeat_password"><b>Re-enter Password</b></label>
             <div id='repeat_password_error' style="color: orangered;"></div>
-            <input type="password" placeholder="Re-enter Password" class="form__input" name="repeat_password"
-                id="repeat_password">
+            <input type="password" placeholder="Re-enter Password"  name="repeat_password" id="repeat_password">
 
         <button type="submit" class="registerbtn">Register</button>
     </div>

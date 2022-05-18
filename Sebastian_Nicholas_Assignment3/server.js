@@ -30,14 +30,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
 // Mailer 
-var nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
+
+// For users
+// User info JSON file
+var filename = './user_data.json';
+// have login data file, so data is read and parsed into user_reg_info object
+// function using fs to identify if user_data file exists, if does exist then parse | borrowed from Assignment2 examples
+
+if (fs.existsSync(filename)) {
+    data_str = fs.readFileSync(filename, 'utf-8');
+    user_reg_info = JSON.parse(data_str);
+    console.log(user_reg_info);
+} else {
+    console.log(filename + ' does not exist!');
+}
 
 
 //-----------------------------------------------------------------------------//
 // Request Section //
 //-----------------------------------------------------------------------------//
 
-// ALL function which deals with all functions 
+// ALL function which deals with all req
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to ' + request.path);
     next();
@@ -197,21 +211,9 @@ app.post("/process_form", function (request, response) {
 // This page checks for errors and validation for logging in.
 //-----------------------------------------------------------------------------//
 
-// user info JSON file
-var filename = './user_data.json';
+
 //start with user logged out
 var user_logged_in = false;
-
-// have login data file, so data is read and parsed into user_reg_info object
-// function using fs to identify if user_data file exists, if does exist then parse | borrowed from Assignment2 examples
-
-if (fs.existsSync(filename)) {
-    data_str = fs.readFileSync(filename, 'utf-8');
-    user_reg_info = JSON.parse(data_str);
-    console.log(user_reg_info);
-} else {
-    console.log(filename + ' does not exist!');
-}
 
 // get method for user login, if credentials match send to invoice, if not send error messages.
 app.post("/login", function (request, response) {
@@ -363,9 +365,6 @@ app.post("/register", function (request, response) {
     }
 });
 
-// Session for new accounts
-
-
 
 //-----------------------------------------------------------------------------//
 // Profile Edit Section 
@@ -378,91 +377,89 @@ app.post("/profile", function (request, response) {
     var name = request.body.name;
     var password = request.body.password;
     var confirm_password = request.body.password2;
-    var upd_errors = {}; //start with no errors
+    var reg_errors = {}; //start with no errors
 
-    // If email does not exist
-    if (typeof user_reg_info[email] == 'undefined') {
-        upd_errors['incorrect_email'] = `${email} does not exist, Sign up! `;
-    }
-    // input pattern attributes for email validation from https://www.w3schools.com/TAGS/att_input_pattern.asp
-    if (email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) == false) {
-        upd_errors[`email`] = `Email can only consist of letters and numbers. `;
-    }
     //validate email value
     //Email length must be minimum 4 characters and maximum 30 characters
     if (email.length < 4 || email.length > 30) {
-        upd_errors[`email`] = `Email must be between 4 and 20 characters. `;
+        reg_errors[`email`] = `Email must be between 4 and 20 characters. \n`;
     } else if (email.length == 0) {
-        upd_errors[`email`] = `Enter a email. `;
+        reg_errors[`email`] = `Enter an email. \n`;
+    }
+
+    //email cannot have symbols (only letters and numbers)
+    //.match from https://stackoverflow.com/questions/3853543/checking-input-values-for-special-symbols
+    // input pattern attributes for email validation from https://www.w3schools.com/TAGS/att_input_pattern.asp
+    if (email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) == false) {
+        reg_errors[`email`] = `Email can only consist of letters and numbers. \n`;
+    }
+
+    //email is already taken
+    if (typeof user_reg_info[email] != 'undefined') {
+        reg_errors[`email`] = `Email is already taken. \n`;
+    }
+
+    //validate name value
+    //name cannot be more than 30 characters
+    if (name == 'undefined') {
+        reg_errors[`name`] = `Enter your full name. \n`;
+    }
+
+    else if (name.length > 30) {
+        reg_errors[`name`] = `Name cannot be more than 30 characters. \n`;
     }
 
     //validate password value
-    //password must be at least 6 characters minimum
+    //password must be at least 8 characters minimum
     if (password == 'undefined') {
-        upd_errors[`password`] = `Enter a password. `;
+        reg_errors[`password`] = `Enter a password. \n`;
     } else if (password.length < 8) {
-        upd_errors[`password`] = `Password is too short. `;
+        reg_errors[`password`] = `Password is too short. \n`;
     }
 
     //confirm password
     if (confirm_password == 'undefined') {
-        upd_errors[`passwordReenter`] = `Re-enter your password. `;
+        reg_errors[`passwordReenter`] = `Re-enter your password. \n`;
     } else if (password == confirm_password) {
         console.log('passwords match');
     } else {
-        upd_errors[`passwordReenter`] = `Passwords do not match, please try again. `;
+        reg_errors[`passwordReenter`] = `Passwords do not match, please try again. \n`;
     }
 
     //validate email value
     if (email == 'undefined') {
-        upd_errors[`email`] = `Enter your email. `;
+        reg_errors[`email`] = `Enter your email. \n`;
     }
-    //validate name value
-    //name cannot be more than 30 characters
-    if (name == 'undefined') {
-        upd_errors[`name`] = `Enter your full name. `;
+    //.match from https://www.w3resource.com/javascript/form/email-validation.php
+    else if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+        console.log(`email is ${email}`);
+    } else {
+        reg_errors[`email`] = `Email is invalid. `;
     }
-
-    else if (name.length > 30) {
-        upd_errors[`name`] = `Name cannot be more than 30 characters. `;
-    }
-
     let params = (new URLSearchParams());
-    //if there's no errors, and the email does exist add updated info to user_data.json, log in user, and redirect to invoice
-    if (Object.keys(upd_errors).length == 0 && typeof user_reg_info[email] != 'undefined') {
+    //if there's no errors, add registration info to user_data.json, log in user, and redirect to invoice
+    if (Object.keys(reg_errors).length == 0) {
         user_reg_info[email] = {};
         user_reg_info[email].name = request.body.name;
         user_reg_info[email].password = request.body.password;
         fs.writeFileSync(filename, JSON.stringify(user_reg_info), "utf-8");
         user_logged_in == true;
-        params.append('quantities', request.body.quantities)
-        params.append('email', request.body.email)
-        response.redirect(`./Invoice.html?` + params.toString());
+        request.session.email = email;
+        response.redirect(`./products_display.html?products_key=Necklaces`);
     } else {
-        //generate update error message
-        let upd_error_string = '';
-        for (err in upd_errors) {
-            upd_error_string += upd_errors[err];
+        //generate login error message
+        let reg_error_string = '';
+        for (err in reg_errors) {
+            reg_error_string += reg_errors[err];
         }
-        //response.send(upd_error_string);
-        response.redirect('./update_info.html?' + `&upd_error_string=${upd_error_string}` + params.toString());
-        console.log(`upd_error_string=${upd_error_string} `);
+        //response.send(reg_error_string) and quantities
+        let params = (new URLSearchParams());
+        params.append('quantities', request.body.quantities)
+
+        response.redirect('./register.html?' + `&reg_error_string=${reg_error_string}&`);
+        console.log(`reg_error_string=${reg_error_string} `);
     }
 });
-
-//If returnErrors is true, array of errors is returned
-//others return true if q is a non-neg int.
-function isNonNegInt(q, returnErrors = false) {
-    errors = []; // assume no errors at first
-    if (q == '') q = 0;
-    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-    else {
-        if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-        if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-    }
-    return returnErrors ? errors : (errors.length == 0);
-};
-
 
 //-----------------------------------------------------------------------------//
 // Sessions 
@@ -493,7 +490,7 @@ app.post("/checkout", function (request, response, next) {
         //taken from Assignment 3 code examples page
         //if the user has not successfully logged in but tries to access invoice
         // Generate HTML invoice string
-        var invoice_str = `Thank you for your order, ${request.session.full_name}! <br><br><table border><th>Quantity</th><th>Item</th>`;
+        var invoice_str = `Thank you for your order, ${request.session.name}! <br><br><table border><th>Quantity</th><th>Item</th>`;
         var shopping_cart = request.session.cart;
         //iterate through the products array and find what product keys match those in session
         for (product_key in products_array) {
@@ -526,20 +523,20 @@ app.post("/checkout", function (request, response, next) {
         //end the table element
         invoice_str += '</table>';
         // Set up mail server. Created a brandonitm352@gmail.com email for testing purposes
-        var transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             //gmail service setup code from https://mailtrap.io/blog/nodemailer-gmail/
-            service: 'gmail',
-            auth: {
-                name: 'nfs37@gmail.com',
-                pass: 'Zenps808'
+            host: 'mail.hawaii.edu',
+            port: 25,
+            secure: false,
+            tls: {
+                // do not fail on invalid certifications
+                rejectUnauthorized: false
             }
         });
-        //grab the users email from the session data
-        var user_email = request.session.email;
         var mailOptions = {
             from: 'adidas@store.com',
             //send to the users email
-            to: user_email,
+            to: user_reg_info,
             subject: "Adidas Conformation order",
             //content will be html code from invoice_str
             html: invoice_str
@@ -547,14 +544,28 @@ app.post("/checkout", function (request, response, next) {
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+                invoice_error += '<br>There was an error and your invoice could not be emailed :(';
             } else {
-                invoice_str += `<br>Your invoice was mailed to ${email}`;
+                invoice_error += `<br>Your invoice was mailed to ${user_reg_info}`;
             }
-            response.redirect(`./invoice.html`);
+            request.session.destroy(); // Destroys session after checkout
+            response.send(invoice_str);
         });
     }
 });
+
+//If returnErrors is true, array of errors is returned
+//others return true if q is a non-neg int.
+function isNonNegInt(q, returnErrors = false) {
+    errors = []; // assume no errors at first
+    if (q == '') q = 0;
+    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    else {
+        if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+    }
+    return returnErrors ? errors : (errors.length == 0);
+};
 
 //-----------------------------------------------------------------------------//
 // Enables routing and GET request to files in the public directory  

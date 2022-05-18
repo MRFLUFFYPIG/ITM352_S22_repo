@@ -72,10 +72,17 @@
     } else {
       document.stop;
     }
+
     var userinfo;
     loadJSON("get_userinfo", function (response) {
       // Parsing JSON string into object
       userinfo = JSON.parse(response);
+    });
+
+    var cart;
+    loadJSON('get_cart', function (response) {
+      // Parsing JSON string into object
+      cart = JSON.parse(response);
     });
   </script>
 </head>
@@ -118,18 +125,18 @@
       <!-- Put Logo Under Title or Replace Title with Adidas Logo-->
       <img src="./images/logo.png" alt="Logo" class="w3-image" style="display:block;margin:auto" width="800"
         height="533">
-
-      <!-- Logout button -->
-      <script>document.write(`<id="logout_button" class="logout_button"><a href="/logout">Logout ${name}</a>`);</script>
-
-
     </div>
   </div>
 
   <!------------------------------------------------------------------------------>
   Select Products in the sidebar
+  <!------------------------------------------------------------------------------>
+  <!-- IR4 Rate Products -->
+  <!------------------------------------------------------------------------------>
+
   <!-- !PAGE CONTENT! -->
   <div class="w3-main w3-content w3-padding" style="max-width:1600px;margin-top:100px">
+
 
     <form name="order_form" action="./process_form" method="POST">
       <div>
@@ -138,7 +145,7 @@
             products = products_data[this_products_key];
             for (i = 0; i < products.length; i++) {
               document.write(`
-        <section class="item w3-quarter">
+          <section class="item w3-quarter">
           <div class="desc">
           <h2>${products[i].name}</h2>
           
@@ -150,18 +157,46 @@
           <br>
           <img src="${products[i].image}" width="100%">
 
+          <div class="rate">
+            <button class="rate">Rate</button>
+              <div class="rate_items">
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+              </div>
+            </div>
           </div>
-        </section>
+          </section>
           `);
-            }
+          }
 
+          // Shows amount of itmes in cart
+          function cart_items_total(cart) {
+              var total_items = 0;
+              for (let pkey in cart) {
+                  for (let i in cart[pkey]) {
+                      total_items += Number(cart[pkey][i]);
+                  }
+              }
+              return total_items;
+          }
           </script>
           <!-- Add to Cart Button-->
+          
+      <!------------------------------------------------------------------------------>
+      <!-- IR7? -->
+      <!------------------------------------------------------------------------------>
+          <h2><label>Add to</label></h2>
+          <h2><input type="submit" herf name="purchase_order" value="Cart" Purchase> <script>document.write(`(${cart_items_total(cart)})`)</script></h2>
+         
 
-          <label>Add to</label>
-          <input type="submit" name="purchase_order" value="Cart" Purchase>
       </div>
       </main>
+
+
+
       <!------------------------------------------------------------------------------>
       <!-- End page content -->
       <!------------------------------------------------------------------------------>
@@ -179,6 +214,9 @@
           document.getElementById("mySidebar").style.display = "none";
         }
       </script>
+
+<!-- Logout button -->
+<script>document.write(`<id="logout_button" class="logout_button"><a href="/logout">Logout ${name}</a>`);</script>
 
 </body>
 
