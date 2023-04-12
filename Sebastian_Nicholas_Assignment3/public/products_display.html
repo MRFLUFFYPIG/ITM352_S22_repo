@@ -152,6 +152,8 @@
           <p>$${products[i].price}</p>
        
           <label id="quantity_textbox_label">${products[i].quantity_available} in stock</label>
+          <br>
+          <span>${products[i].total_in_carts} currently in shoppers carts</span>
           
           <input type="text" placeholder="Enter Amount" name="quantity_textbox[${this_products_key}][${i}]">
           <br>
